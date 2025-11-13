@@ -1,0 +1,77 @@
+<div class="main">
+  <div class="sadel_info">
+    <div class="left">
+      <div
+        class="alpha"
+        [ngClass]="{ 'active-alpha': selected === 'A' }"
+        (click)="selected = 'A'"
+      >
+        A
+      </div>
+      <div
+        class="alpha"
+        [ngClass]="{ 'active-alpha': selected === 'B' }"
+        (click)="selected = 'B'"
+      >
+        B
+      </div>
+      <div
+        class="alpha"
+        [ngClass]="{ 'active-alpha': selected === 'C' }"
+        (click)="selected = 'C'"
+      >
+        C
+      </div>
+      <div
+        class="alpha"
+        [ngClass]="{ 'active-alpha': selected === 'D' }"
+        (click)="selected = 'D'"
+      >
+        D
+      </div>
+      <div
+        class="alpha"
+        [ngClass]="{ 'active-alpha': selected === 'E' }"
+        (click)="selected = 'E'"
+      >
+        E
+      </div>
+      <div
+        class="alpha"
+        [ngClass]="{ 'active-alpha': selected === 'F' }"
+        (click)="selected = 'F'"
+      >
+        F
+      </div>
+      <div
+        class="alpha"
+        [ngClass]="{ 'active-alpha': selected === 'G' }"
+        (click)="selected = 'G'"
+      >
+        G
+      </div>
+      <div
+        class="alpha"
+        [ngClass]="{ 'active-alpha': selected === 'H' }"
+        (click)="selected = 'H'"
+      >
+        H
+      </div>
+      <div
+        class="alpha"
+        [ngClass]="{ 'active-alpha': selected === 'I' }"
+        (click)="selected = 'I'"
+      >
+        I
+      </div>
+    </div>
+    <div class="right" [ngSwitch]="selected">
+      <ng-container *ngIf="selectedComponent; else defaultMsg">
+        <ng-container *ngComponentOutlet="selectedComponent"></ng-container>
+      </ng-container>
+      <ng-template #defaultMsg>
+        <p>Select a letter</p>
+      </ng-template>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,43 @@
+<div class="fl">
+  <div class="grid-container">
+    <div
+      class="grid-item"
+      *ngFor="let item of gridItems; let i = index"
+      [ngClass]="{ desable: item.disabled }"
+      (mouseenter)="hoveredItem = item"
+      (mouseleave)="hoveredItem = null"
+    >
+      {{ item.label }}
+      <div class="overlay" *ngIf="hoveredItem === item">
+        <div class="tab">
+          <div class="h">Info about {{ item.label }}</div>
+          <div class="d">Detail</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="q">
+    <label style="color: gold">
+      <input
+        (change)="onChangeHigh($event)"
+        type="radio"
+        name="high"
+        [(ngModel)]="selectedhigh"
+        value="1st"
+      />
+      1st high
+    </label>
+    <br />
+    <label style="color: gold">
+      <input
+        (change)="onChangeHigh($event)"
+        type="radio"
+        name="high"
+        [(ngModel)]="selectedhigh"
+        value="2nd"
+      />
+      2nd high
+    </label>
+  </div>
+</div>

@@ -1,0 +1,98 @@
+import { Injectable } from '@angular/core';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { catchError, retry, throwError } from 'rxjs';
+
+@Injectable({
+  providedIn: 'root',
+})
+export class SadelService {
+  //private apiUrl = 'http://localhost:4062/api';//Local API
+  private apiUrl = 'http://192.168.10.210:4033/api/';
+  // private apiUrl = 'http://192.168.1.15/trisapidev/api';
+  //private apiUrl = 'https://erp.sisx.in/sisxerpapi/api';//Prod API
+  private authorization = 'Bearer c2lzeFVQVkF1dGg6YjVQVTJPcFYyNCMxc24=';
+  //For Sign up Link
+  private appUrl = 'https://erp.sisx.in/#/';
+  private appUrlSms = 'https%3A%2F%2Fweb.educampuz.com%2F%23%2F';
+  public otype = 'Company';
+
+  private jsonUrl = 'assets/jsons';
+
+  constructor(
+    // @Inject(SESSION_STORAGE) private storage: StorageService,
+    public http: HttpClient
+  ) {}
+
+  private getHeaders() {
+    return new HttpHeaders({
+      Authorization: this.authorization,
+      'Content-Type': 'application/json',
+    });
+  }
+
+  /**
+   * ***********************************************************************************
+   * API URL Functions
+   * ***********************************************************************************
+   */
+  getBaseUrl(): string {
+    return this.apiUrl;
+  }
+
+  getAuthorization() {
+    return this.authorization;
+  }
+
+  getAppUrl(): string {
+    return this.appUrl;
+  }
+
+  getAppUrlSms(): string {
+    return this.appUrlSms;
+  }
+
+  search(user: any) {
+    console.log(user);
+
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        Authorization: this.authorization,
+      }),
+    };
+    return this.http
+      .post(this.apiUrl + 'sadel/search', user, httpOptions)
+      .pipe(retry(1), catchError(this.errorHandler));
+  }
+
+  errorHandler(error: any) {
+    console.log(error);
+    let message = error.error
+      ? error.error.error
+        ? error.error.error
+        : error.message
+      : error.message;
+    console.log(message);
+    return throwError(
+      message ||
+        'Remote server unreachable. Please check your Internet connection.'
+    );
+  }
+
+  /**
+   * ***********************************************************************************
+   * Local Functions
+   * ***********************************************************************************
+   */
+
+  findItem(array: any, key: string, value: string) {
+    for (let index = 0; index < array.length; index++) {
+      if (array[index][key] == value) {
+        return index;
+      }
+    }
+    return -1;
+  }
+
+  // http://192.168.10.210:4033/api/sadel/search
+}

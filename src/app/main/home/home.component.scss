@@ -1,0 +1,54 @@
+.main{
+  height: calc(100vh - 116px);
+  background-color: #ffffff;
+  // padding: 10px;
+}
+h1{
+    margin: 0%;
+    font-size: 16px;
+}
+.sadel_info{
+  display: flex;
+  min-height: 100%;
+}
+
+.left {
+  width: 10%;
+  background-color: #4498eb;
+}
+.right {
+  padding: 10px;
+
+  width: 90%;
+  background-color: rgb(86, 86, 86);
+}
+.alpha{
+  font-size: 25px;
+  text-align: center;
+  font-weight: 700;
+  color: rgb(16, 102, 195);
+  // font-family:;
+  background-color: bisque;
+  padding: 10px;
+  margin: 10px;
+  height: 5%;
+  border-radius: 10px;
+}
+
+.active-alpha {
+  background-color: #ffcc00; /* Highlight color */
+  color: #000000;            /* Contrast text */
+  box-shadow: 0 0 10px rgba(0,0,0,0.3);
+  transform: scale(1.05);
+}
+
+.alpha {
+  transition: all 0.3s ease-in-out;
+  cursor: pointer;
+}
+
+.alpha:hover {
+  transform: scale(1.05);
+  background-color: #e0e0e0; /* Light gray hover background */
+  color: #333; /* Optional: darker text on hover */
+}
