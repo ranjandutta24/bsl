@@ -19,14 +19,13 @@ export class SadelAComponent {
   gridItems1st: any;
   gridItems2nd: any;
 
-
   popupVisible = false;
   popupX = 0;
   popupY = 0;
-  selectedAsset:any='';
+  selectedAsset: any = '';
 
-// dynamic items (could come from API, service, etc.)
-items: string[] = ['Edit', 'Delete', 'Details'];
+  // dynamic items (could come from API, service, etc.)
+  items: string[] = ['Edit', 'Delete', 'Details'];
 
   constructor(private sadelService: SadelService) {}
   // constructor(private sadelService: SadelService) {
@@ -36,9 +35,13 @@ items: string[] = ['Edit', 'Delete', 'Details'];
   ngOnInit(): void {
     this.sadelService.search({ ROWNAME: 'A' }).subscribe(
       (response) => {
-        console.log(response);
         this.sadelA = response;
 
+        this.sadelA = this.sadelA.sort((a: any, b: any) => {
+          const numA = Number(a.SADDLENAME.slice(1));
+          const numB = Number(b.SADDLENAME.slice(1));
+          return numA - numB;
+        });
         this.gridItems1st = this.sadelA.filter((item: any) => {
           return item.FLR == 0;
         });
@@ -161,17 +164,17 @@ items: string[] = ['Edit', 'Delete', 'Details'];
   }
 
   onRightClick(event: MouseEvent, asset: any) {
-  event.preventDefault();
-  this.popupX = event.clientX;
-  this.popupY = event.clientY;
-  this.selectedAsset = asset;   // store clicked asset
-  this.popupVisible = true;
-}
+    event.preventDefault();
+    this.popupX = event.clientX;
+    this.popupY = event.clientY;
+    this.selectedAsset = asset; // store clicked asset
+    this.popupVisible = true;
+  }
 
-    selectItem(item: string) {
-  console.log('Selected:', item);
-  this.popupVisible = false; // close popup after selection
-}
+  selectItem(item: string) {
+    console.log('Selected:', item);
+    this.popupVisible = false; // close popup after selection
+  }
 }
 
 // http://192.168.10.210:4033/api/sadel/search
