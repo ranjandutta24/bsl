@@ -23,14 +23,13 @@ export class SadelAComponent {
   popupX = 0;
   popupY = 0;
   selectedAsset: any = '';
+  pickupFlag = false;
 
   // dynamic items (could come from API, service, etc.)
-  items: string[] = ['Edit', 'Delete', 'Details'];
+  items: string[] = ['Pickup', 'Delete', 'Details'];
 
   constructor(private sadelService: SadelService) {}
-  // constructor(private sadelService: SadelService) {
-  //   // dateAdapter.setLocale("en-in"); // DD/MM/YYYY
-  // }
+ 
 
   ngOnInit(): void {
     this.sadelService.search({ ROWNAME: 'A' }).subscribe(
@@ -169,10 +168,16 @@ export class SadelAComponent {
     this.popupY = event.clientY;
     this.selectedAsset = asset; // store clicked asset
     this.popupVisible = true;
+    this.pickupFlag = false;
   }
 
   selectItem(item: string) {
     console.log('Selected:', item);
+
+    if(item === 'Pickup'){
+      this.pickupFlag = true;
+
+    }
     this.popupVisible = false; // close popup after selection
   }
 }
