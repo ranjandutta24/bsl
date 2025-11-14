@@ -22,6 +22,11 @@ export class SadelBComponent {
       (response) => {
         console.log(response);
         this.sadelB = response;
+        this.sadelB = this.sadelB.sort((a: any, b: any) => {
+          const numA = Number(a.SADDLENAME.slice(1));
+          const numB = Number(b.SADDLENAME.slice(1));
+          return numA - numB;
+        });
 
         this.gridItems1st = this.sadelB.filter((item: any) => {
           return item.FLR == 0;

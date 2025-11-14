@@ -23,6 +23,11 @@ export class SadelDComponent {
       (response) => {
         console.log(response);
         this.sadelD = response;
+        this.sadelD = this.sadelD.sort((a: any, b: any) => {
+          const numA = Number(a.SADDLENAME.slice(1));
+          const numB = Number(b.SADDLENAME.slice(1));
+          return numA - numB;
+        });
 
         this.gridItems1st = this.sadelD.filter((item: any) => {
           return item.FLR == 0;

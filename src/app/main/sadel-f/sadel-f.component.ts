@@ -21,9 +21,12 @@ export class SadelFComponent {
   ngOnInit(): void {
     this.sadelService.search({ ROWNAME: 'F' }).subscribe(
       (response) => {
-        console.log(response);
         this.sadelF = response;
-
+        this.sadelF = this.sadelF.sort((a: any, b: any) => {
+          const numA = Number(a.SADDLENAME.slice(1));
+          const numB = Number(b.SADDLENAME.slice(1));
+          return numA - numB;
+        });
         this.gridItems1st = this.sadelF.filter((item: any) => {
           return item.FLR == 0;
         });
