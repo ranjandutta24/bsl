@@ -19,6 +19,15 @@ export class SadelAComponent {
   gridItems1st: any;
   gridItems2nd: any;
 
+
+  popupVisible = false;
+  popupX = 0;
+  popupY = 0;
+  selectedAsset:any='';
+
+// dynamic items (could come from API, service, etc.)
+items: string[] = ['Edit', 'Delete', 'Details'];
+
   constructor(private sadelService: SadelService) {}
   // constructor(private sadelService: SadelService) {
   //   // dateAdapter.setLocale("en-in"); // DD/MM/YYYY
@@ -150,6 +159,19 @@ export class SadelAComponent {
 
     // You can also use this.selectedhigh directly if needed
   }
+
+  onRightClick(event: MouseEvent, asset: any) {
+  event.preventDefault();
+  this.popupX = event.clientX;
+  this.popupY = event.clientY;
+  this.selectedAsset = asset;   // store clicked asset
+  this.popupVisible = true;
+}
+
+    selectItem(item: string) {
+  console.log('Selected:', item);
+  this.popupVisible = false; // close popup after selection
+}
 }
 
 // http://192.168.10.210:4033/api/sadel/search

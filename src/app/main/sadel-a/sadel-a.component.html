@@ -1,28 +1,44 @@
 <!-- <h1>ewfrew</h1> -->
 
 <div class="fl">
-  <div class="grid-container">
-    <div
-      class="grid-item"
-      *ngFor="let item of gridItems; let i = index"
-      [ngClass]="{ desable: item.disabled }"
-      (mouseenter)="hoveredItem = item"
-      (mouseleave)="hoveredItem = null"
-    >
-      {{ item.SADDLENAME }}
-      <div class="overlay" *ngIf="hoveredItem === item">
-        <div class="tab">
-          <div class="h">coilid {{ item.COILID }}</div>
-          <div class="h">saddel name {{ item.SADDLENAME }}</div>
-          <div class="h">Lorem ipsum dolor sit amet.</div>
-          <div class="h">Lorem ipsum dolor.</div>
-          <div class="h">Sadel information</div>
-          <div class="h">Text</div>
-          <div class="h">assdfgds</div>
-        </div>
+<div class="grid-container">
+  <div
+    class="grid-item"
+    *ngFor="let item of gridItems; let i = index"
+    [ngClass]="{ desable: item.disabled }"
+    (contextmenu)="onRightClick($event, item)"
+    (mouseenter)="hoveredItem = item"
+    (mouseleave)="hoveredItem = null"
+  >
+    {{ item.SADDLENAME }}
+    <div class="overlay" *ngIf="hoveredItem === item">
+      <div class="tab">
+        <div class="h">coilid {{ item.COILID }}</div>
+        <div class="h">saddel name {{ item.SADDLENAME }}</div>
+        <div class="h">Sadel information</div>
       </div>
     </div>
   </div>
+</div>
+
+
+  <div class="popup"
+     *ngIf="popupVisible"
+     [style.top.px]="popupY"
+     [style.left.px]="popupX">
+  
+  <!-- Header with asset serial number -->
+  <div class="popup-header">
+    Asset #{{ selectedAsset?.SADDLENAME }}
+  </div>
+
+  <!-- Dynamic options -->
+  <ul>
+    <li *ngFor="let item of items" (click)="selectItem(item)">
+      {{ item }}
+    </li>
+  </ul>
+</div>
 
   <div class="q">
     <label style="color: gold">
