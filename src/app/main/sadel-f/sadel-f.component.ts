@@ -16,6 +16,15 @@ export class SadelFComponent {
   sadelF: any;
   gridItems1st: any;
   gridItems2nd: any;
+
+  popupVisible = false;
+  popupX = 0;
+  popupY = 0;
+  selectedAsset: any = '';
+  pickupFlag = false;
+
+  // dynamic items (could come from API, service, etc.)
+  items: string[] = ['Pickup', 'Delete', 'Details'];
   constructor(private sadelService: SadelService) {}
 
   ngOnInit(): void {
@@ -54,5 +63,23 @@ export class SadelFComponent {
     }
 
     // You can also use this.selectedhigh directly if needed
+  }
+
+  onRightClick(event: MouseEvent, asset: any) {
+    event.preventDefault();
+    this.popupX = event.clientX;
+    this.popupY = event.clientY;
+    this.selectedAsset = asset; // store clicked asset
+    this.popupVisible = true;
+    this.pickupFlag = false;
+  }
+
+  selectItem(item: string) {
+    console.log('Selected:', item);
+
+    if (item === 'Pickup') {
+      this.pickupFlag = true;
+    }
+    this.popupVisible = false; // close popup after selection
   }
 }

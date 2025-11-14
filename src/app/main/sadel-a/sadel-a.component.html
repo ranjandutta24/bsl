@@ -1,44 +1,45 @@
 <!-- <h1>ewfrew</h1> -->
 
 <div class="fl">
-<div class="grid-container">
-  <div
-    class="grid-item"
-    *ngFor="let item of gridItems; let i = index"
-    [ngClass]="{ desable: item.disabled }"
-    (contextmenu)="onRightClick($event, item)"
-    (mouseenter)="hoveredItem = item"
-    (mouseleave)="hoveredItem = null"
-  >
-    {{ item.SADDLENAME }}
-    <div class="overlay" *ngIf="hoveredItem === item">
-      <div class="tab">
-        <div class="h">coilid {{ item.COILID }}</div>
-        <div class="h">saddel name {{ item.SADDLENAME }}</div>
-        <div class="h">Sadel information</div>
+  <div class="grid-container">
+    <div
+      class="grid-item"
+      *ngFor="let item of gridItems; let i = index"
+      [ngClass]="{ desable: item.disabled }"
+      (contextmenu)="onRightClick($event, item)"
+      (mouseenter)="hoveredItem = item"
+      (mouseleave)="hoveredItem = null"
+    >
+      {{ item.SADDLENAME }}
+      <div class="overlay" *ngIf="hoveredItem === item">
+        <div class="tab">
+          <div class="h">coilid {{ item.COILID }}</div>
+          <div class="h">saddel name {{ item.SADDLENAME }}</div>
+          <div class="h">Sadel information</div>
+        </div>
       </div>
     </div>
   </div>
-</div>
 
+  <div
+    class="popup"
+    *ngIf="popupVisible"
+    [style.top.px]="popupY"
+    [style.left.px]="popupX"
+  >
+    <div class="popup-header">
+      <span class="label">Sadel:</span>
+      <span class="value">{{ selectedAsset?.SADDLENAME }}</span>
+    </div>
 
-<div class="popup"
-     *ngIf="popupVisible"
-     [style.top.px]="popupY"
-     [style.left.px]="popupX">
-  
-  <div class="popup-header">
-    <span class="label">Sadel:</span>
-    <span class="value">{{ selectedAsset?.SADDLENAME }}</span>
+    <ul class="popup-options">
+      <li *ngFor="let item of items" (click)="selectItem(item)">
+        <i [class]="getIcon(item)"></i>
+
+        {{ item }}
+      </li>
+    </ul>
   </div>
-
-  <ul class="popup-options">
-    <li *ngFor="let item of items" (click)="selectItem(item)">
-      {{ item }}
-    </li>
-  </ul>
-</div>
-
 
   <div class="q">
     <label style="color: gold">
@@ -63,12 +64,8 @@
       2nd high
     </label>
 
-     <p *ngIf="pickupFlag" class="pickup-text">
-  pickup {{ selectedAsset?.SADDLENAME }}
-</p>
-
+    <p *ngIf="pickupFlag" class="pickup-text">
+      pickup {{ selectedAsset?.SADDLENAME }}
+    </p>
   </div>
-    <div>
-     
-    </div>
 </div>

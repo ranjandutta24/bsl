@@ -1,5 +1,5 @@
 .main{
-  height: calc(100vh - 116px);
+  height: calc(100vh - 118px);
   background-color: #ffffff;
   // padding: 10px;
 }
@@ -51,4 +51,21 @@ h1{
   transform: scale(1.05);
   background-color: #e0e0e0; /* Light gray hover background */
   color: #333; /* Optional: darker text on hover */
+}
+.flex {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+h2{
+margin: 0 5px 0 0 ;
+font-weight: 400;
+font-size: 29px;
+
+
+}
+p{
+  font-size: 18px;
+  font-weight: 600;
+  margin: 0%;
 }
