@@ -1,0 +1,12 @@
+.grid-container {
+   margin-right: 5px;
+      width:90% ;
+   display: grid;
+  grid-template-columns: repeat(8, 1fr);
+  grid-template-rows: repeat(11,1fr);
+  gap: 10px;
+//   background-color: #1e1e1e;
+// margin: 10px;
+  border-radius: 10px;
+  height: 100%;
+}

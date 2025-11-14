@@ -1,1 +1,50 @@
-<p>sadel-d works!</p>
+<!-- <h1>ewfrew</h1> -->
+
+<div class="fl">
+  <div class="grid-container">
+    <div
+      class="grid-item"
+      *ngFor="let item of gridItems; let i = index"
+      [ngClass]="{ desable: item.disabled }"
+      (mouseenter)="hoveredItem = item"
+      (mouseleave)="hoveredItem = null"
+    >
+      {{ item.SADDLENAME }}
+      <div class="overlay" *ngIf="hoveredItem === item">
+        <div class="tab">
+          <div class="h">coilid {{ item.COILID }}</div>
+          <div class="h">saddel name {{ item.SADDLENAME }}</div>
+          <div class="h">Lorem ipsum dolor sit amet.</div>
+          <div class="h">Lorem ipsum dolor.</div>
+          <div class="h">Sadel information</div>
+          <div class="h">Text</div>
+          <div class="h">assdfgds</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="q">
+    <label style="color: gold">
+      <input
+        (change)="onChangeHigh($event)"
+        type="radio"
+        name="high"
+        [(ngModel)]="selectedhigh"
+        value="1st"
+      />
+      1st high
+    </label>
+    <br />
+    <label style="color: gold">
+      <input
+        (change)="onChangeHigh($event)"
+        type="radio"
+        name="high"
+        [(ngModel)]="selectedhigh"
+        value="2nd"
+      />
+      2nd high
+    </label>
+  </div>
+</div>

@@ -1,17 +1,24 @@
+<!-- <h1>ewfrew</h1> -->
+
 <div class="fl">
   <div class="grid-container">
     <div
       class="grid-item"
-      *ngFor="let item of gridItems"
+      *ngFor="let item of gridItems; let i = index"
       [ngClass]="{ desable: item.disabled }"
       (mouseenter)="hoveredItem = item"
       (mouseleave)="hoveredItem = null"
     >
-      {{ item.label }}
+      {{ item.SADDLENAME }}
       <div class="overlay" *ngIf="hoveredItem === item">
         <div class="tab">
-          <div class="h">Info about {{ item.label }}</div>
-          <div class="d">Detail</div>
+          <div class="h">coilid {{ item.COILID }}</div>
+          <div class="h">saddel name {{ item.SADDLENAME }}</div>
+          <div class="h">Lorem ipsum dolor sit amet.</div>
+          <div class="h">Lorem ipsum dolor.</div>
+          <div class="h">Sadel information</div>
+          <div class="h">Text</div>
+          <div class="h">assdfgds</div>
         </div>
       </div>
     </div>
