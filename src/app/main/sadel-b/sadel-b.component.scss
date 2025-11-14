@@ -14,15 +14,17 @@
 .grid-item {
   position: relative;
   cursor: pointer;
-  background-color: #2c2c2c;
-  border: 1px solid gold;
-  color:gold;
+  background-color: #fff6eb;
+
+  color:rgb(80, 75, 47);
+  font-weight: 600;
   display: flex;
   justify-content: center;
   align-items: center;
   font-family: sans-serif;
   font-size: 14px;
-  border: 2px solid gold;
+  border: 2px solid #0a86a8;
+  border-radius: 10px;
 }
 
 .grid-item.desable {
@@ -57,7 +59,8 @@
 border-bottom: 1px dotted black;
 }
 .q{
-  border-left: 2px dotted  gold;
+ 
+  border-left: 2px  dotted  #fc8d32;
 }
 .d{
 
