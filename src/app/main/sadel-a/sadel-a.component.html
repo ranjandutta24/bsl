@@ -29,16 +29,40 @@
   >
     <div class="popup-header">
       <span class="label">Sadel:</span>
-      <span class="value">{{ selectedAsset?.SADDLENAME }}</span>
+      <span class="value">{{ selectedSaddle?.SADDLENAME }}</span>
     </div>
 
     <ul class="popup-options">
-      <li *ngFor="let item of items" (click)="selectItem(item)">
+      <li
+        *ngFor="let item of selectedSaddle?.COILID ? items : emptyItems"
+        (click)="selectItem(item)"
+      >
         <i [class]="getIcon(item)"></i>
 
         {{ item }}
       </li>
     </ul>
+  </div>
+
+  <div class="modal-overlay" *ngIf="showAddCoilModal">
+    <div class="small-modal">
+      <h3>Add Coil</h3>
+
+      <label for="coilIdInput">Coil ID:</label>
+      <input
+        maxlength="12"
+        id="coilIdInput"
+        type="text"
+        [(ngModel)]="newCoilId"
+        placeholder="Enter Coil ID"
+        title="Enter Coil ID"
+      />
+
+      <div class="modal-actions">
+        <button (click)="saveCoil()">Save</button>
+        <button (click)="closeAddCoilModal()">Cancel</button>
+      </div>
+    </div>
   </div>
 
   <div class="q">
@@ -65,7 +89,7 @@
     </label>
 
     <p *ngIf="pickupFlag" class="pickup-text">
-      pickup {{ selectedAsset?.SADDLENAME }}
+      pickup {{ selectedSaddle?.SADDLENAME }}
     </p>
   </div>
 </div>

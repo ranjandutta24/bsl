@@ -51,9 +51,7 @@ export class SadelService {
     return this.appUrlSms;
   }
 
-  search(user: any) {
-    console.log(user);
-
+  search(saddle: any) {
     const httpOptions = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json',
@@ -61,7 +59,18 @@ export class SadelService {
       }),
     };
     return this.http
-      .post(this.apiUrl + 'sadel/search', user, httpOptions)
+      .post(this.apiUrl + 'sadel/search', saddle, httpOptions)
+      .pipe(retry(1), catchError(this.errorHandler));
+  }
+  update(saddle: any) {
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        Authorization: this.authorization,
+      }),
+    };
+    return this.http
+      .post(this.apiUrl + 'sadel/update', saddle, httpOptions)
       .pipe(retry(1), catchError(this.errorHandler));
   }
 

@@ -22,11 +22,12 @@ export class SadelAComponent {
   popupVisible = false;
   popupX = 0;
   popupY = 0;
-  selectedAsset: any = '';
+  selectedSaddle: any = '';
   pickupFlag = false;
 
   // dynamic items (could come from API, service, etc.)
   items: string[] = ['Pickup', 'Remove', 'Cancel'];
+  emptyItems: string[] = ['Add Coil', 'Drop Coil', 'Unfit', 'Cancel'];
 
   constructor(private sadelService: SadelService) {}
 
@@ -72,22 +73,68 @@ export class SadelAComponent {
     // You can also use this.selectedhigh directly if needed
   }
 
-  onRightClick(event: MouseEvent, asset: any) {
+  onRightClick(event: MouseEvent, saddle: any) {
     event.preventDefault();
     this.popupX = event.clientX;
     this.popupY = event.clientY;
-    this.selectedAsset = asset; // store clicked asset
+    this.selectedSaddle = saddle; // store clicked asset
     this.popupVisible = true;
     this.pickupFlag = false;
   }
+
+  showAddCoilModal = false;
+  newCoilId = 'BSL00';
 
   selectItem(item: string) {
     console.log('Selected:', item);
 
     if (item === 'Pickup') {
       this.pickupFlag = true;
+    } else if (item === 'Add Coil') {
+      this.showAddCoilModal = true;
+      console.log(this.selectedSaddle);
     }
-    this.popupVisible = false; // close popup after selection
+
+    this.popupVisible = false;
+  }
+
+  closeAddCoilModal() {
+    this.showAddCoilModal = false;
+  }
+
+  saveCoil() {
+    console.log('selected:', this.selectedSaddle);
+
+    this.sadelService
+      .update({
+        SADDLENAME: this.selectedSaddle.SADDLENAME,
+        COILID: this.newCoilId,
+      })
+      .subscribe(
+        (response) => {
+          console.log('res', response);
+
+          // add this to update the grid view
+          this.selectedSaddle.COILID = this.newCoilId;
+
+          // update the gridItems so html get updated
+
+          this.gridItems.forEach((element: any) => {
+            if (element.SADDLENAME == this.selectedSaddle.SADDLENAME) {
+              element.COILID = this.newCoilId;
+            }
+          });
+
+          this.newCoilId = 'BLS00';
+        },
+        (respError) => {
+          // this.loading = false;
+          // this.commonService.showSnakBarMessage(respError, "error", 2000);
+        }
+      );
+
+    this.showAddCoilModal = false;
+    this.newCoilId = '';
   }
 
   getIcon(item: any) {
