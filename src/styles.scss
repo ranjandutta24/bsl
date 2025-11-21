@@ -12,8 +12,9 @@ body {
 
 .grid-container {
       background-color: antiquewhite;
+      padding: 10px;
 
-   margin-right: 5px;
+  //  margin-right: 5px;
       width:85% ;
    display: grid;
   grid-template-columns: repeat(10, 1fr);
@@ -21,7 +22,7 @@ body {
   gap: 10px;
 //   background-color: #1e1e1e;
 // margin: 10px;
-  border-radius: 10px;
+  // border-radius: 10px;
   height: 100%;
 }
 
@@ -73,8 +74,11 @@ body {
 border-bottom: 1px dotted black;
 }
 .q{
- 
+     width: 14%;
+    background-color: #4498eb;
+    height: 100%;
   border-left: 2px  dotted  #fc8d32;
+  padding: 10px;
 }
 .d{
 
@@ -82,7 +86,7 @@ border-bottom: 1px dotted black;
 
 .fl{
     display: flex;
-    height: 100%;
+    height: calc(100% - 20px)
 }
 
 
@@ -165,11 +169,13 @@ i{
   margin-right: 10px;
 }
 .high-selection{
-  color: rgb(92, 74, 46);
+  color: antiquewhite;
+  font-weight: 600;
 }
 
 .coil-info-card {
-  background: #fc8d32;
+  background: rgb(253 218 170);
+  // background: #fc8d32;
   border: 1px solid rgb(27, 25, 15);
   color: rgb(0, 0, 0);
   padding: 12px;
@@ -182,7 +188,7 @@ i{
   margin: 0 0 10px 0;
   color: rgb(24, 24, 24);
   font-size: 16px;
-  border-bottom: 1px solid gold;
+  border-bottom: 1px solid rgb(56, 56, 53);
   padding-bottom: 6px;
 }
 

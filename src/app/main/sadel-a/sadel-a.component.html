@@ -5,7 +5,7 @@
     <div
       class="grid-item"
       *ngFor="let item of gridItems; let i = index"
-      [ngClass]="{ desable: !item.FIT,'hascoil': item.COILID, }"
+      [ngClass]="{ desable: !item.FIT,'hascoil': item.COILID, 'flash': item.SADDLENAME == pickupcoil?.SADDLENAME,  }"
       (contextmenu)="onRightClick($event, item)"
       (mouseenter)="hoveredItem = item"
       (mouseleave)="hoveredItem = null"

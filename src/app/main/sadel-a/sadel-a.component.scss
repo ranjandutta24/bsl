@@ -42,11 +42,6 @@
 }
 
 
-.q {
-  margin-top: 15px;
-  padding: 10px;
-  color: gold;
-}
 
 .high-selection {
   display: flex;
@@ -69,3 +64,15 @@
 //   font-size: 14px;
 // }
 
+.flash {
+  animation: blink .6s infinite alternate ease-in-out;
+}
+
+@keyframes blink {
+  0% {
+    background-color: green;
+  }
+  100% {
+    background-color: red;
+  }
+}
