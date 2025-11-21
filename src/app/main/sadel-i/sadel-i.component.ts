@@ -42,37 +42,6 @@ export class SadelIComponent {
   searchCoil = 'BSL00';
   searchCoilResult: any = '';
 
-  // dynamic items (could come from API, service, etc.)
-  items: string[] = ['Pickup', 'Delete', 'Details'];
-  ngOnInit(): void {
-    this.sadelService.search({ ROWNAME: 'I' }).subscribe(
-      (response) => {
-        console.log(response);
-        this.sadelI = response;
-
-        this.sadelI = this.sadelI.sort((a: any, b: any) => {
-          const numA = Number(a.SADDLENAME.slice(1));
-          const numB = Number(b.SADDLENAME.slice(1));
-          return numA - numB;
-        });
-
-        this.gridItems1st = this.sadelI.filter((item: any) => {
-          return item.FLR == 0;
-        });
-        this.gridItems2nd = this.sadelI.filter((item: any) => {
-          return item.FLR == 1;
-        });
-        this.gridItems = this.gridItems1st;
-      },
-      (respError) => {
-        // this.loading = false;
-        // this.commonService.showSnakBarMessage(respError, "error", 2000);
-      }
-    );
-
-    this.gridItems = this.gridItems1st;
-  }
-
   onSearch() {
     this.sadelService.search({ COILID: this.searchCoil }).subscribe(
       (response: any) => {
@@ -88,6 +57,47 @@ export class SadelIComponent {
     );
   }
 
+  ngOnInit(): void {
+    this.sadelService.search({ ROWNAME: 'I' }).subscribe(
+      (response) => {
+        this.sadelI = response;
+
+        this.gridItems1st = this.sadelI.filter((item: any) => {
+          return item.FLR == 0;
+        });
+
+        this.gridItems1st = this.gridItems1st.sort((a: any, b: any) => {
+          const numA = Number(a.SADDLENAME.slice(1));
+          const numB = Number(b.SADDLENAME.slice(1));
+          return numA - numB;
+        });
+
+        this.gridItems2nd = this.sadelI.filter((item: any) => {
+          return item.FLR == 1;
+        });
+        this.gridItems = this.gridItems1st;
+      },
+      (respError) => {
+        // this.loading = false;
+        // this.commonService.showSnakBarMessage(respError, "error", 2000);
+      }
+    );
+
+    this.gridItems = this.gridItems1st;
+  }
+
+  onChangeHigh(event: Event): void {
+    const inputElement = event.target as HTMLInputElement;
+    console.log('Selected high:', inputElement.value);
+
+    if (inputElement.value == '2nd') {
+      this.gridItems = this.gridItems2nd;
+    } else {
+      this.gridItems = this.gridItems1st;
+    }
+
+    // You can also use this.selectedhigh directly if needed
+  }
   onDoubleClick(item: any) {
     this.infoofsaddle = item;
 
@@ -103,22 +113,12 @@ export class SadelIComponent {
       },
       (respError) => {
         this.saddeleInfo = false;
+        // this.loading = false;
+        // this.commonService.showSnakBarMessage(respError, "error", 2000);
       }
     );
   }
 
-  onChangeHigh(event: Event): void {
-    const inputElement = event.target as HTMLInputElement;
-    console.log('Selected high:', inputElement.value);
-
-    if (inputElement.value == '2nd') {
-      this.gridItems = this.gridItems2nd;
-    } else {
-      this.gridItems = this.gridItems1st;
-    }
-
-    // You can also use this.selectedhigh directly if needed
-  }
   onRightClick(event: MouseEvent, saddle: any) {
     this.selectedSaddle = saddle; // store clicked asset
     // console.log(this.selectedSaddle.FIT);

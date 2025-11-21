@@ -1,0 +1,109 @@
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0,0,0,0.4);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.small-modal {
+  background: white;
+  padding: 20px;
+  width: 260px;
+  border-radius: 12px;
+  box-shadow: 0 5px 20px rgba(0,0,0,0.2);
+}
+
+.modal-actions {
+  margin-top: 15px;
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+}
+
+.small-modal input {
+  width: 100%;
+  padding: 6px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  margin-top: 6px;
+}
+.hascoil{
+  background-color: rgb(167, 32, 32);
+  color: white;
+}
+.desableli{
+ color: rgb(161, 161, 161);
+}
+
+
+
+.high-selection {
+  display: flex;
+  flex-direction: column;
+  font-size: 16px;
+  margin-bottom: 10px;
+}
+
+.high-selection label {
+  margin-bottom: 4px;
+  cursor: pointer;
+}
+
+// .pickup-text {
+//   color: #fff;
+//   background: #444;
+//   padding: 6px 10px;
+//   margin-top: 10px;
+//   border-radius: 6px;
+//   font-size: 14px;
+// }
+
+.flash {
+  animation: blink .6s infinite alternate ease-in-out;
+}
+
+@keyframes blink {
+  0% {
+    background-color: green;
+  }
+  100% {
+    background-color: red;
+  }
+}
+
+
+.input-wrapper {
+  position: relative;
+  width: 235px;
+}
+
+.coil-input {
+  width: 75%;
+  padding: 8px 35px 8px 12px; /* space for icon */
+  border: 2px solid #ccc;
+  border-radius: 8px;
+  font-size: 14px;
+  outline: none;
+  transition: all 0.25s ease-in-out;
+}
+
+.coil-input:focus {
+  border-color: #007bff;
+  box-shadow: 0 0 6px rgba(0, 123, 255, 0.35);
+}
+
+.search-icon {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  pointer-events: none; /* icon won't block clicking input */
+  color: #555;
+  font-size: 16px;
+}
