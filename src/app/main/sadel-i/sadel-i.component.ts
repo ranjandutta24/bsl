@@ -134,12 +134,32 @@ export class SadelIComponent {
   }
 
   selectItem(item: string) {
-    console.log('Selected:', item);
+    // console.log('Selected:', item);
 
     if (item === 'Pickup') {
       this.pickupFlag = true;
+      this.pickupcoil = this.selectedSaddle;
+    } else if (item === 'Add Coil') {
+      this.showAddCoilModal = true;
+      console.log(this.selectedSaddle);
+    } else if (item === 'Unfit') {
+      console.log('unfit');
+      this.updateSaddle(item);
+    } else if (item === 'Fit') {
+      console.log('fit');
+      this.updateSaddle(item);
+    } else if (item === 'Drop Coil') {
+      console.log('drop');
+      this.dropcoil();
+    } else if (item === 'Remove') {
+      console.log('remove');
+      this.removecoil();
+    } else if (item == 'Cancel') {
+      this.pickupFlag = false;
+      this.pickupcoil = null;
     }
-    this.popupVisible = false; // close popup after selection
+
+    this.popupVisible = false;
   }
 
   removecoil() {
@@ -260,8 +280,14 @@ export class SadelIComponent {
     switch (item) {
       case 'Pickup':
         return 'fa fa-truck';
+      case 'Add Coil':
+        return 'fa fa-plus';
       case 'Remove':
-        return 'fa fa-trash';
+        return 'fa fa-plus';
+      case 'Drop Coil':
+        return 'fa fa-arrow-down';
+      case 'Unfit':
+        return 'fa-solid fa-notdef';
       case 'Cancel':
         return 'fa fa-times-circle';
       default:

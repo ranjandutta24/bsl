@@ -41,9 +41,6 @@ export class SadelCComponent {
   searchCoil = 'BSL00';
   searchCoilResult: any = '';
 
-  // dynamic items (could come from API, service, etc.)
-  items: string[] = ['Pickup', 'Delete', 'Details'];
-
   ngOnInit(): void {
     this.sadelService.search({ ROWNAME: 'C' }).subscribe(
       (response) => {
@@ -102,14 +99,20 @@ export class SadelCComponent {
     );
   }
 
-  onRightClick(event: MouseEvent, asset: any) {
+  onRightClick(event: MouseEvent, saddle: any) {
+    this.selectedSaddle = saddle; // store clicked asset
+    // console.log(this.selectedSaddle.FIT);
+    this.cdr.detectChanges(); //
+
+    this.cdr.detectChanges(); //
     event.preventDefault();
     this.popupX = event.clientX;
     this.popupY = event.clientY;
-    this.selectedAsset = asset; // store clicked asset
+
     this.popupVisible = true;
-    this.pickupFlag = false;
+    // this.pickupFlag = false;
   }
+
   onSearch() {
     this.sadelService.search({ COILID: this.searchCoil }).subscribe(
       (response: any) => {
@@ -126,12 +129,32 @@ export class SadelCComponent {
   }
 
   selectItem(item: string) {
-    console.log('Selected:', item);
+    // console.log('Selected:', item);
 
     if (item === 'Pickup') {
       this.pickupFlag = true;
+      this.pickupcoil = this.selectedSaddle;
+    } else if (item === 'Add Coil') {
+      this.showAddCoilModal = true;
+      console.log(this.selectedSaddle);
+    } else if (item === 'Unfit') {
+      console.log('unfit');
+      this.updateSaddle(item);
+    } else if (item === 'Fit') {
+      console.log('fit');
+      this.updateSaddle(item);
+    } else if (item === 'Drop Coil') {
+      console.log('drop');
+      this.dropcoil();
+    } else if (item === 'Remove') {
+      console.log('remove');
+      this.removecoil();
+    } else if (item == 'Cancel') {
+      this.pickupFlag = false;
+      this.pickupcoil = null;
     }
-    this.popupVisible = false; // close popup after selection
+
+    this.popupVisible = false;
   }
 
   removecoil() {
