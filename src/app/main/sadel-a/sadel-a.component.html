@@ -5,10 +5,11 @@
     <div
       class="grid-item"
       *ngFor="let item of gridItems; let i = index"
-      [ngClass]="{ desable: item.disabled }"
+      [ngClass]="{ desable: !item.FIT,'hascoil': item.COILID, }"
       (contextmenu)="onRightClick($event, item)"
       (mouseenter)="hoveredItem = item"
       (mouseleave)="hoveredItem = null"
+      (dblclick)="onDoubleClick(item)"
     >
       {{ item.SADDLENAME }}
       <div class="overlay" *ngIf="hoveredItem === item">
@@ -21,7 +22,7 @@
     </div>
   </div>
 
-  <div
+  <!-- <div
     class="popup"
     *ngIf="popupVisible"
     [style.top.px]="popupY"
@@ -41,6 +42,79 @@
 
         {{ item }}
       </li>
+    </ul>
+  </div> -->
+
+  <div
+    class="popup"
+    *ngIf="popupVisible"
+    [style.top.px]="popupY"
+    [style.left.px]="popupX"
+  >
+    <div class="popup-header">
+      <span class="label">Sadel:</span>
+      <span class="value">{{ selectedSaddle?.SADDLENAME }}</span>
+    </div>
+
+    <ul class="popup-options">
+      <!-- Show these if COILID exists -->
+      <ng-container *ngIf="selectedSaddle?.COILID">
+        <li (click)="selectItem('Pickup')">
+          <i [class]="getIcon('Pickup')"></i>
+          Pickup
+        </li>
+        <li (click)="selectItem('Option B')">
+          <i [class]="getIcon('Option B')"></i>
+          Remove
+        </li>
+        <li
+          [ngClass]="{ desableli: selectedSaddle?.COILID }"
+          (click)="selectItem('Option C')"
+        >
+          <i
+            [class]="getIcon('Option C')"
+            [ngClass]="{ desableli: selectedSaddle?.COILID }"
+          ></i>
+
+          {{ selectedSaddle?.FIT ? "Unfit" : "Fit" }}
+        </li>
+        <li (click)="selectItem('Option C')">
+          <i [class]="getIcon('Option C')"></i>
+          Cancel
+        </li>
+      </ng-container>
+
+      <!-- Show these if COILID does not exist -->
+      <ng-container *ngIf="!selectedSaddle?.COILID">
+        <li
+          (click)="selectItem('Add Coil')"
+          [ngClass]="{ desableli: !selectedSaddle?.FIT }"
+        >
+          <i
+            [class]="getIcon('No Coil Available')"
+            [ngClass]="{ desableli: !selectedSaddle?.FIT }"
+          ></i>
+          Add Coil
+        </li>
+        <li
+          (click)="selectItem('Drop Coil')"
+          [ngClass]="{ desableli: !selectedSaddle?.FIT }"
+        >
+          <i
+            [class]="getIcon('Placeholder Option')"
+            [ngClass]="{ desableli: !selectedSaddle?.FIT }"
+          ></i>
+          Drop Coil
+        </li>
+        <li (click)="selectItem(selectedSaddle?.FIT ? 'Unfit' : 'Fit')">
+          <i [class]="getIcon(selectedSaddle?.FIT ? 'Fit' : 'Unfit')"></i>
+          {{ selectedSaddle?.FIT ? "Unfit" : "Fit" }}
+        </li>
+        <li (click)="selectItem('Cancel')">
+          <i [class]="getIcon('Placeholder Option')"></i>
+          Cancel
+        </li>
+      </ng-container>
     </ul>
   </div>
 
@@ -90,6 +164,10 @@
 
     <p *ngIf="pickupFlag" class="pickup-text">
       pickup {{ selectedSaddle?.SADDLENAME }}
+    </p>
+
+    <p *ngIf="saddeleInfo" class="pickup-text">
+      {{ infoofsaddle?.SADDLENAME }}
     </p>
   </div>
 </div>
