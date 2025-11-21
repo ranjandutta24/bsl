@@ -32,6 +32,7 @@ export class SadelAComponent {
   // dynamic items (could come from API, service, etc.)
   items: string[] = [];
   emptyItems: string[] = [];
+  coilInfo:any=[];
 
   constructor(
     private sadelService: SadelService,
@@ -83,12 +84,13 @@ export class SadelAComponent {
     this.infoofsaddle = item;
     this.saddeleInfo = true;
     if (item.COILID == null || item.COILID == '') {
+      this.saddeleInfo = false;
       return;
     }
 
     this.sadelService.coildetail({ COILID: item.COILID }).subscribe(
       (response) => {
-        console.log(response);
+        this.coilInfo = JSON.parse(JSON.stringify(response));
       },
       (respError) => {
         // this.loading = false;

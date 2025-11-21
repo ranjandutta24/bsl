@@ -39,3 +39,60 @@
 .desableli{
  color: rgb(161, 161, 161);
 }
+
+
+.q {
+  margin-top: 15px;
+  padding: 10px;
+  color: gold;
+}
+
+.high-selection {
+  display: flex;
+  flex-direction: column;
+  font-size: 16px;
+  margin-bottom: 10px;
+}
+
+.high-selection label {
+  margin-bottom: 4px;
+  cursor: pointer;
+}
+
+.pickup-text {
+  color: #fff;
+  background: #444;
+  padding: 6px 10px;
+  margin-top: 10px;
+  border-radius: 6px;
+  font-size: 14px;
+}
+
+.coil-info-card {
+  background: #1e1e1e;
+  border: 1px solid gold;
+  color: white;
+  padding: 12px;
+  border-radius: 8px;
+  margin-top: 12px;
+  width: 160px;
+}
+
+.coil-info-card h4 {
+  margin: 0 0 10px 0;
+  color: gold;
+  font-size: 16px;
+  border-bottom: 1px solid gold;
+  padding-bottom: 6px;
+}
+
+.coil-row {
+  display: flex;
+  justify-content: space-between;
+  padding: 4px 0;
+  font-size: 14px;
+}
+
+.coil-row span {
+  color: gold;
+}

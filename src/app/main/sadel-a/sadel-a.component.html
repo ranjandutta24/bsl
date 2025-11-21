@@ -140,7 +140,10 @@
   </div>
 
   <div class="q">
-    <label style="color: gold">
+
+  <!-- High Selection -->
+  <div class="high-selection">
+    <label>
       <input
         (change)="onChangeHigh($event)"
         type="radio"
@@ -148,10 +151,10 @@
         [(ngModel)]="selectedhigh"
         value="1st"
       />
-      1st high
+      1st High
     </label>
-    <br />
-    <label style="color: gold">
+
+    <label>
       <input
         (change)="onChangeHigh($event)"
         type="radio"
@@ -159,15 +162,29 @@
         [(ngModel)]="selectedhigh"
         value="2nd"
       />
-      2nd high
+      2nd High
     </label>
-
-    <p *ngIf="pickupFlag" class="pickup-text">
-      pickup {{ selectedSaddle?.SADDLENAME }}
-    </p>
-
-    <p *ngIf="saddeleInfo" class="pickup-text">
-      {{ infoofsaddle?.SADDLENAME }}
-    </p>
   </div>
+
+  <!-- Pickup Text -->
+  <p *ngIf="pickupFlag" class="pickup-text">
+    Pickup: <strong>{{ selectedSaddle?.SADDLENAME }}</strong>
+  </p>
+
+  <!-- Saddle Text -->
+  <p *ngIf="saddeleInfo" class="pickup-text">
+    Saddle: <strong>{{ infoofsaddle?.SADDLENAME }}</strong>
+  </p>
+
+  <!-- Coil Info Card -->
+  <div *ngIf="coilInfo && saddeleInfo" class="coil-info-card">
+    <h4>Coil Information</h4>
+    <div class="coil-row"><span>Coil ID:</span> {{ coilInfo.COILID }}</div>
+    <div class="coil-row"><span>Saddle Name:</span> {{ coilInfo.SADDLENAME }}</div>
+    <div class="coil-row"><span>Thickness:</span> {{ coilInfo.THICK }} mm</div>
+    <div class="coil-row"><span>Width:</span> {{ coilInfo.WIDTH }} mm</div>
+  </div>
+
+</div>
+
 </div>
