@@ -5,6 +5,7 @@ import { SadelService } from '../../../services/sadel.service';
 import { forkJoin } from 'rxjs';
 
 import { ChangeDetectorRef } from '@angular/core';
+import { SadelCommService } from '../../../services/sadel-commn.service';
 
 @Component({
   selector: 'app-sadel-b',
@@ -31,13 +32,15 @@ export class SadelBComponent {
   searchCoilResult: any = '';
   coilInfo: any = [];
   selectedSaddle: any = '';
+  currentRow = 'A'; 
 
   // dynamic items (could come from API, service, etc.)
   items: string[] = ['Pickup', 'Delete', 'Details'];
 
   constructor(
     private sadelService: SadelService,
-    private cdr: ChangeDetectorRef
+    private cdr: ChangeDetectorRef,
+    private comm:SadelCommService
   ) {}
   hoveredItem: any = null;
   selectedhigh = '1st';
@@ -68,7 +71,37 @@ export class SadelBComponent {
     );
 
     this.gridItems = this.gridItems1st;
+
+
+
+  //    window.addEventListener('highlight-coil', (e: any) => {
+  //    console.log(e.detail.coilId);
+  //    this.searchCoilResult = e.detail.coilId;
+
+
+    
+  // });
+  window.addEventListener('highlight-coil', this.highlightHandler);
   }
+
+  ngOnDestroy() {
+  window.removeEventListener('highlight-coil', this.highlightHandler);
+}
+
+highlightHandler = (e: any) => {
+  console.log(e);
+  
+  // const { coilId, row } = e.detail;
+
+  // // ❗ check 1 — event is for this row only
+  // if (row !== this.currentRow) return;
+
+  // ❗ check 2 — then highlight
+  this.searchCoilResult = e.detail.coilId;
+  console.log("Highlighting in", this.currentRow, ":", e.detail.coilId);
+
+  this.cdr.detectChanges();
+};
 
   onChangeHigh(event: Event): void {
     const inputElement = event.target as HTMLInputElement;
@@ -115,28 +148,35 @@ export class SadelBComponent {
     // this.pickupFlag = false;
   }
   onSearch() {
-    // console.log(this.searchCoil);
 
-    this.sadelService.search({ COILID: this.searchCoil }).subscribe(
-      (response: any) => {
-        // this.sadelA = response;
+  this.sadelService.search({ COILID: this.searchCoil }).subscribe(
+    (response: any) => {
 
-        // console.log(response);
-
-        if (response && response.length > 0) {
-          this.searchCoilResult = response[0].COILID;
-          // console.log(this.searchCoilResult);
-        } else {
-          this.searchCoilResult = '';
-        }
-        this.cdr.detectChanges(); //
-      },
-      (respError) => {
-        // this.loading = false;
-        // this.commonService.showSnakBarMessage(respError, "error", 2000);
+      if (!response?.length) {
+        this.searchCoilResult = "";
+        return;
       }
-    );
-  }
+
+      const found = response[0];
+      const row = found.ROWNAME.toUpperCase();   // A/B/C...
+      const coilId = found.COILID;
+
+      if (row === 'B') {
+
+        // ✅ SAME COMPONENT → highlight here only
+        this.searchCoilResult = coilId;
+
+        // force change detection
+        this.cdr.detectChanges();
+        return;
+      }
+
+      // 🔥 DIFFERENT COMPONENT → Tell HOME to switch saddle
+      this.comm.switchSadel$.next({ row, coilId });
+    }
+  );
+}
+
 
   selectItem(item: string) {
     // console.log('Selected:', item);

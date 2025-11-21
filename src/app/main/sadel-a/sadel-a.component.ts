@@ -8,6 +8,7 @@ import { Router } from '@angular/router';
 import { ChangeDetectorRef } from '@angular/core';
 
 import { HttpClientModule } from '@angular/common/http';
+import { SadelCommService } from '../../../services/sadel-commn.service';
 
 @Component({
   selector: 'app-sadel-a',
@@ -44,6 +45,7 @@ export class SadelAComponent {
     private sadelService: SadelService,
     private cdr: ChangeDetectorRef,
     private router: Router,
+    private comm: SadelCommService,
   ) {}
 
   ngOnInit(): void {
@@ -73,7 +75,28 @@ export class SadelAComponent {
     );
 
     this.gridItems = this.gridItems1st;
+
+    window.addEventListener('highlight-coil', this.highlightHandler);
   }
+
+    ngOnDestroy() {
+  window.removeEventListener('highlight-coil', this.highlightHandler);
+}
+
+highlightHandler = (e: any) => {
+  console.log(e);
+  
+  // const { coilId, row } = e.detail;
+
+  // // ❗ check 1 — event is for this row only
+  // if (row !== this.currentRow) return;
+
+  // ❗ check 2 — then highlight
+  this.searchCoilResult = e.detail.coilId;
+  
+
+  this.cdr.detectChanges();
+};
 
   onChangeHigh(event: Event): void {
     const inputElement = event.target as HTMLInputElement;
@@ -127,30 +150,33 @@ onSearch() {
   this.sadelService.search({ COILID: this.searchCoil }).subscribe(
     (response: any) => {
 
-      if (response && response.length > 0) {
-
-        const found = response[0];
-        this.searchCoilResult = found.COILID;
-
-        const row = found.ROWNAME?.toLowerCase();   // a, b, c...
-        
-        if (row !== 'a') {
-          // 👇 Navigate to correct saddle route
-          this.router.navigate([`/sadel-${row}`], {
-            queryParams: { highlight: found.COILID }   // pass coil id
-          });
-          
-          return;  // stop further code
-        }
-
-      } else {
-        this.searchCoilResult = '';
+      if (!response?.length) {
+        this.searchCoilResult = "";
+        return;
       }
 
-      this.cdr.detectChanges();
+      const found = response[0];
+      const row = found.ROWNAME.toUpperCase();   // A/B/C...
+      const coilId = found.COILID;
+
+      if (row === 'A') {
+
+        // ✅ SAME COMPONENT → highlight here only
+        this.searchCoilResult = coilId;
+
+        // force change detection
+        this.cdr.detectChanges();
+        return;
+      }
+
+      // 🔥 DIFFERENT COMPONENT → Tell HOME to switch saddle
+      this.comm.switchSadel$.next({ row, coilId });
     }
   );
 }
+
+
+
   selectItem(item: string) {
     // console.log('Selected:', item);
 
