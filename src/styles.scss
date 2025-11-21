@@ -11,8 +11,10 @@ body {
 }
 
 .grid-container {
+      background-color: antiquewhite;
+
    margin-right: 5px;
-      width:90% ;
+      width:85% ;
    display: grid;
   grid-template-columns: repeat(10, 1fr);
   grid-template-rows: repeat(12,1fr);
@@ -161,4 +163,36 @@ border-bottom: 1px dotted black;
 i{
   color: orange;
   margin-right: 10px;
+}
+.high-selection{
+  color: rgb(92, 74, 46);
+}
+
+.coil-info-card {
+  background: #fc8d32;
+  border: 1px solid rgb(27, 25, 15);
+  color: rgb(0, 0, 0);
+  padding: 12px;
+  border-radius: 8px;
+  margin-top: 12px;
+  width: 160px;
+}
+
+.coil-info-card h4 {
+  margin: 0 0 10px 0;
+  color: rgb(24, 24, 24);
+  font-size: 16px;
+  border-bottom: 1px solid gold;
+  padding-bottom: 6px;
+}
+
+.coil-row {
+  display: flex;
+  justify-content: space-between;
+  padding: 4px 0;
+  font-size: 14px;
+}
+
+.coil-row span {
+  color: rgb(75, 75, 75);
 }

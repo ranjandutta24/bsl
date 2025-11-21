@@ -89,3 +89,54 @@
   <div class="grid-item">A-71</div>
   <div class="grid-item">A-72</div>
 </div>
+
+
+ dropcoil() {
+    // call 2 updateapi
+
+    let inhand = this.pickupcoil;
+
+    this.sadelService
+      .update({
+        SADDLENAME: inhand.SADDLENAME,
+        COILID: null,
+      })
+      .subscribe(() => {
+        const index = this.gridItems.findIndex(
+          (item: any) => item.SADDLENAME === inhand.SADDLENAME
+        );
+        if (index !== -1) {
+          this.gridItems[index] = {
+            ...this.gridItems[index],
+            COILID: null,
+          };
+          this.gridItems = [...this.gridItems];
+          this.cdr.detectChanges(); //
+        } else {
+          console.log('not found');
+        }
+      });
+
+    this.sadelService
+      .update({
+        SADDLENAME: this.selectedSaddle.SADDLENAME,
+        COILID: inhand.COILID,
+      })
+      .subscribe(() => {
+        const index = this.gridItems.findIndex(
+          (item: any) => item.SADDLENAME === this.selectedSaddle.SADDLENAME
+        );
+        if (index !== -1) {
+          this.gridItems[index] = {
+            ...this.gridItems[index],
+            COILID: inhand.COILID,
+          };
+          this.gridItems = [...this.gridItems];
+          this.cdr.detectChanges(); //
+        } else {
+          console.log('not found');
+        }
+      });
+    this.pickupFlag = false;
+    this.pickupcoil = null;
+  }

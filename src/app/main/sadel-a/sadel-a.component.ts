@@ -2,6 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { SadelService } from '../../../services/sadel.service';
+import { forkJoin } from 'rxjs';
 
 import { ChangeDetectorRef } from '@angular/core';
 
@@ -28,11 +29,12 @@ export class SadelAComponent {
   infoofsaddle: any;
   pickupFlag = false;
   saddeleInfo = false;
+  pickupcoil: any;
 
   // dynamic items (could come from API, service, etc.)
   items: string[] = [];
   emptyItems: string[] = [];
-  coilInfo:any=[];
+  coilInfo: any = [];
 
   constructor(
     private sadelService: SadelService,
@@ -82,7 +84,7 @@ export class SadelAComponent {
   }
   onDoubleClick(item: any) {
     this.infoofsaddle = item;
-    this.saddeleInfo = true;
+
     if (item.COILID == null || item.COILID == '') {
       this.saddeleInfo = false;
       return;
@@ -91,8 +93,10 @@ export class SadelAComponent {
     this.sadelService.coildetail({ COILID: item.COILID }).subscribe(
       (response) => {
         this.coilInfo = JSON.parse(JSON.stringify(response));
+        this.saddeleInfo = true;
       },
       (respError) => {
+        this.saddeleInfo = false;
         // this.loading = false;
         // this.commonService.showSnakBarMessage(respError, "error", 2000);
       }
@@ -101,38 +105,27 @@ export class SadelAComponent {
 
   onRightClick(event: MouseEvent, saddle: any) {
     this.selectedSaddle = saddle; // store clicked asset
-    console.log(this.selectedSaddle.FIT);
+    // console.log(this.selectedSaddle.FIT);
     this.cdr.detectChanges(); //
 
-    this.emptyItems = [
-      'Add Coil',
-      'Drop Coil',
-      this.selectedSaddle.FIT == 1 ? 'Unfit' : 'Fit',
-      'Cancel',
-    ];
-    this.items = [
-      'Pickup',
-      'Remove',
-      'Cancel',
-      this.selectedSaddle.FIT == 1 ? 'Unfit' : 'Fit',
-    ];
     this.cdr.detectChanges(); //
     event.preventDefault();
     this.popupX = event.clientX;
     this.popupY = event.clientY;
 
     this.popupVisible = true;
-    this.pickupFlag = false;
+    // this.pickupFlag = false;
   }
 
   showAddCoilModal = false;
   newCoilId = 'BSL00';
 
   selectItem(item: string) {
-    console.log('Selected:', item);
+    // console.log('Selected:', item);
 
     if (item === 'Pickup') {
       this.pickupFlag = true;
+      this.pickupcoil = this.selectedSaddle;
     } else if (item === 'Add Coil') {
       this.showAddCoilModal = true;
       console.log(this.selectedSaddle);
@@ -142,9 +135,54 @@ export class SadelAComponent {
     } else if (item === 'Fit') {
       console.log('fit');
       this.updateSaddle(item);
+    } else if (item === 'Drop Coil') {
+      console.log('drop');
+      this.dropcoil();
+      // this.updateSaddle(item);
+    } else if (item == 'Cancel') {
+      this.pickupFlag = false;
+      this.pickupcoil = null;
     }
 
     this.popupVisible = false;
+  }
+
+  private updateGridItem(saddleName: string, coilId: any) {
+    const index = this.gridItems.findIndex(
+      (item: any) => item.SADDLENAME === saddleName
+    );
+    if (index !== -1) {
+      this.gridItems[index] = { ...this.gridItems[index], COILID: coilId };
+    }
+  }
+  dropcoil() {
+    if (!this.pickupcoil || !this.selectedSaddle) return;
+
+    const inhand = this.pickupcoil;
+
+    const update1 = this.sadelService.update({
+      SADDLENAME: inhand.SADDLENAME,
+      COILID: null,
+    });
+
+    const update2 = this.sadelService.update({
+      SADDLENAME: this.selectedSaddle.SADDLENAME,
+      COILID: inhand.COILID,
+    });
+
+    forkJoin([update1, update2]).subscribe({
+      next: () => {
+        this.updateGridItem(inhand.SADDLENAME, null);
+        this.updateGridItem(this.selectedSaddle.SADDLENAME, inhand.COILID);
+
+        this.pickupFlag = false;
+        this.pickupcoil = null;
+
+        this.cdr.detectChanges();
+        console.log('Drop coil completed successfully!');
+      },
+      error: () => console.error('API update failed!'),
+    });
   }
 
   updateSaddle(status: any) {
@@ -163,12 +201,10 @@ export class SadelAComponent {
             ...this.gridItems[index],
             FIT: newStatus,
           };
-          // force change detection refresh
+
           this.gridItems = [...this.gridItems];
           this.cdr.detectChanges(); //
         }
-        // this.showAddCoilModal = false;
-        // this.newCoilId = 'BSL00';
       });
   }
 

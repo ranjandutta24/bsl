@@ -78,8 +78,8 @@
 
           {{ selectedSaddle?.FIT ? "Unfit" : "Fit" }}
         </li>
-        <li (click)="selectItem('Option C')">
-          <i [class]="getIcon('Option C')"></i>
+        <li (click)="selectItem('Cancel')">
+          <i [class]="getIcon('Cancel')"></i>
           Cancel
         </li>
       </ng-container>
@@ -98,11 +98,13 @@
         </li>
         <li
           (click)="selectItem('Drop Coil')"
-          [ngClass]="{ desableli: !selectedSaddle?.FIT }"
+          [ngClass]="{ desableli: !selectedSaddle?.FIT || !pickupcoil?.COILID }"
         >
           <i
             [class]="getIcon('Placeholder Option')"
-            [ngClass]="{ desableli: !selectedSaddle?.FIT }"
+            [ngClass]="{
+              desableli: !selectedSaddle?.FIT || !pickupcoil?.COILID
+            }"
           ></i>
           Drop Coil
         </li>
@@ -140,51 +142,51 @@
   </div>
 
   <div class="q">
+    <!-- High Selection -->
+    <div class="high-selection">
+      <label>
+        <input
+          (change)="onChangeHigh($event)"
+          type="radio"
+          name="high"
+          [(ngModel)]="selectedhigh"
+          value="1st"
+        />
+        1st High
+      </label>
 
-  <!-- High Selection -->
-  <div class="high-selection">
-    <label>
-      <input
-        (change)="onChangeHigh($event)"
-        type="radio"
-        name="high"
-        [(ngModel)]="selectedhigh"
-        value="1st"
-      />
-      1st High
-    </label>
+      <label>
+        <input
+          (change)="onChangeHigh($event)"
+          type="radio"
+          name="high"
+          [(ngModel)]="selectedhigh"
+          value="2nd"
+        />
+        2nd High
+      </label>
+    </div>
 
-    <label>
-      <input
-        (change)="onChangeHigh($event)"
-        type="radio"
-        name="high"
-        [(ngModel)]="selectedhigh"
-        value="2nd"
-      />
-      2nd High
-    </label>
+    <!-- Pickup Text -->
+    <p *ngIf="pickupFlag" class="pickup-text">
+      <strong>{{
+        "Pickup " + pickupcoil?.COILID + " From " + pickupcoil?.SADDLENAME
+      }}</strong>
+    </p>
+
+    <!-- Saddle Text -->
+
+    <!-- Coil Info Card -->
+    <div *ngIf="coilInfo && saddeleInfo" class="coil-info-card">
+      <h4>Coil Information</h4>
+      <div class="coil-row"><span>Coil ID:</span> {{ coilInfo.COILID }}</div>
+      <div class="coil-row">
+        <span>Saddle Name:</span> {{ coilInfo.SADDLENAME }}
+      </div>
+      <div class="coil-row">
+        <span>Thickness:</span> {{ coilInfo.THICK }} mm
+      </div>
+      <div class="coil-row"><span>Width:</span> {{ coilInfo.WIDTH }} mm</div>
+    </div>
   </div>
-
-  <!-- Pickup Text -->
-  <p *ngIf="pickupFlag" class="pickup-text">
-    Pickup: <strong>{{ selectedSaddle?.SADDLENAME }}</strong>
-  </p>
-
-  <!-- Saddle Text -->
-  <p *ngIf="saddeleInfo" class="pickup-text">
-    Saddle: <strong>{{ infoofsaddle?.SADDLENAME }}</strong>
-  </p>
-
-  <!-- Coil Info Card -->
-  <div *ngIf="coilInfo && saddeleInfo" class="coil-info-card">
-    <h4>Coil Information</h4>
-    <div class="coil-row"><span>Coil ID:</span> {{ coilInfo.COILID }}</div>
-    <div class="coil-row"><span>Saddle Name:</span> {{ coilInfo.SADDLENAME }}</div>
-    <div class="coil-row"><span>Thickness:</span> {{ coilInfo.THICK }} mm</div>
-    <div class="coil-row"><span>Width:</span> {{ coilInfo.WIDTH }} mm</div>
-  </div>
-
-</div>
-
 </div>
