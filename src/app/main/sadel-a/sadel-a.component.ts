@@ -21,7 +21,6 @@ export class SadelAComponent {
   sadelA: any;
   gridItems1st: any;
   gridItems2nd: any;
-
   popupVisible = false;
   popupX = 0;
   popupY = 0;
@@ -30,6 +29,10 @@ export class SadelAComponent {
   pickupFlag = false;
   saddeleInfo = false;
   pickupcoil: any;
+  showAddCoilModal = false;
+  newCoilId = 'BSL00';
+  searchCoil = 'BSL00';
+  searchCoilResult: any = '';
 
   // dynamic items (could come from API, service, etc.)
   items: string[] = [];
@@ -117,10 +120,6 @@ export class SadelAComponent {
     // this.pickupFlag = false;
   }
 
-  showAddCoilModal = false;
-  newCoilId = 'BSL00';
-  searchCoil = 'BSL00';
-  searchCoilResult: any = '';
   onSearch() {
     // console.log(this.searchCoil);
 

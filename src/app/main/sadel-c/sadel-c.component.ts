@@ -25,6 +25,10 @@ export class SadelCComponent {
   selectedAsset: any = '';
   pickupFlag = false;
 
+  infoofsaddle: any;
+  saddeleInfo = false;
+  coilInfo: any = [];
+
   // dynamic items (could come from API, service, etc.)
   items: string[] = ['Pickup', 'Delete', 'Details'];
 
@@ -66,6 +70,24 @@ export class SadelCComponent {
     }
 
     // You can also use this.selectedhigh directly if needed
+  }
+  onDoubleClick(item: any) {
+    this.infoofsaddle = item;
+
+    if (item.COILID == null || item.COILID == '') {
+      this.saddeleInfo = false;
+      return;
+    }
+
+    this.sadelService.coildetail({ COILID: item.COILID }).subscribe(
+      (response) => {
+        this.coilInfo = JSON.parse(JSON.stringify(response));
+        this.saddeleInfo = true;
+      },
+      (respError) => {
+        this.saddeleInfo = false;
+      }
+    );
   }
 
   onRightClick(event: MouseEvent, asset: any) {
