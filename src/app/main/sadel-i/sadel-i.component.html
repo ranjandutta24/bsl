@@ -5,46 +5,185 @@
     <div
       class="grid-item"
       *ngFor="let item of gridItems; let i = index"
-      [ngClass]="{ desable: item.disabled }"
+      [ngClass]="{
+        desable: !item.FIT,
+        hascoil: item.COILID,
+        flash:
+          item.SADDLENAME == pickupcoil?.SADDLENAME ||
+          item?.COILID == searchCoilResult
+      }"
+      (contextmenu)="onRightClick($event, item)"
       (mouseenter)="hoveredItem = item"
       (mouseleave)="hoveredItem = null"
+      (dblclick)="onDoubleClick(item)"
     >
       {{ item.SADDLENAME }}
       <div class="overlay" *ngIf="hoveredItem === item">
         <div class="tab">
-          <div class="h">coilid {{ item.COILID }}</div>
-          <div class="h">saddel name {{ item.SADDLENAME }}</div>
-          <div class="h">Lorem ipsum dolor sit amet.</div>
-          <div class="h">Lorem ipsum dolor.</div>
-          <div class="h">Sadel information</div>
-          <div class="h">Text</div>
-          <div class="h">assdfgds</div>
+          <div class="h">{{ item.SADDLENAME }}</div>
+          <div class="h">{{ item.COILID }}</div>
+          <div class="h">{{ item.FIT ? "Fit" : "Unfit" }}</div>
         </div>
       </div>
     </div>
   </div>
 
+  <div
+    class="popup"
+    *ngIf="popupVisible"
+    [style.top.px]="popupY"
+    [style.left.px]="popupX"
+  >
+    <div class="popup-header">
+      <span class="label">Sadel:</span>
+      <span class="value">{{ selectedSaddle?.SADDLENAME }}</span>
+    </div>
+
+    <ul class="popup-options">
+      <!-- Show these if COILID exists -->
+      <ng-container *ngIf="selectedSaddle?.COILID">
+        <li (click)="selectItem('Pickup')">
+          <i [class]="getIcon('Pickup')"></i>
+          Pickup
+        </li>
+        <li (click)="selectItem('Remove')">
+          <i [class]="getIcon('Option B')"></i>
+          Remove
+        </li>
+        <li
+          [ngClass]="{ desableli: selectedSaddle?.COILID }"
+          (click)="selectItem('Option C')"
+        >
+          <i
+            [class]="getIcon('Option C')"
+            [ngClass]="{ desableli: selectedSaddle?.COILID }"
+          ></i>
+
+          {{ selectedSaddle?.FIT ? "Unfit" : "Fit" }}
+        </li>
+        <li (click)="selectItem('Cancel')">
+          <i [class]="getIcon('Cancel')"></i>
+          Cancel
+        </li>
+      </ng-container>
+
+      <!-- Show these if COILID does not exist -->
+      <ng-container *ngIf="!selectedSaddle?.COILID">
+        <li
+          (click)="selectItem('Add Coil')"
+          [ngClass]="{ desableli: !selectedSaddle?.FIT }"
+        >
+          <i
+            [class]="getIcon('No Coil Available')"
+            [ngClass]="{ desableli: !selectedSaddle?.FIT }"
+          ></i>
+          Add Coil
+        </li>
+        <li
+          (click)="selectItem('Drop Coil')"
+          [ngClass]="{ desableli: !selectedSaddle?.FIT || !pickupcoil?.COILID }"
+        >
+          <i
+            [class]="getIcon('Placeholder Option')"
+            [ngClass]="{
+              desableli: !selectedSaddle?.FIT || !pickupcoil?.COILID
+            }"
+          ></i>
+          Drop Coil
+        </li>
+        <li (click)="selectItem(selectedSaddle?.FIT ? 'Unfit' : 'Fit')">
+          <i [class]="getIcon(selectedSaddle?.FIT ? 'Fit' : 'Unfit')"></i>
+          {{ selectedSaddle?.FIT ? "Unfit" : "Fit" }}
+        </li>
+        <li (click)="selectItem('Cancel')">
+          <i [class]="getIcon('Placeholder Option')"></i>
+          Cancel
+        </li>
+      </ng-container>
+    </ul>
+  </div>
+
+  <div class="modal-overlay" *ngIf="showAddCoilModal">
+    <div class="small-modal">
+      <h3>Add Coil</h3>
+
+      <label for="coilIdInput">Coil ID:</label>
+      <input
+        maxlength="12"
+        id="coilIdInput"
+        type="text"
+        [(ngModel)]="newCoilId"
+        placeholder="Enter Coil ID"
+        title="Enter Coil ID"
+      />
+
+      <div class="modal-actions">
+        <button (click)="saveCoil()">Save</button>
+        <button (click)="closeAddCoilModal()">Cancel</button>
+      </div>
+    </div>
+  </div>
+
   <div class="q">
-    <label style="color: gold">
+    <!-- High Selection -->
+    <div class="high-selection">
+      <label>
+        <input
+          (change)="onChangeHigh($event)"
+          type="radio"
+          name="high"
+          [(ngModel)]="selectedhigh"
+          value="1st"
+        />
+        1st High
+      </label>
+
+      <label>
+        <input
+          (change)="onChangeHigh($event)"
+          type="radio"
+          name="high"
+          [(ngModel)]="selectedhigh"
+          value="2nd"
+        />
+        2nd High
+      </label>
+    </div>
+
+    <div class="input-wrapper">
       <input
-        (change)="onChangeHigh($event)"
-        type="radio"
-        name="high"
-        [(ngModel)]="selectedhigh"
-        value="1st"
+        maxlength="12"
+        id="coilIdInput"
+        class="coil-input"
+        type="text"
+        [(ngModel)]="searchCoil"
+        placeholder="Enter Coil ID"
+        title="Enter Coil ID"
+        (keyup.enter)="onSearch()"
       />
-      1st high
-    </label>
-    <br />
-    <label style="color: gold">
-      <input
-        (change)="onChangeHigh($event)"
-        type="radio"
-        name="high"
-        [(ngModel)]="selectedhigh"
-        value="2nd"
-      />
-      2nd high
-    </label>
+      <i class="fa fa-search search-icon"></i>
+    </div>
+
+    <!-- Pickup Text -->
+    <p *ngIf="pickupFlag" class="pickup-text">
+      <strong>{{
+        "Pickup " + pickupcoil?.COILID + " From " + pickupcoil?.SADDLENAME
+      }}</strong>
+    </p>
+
+    <!-- Saddle Text -->
+
+    <!-- Coil Info Card -->
+    <div *ngIf="coilInfo && saddeleInfo" class="coil-info-card">
+      <h4>Coil Information</h4>
+      <div class="coil-row"><span>Coil ID:</span> {{ coilInfo.COILID }}</div>
+      <div class="coil-row">
+        <span>Saddle Name:</span> {{ coilInfo.SADDLENAME }}
+      </div>
+      <div class="coil-row">
+        <span>Thickness:</span> {{ coilInfo.THICK }} mm
+      </div>
+      <div class="coil-row"><span>Width:</span> {{ coilInfo.WIDTH }} mm</div>
+    </div>
   </div>
 </div>
