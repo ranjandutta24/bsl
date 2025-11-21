@@ -3,6 +3,7 @@ import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { SadelService } from '../../../services/sadel.service';
 import { forkJoin } from 'rxjs';
+import { Router } from '@angular/router';
 
 import { ChangeDetectorRef } from '@angular/core';
 
@@ -41,7 +42,8 @@ export class SadelAComponent {
 
   constructor(
     private sadelService: SadelService,
-    private cdr: ChangeDetectorRef
+    private cdr: ChangeDetectorRef,
+    private router: Router,
   ) {}
 
   ngOnInit(): void {
@@ -120,44 +122,35 @@ export class SadelAComponent {
     // this.pickupFlag = false;
   }
 
-  onSearch() {
-    // console.log(this.searchCoil);
+onSearch() {
 
-    this.sadelService.search({ COILID: this.searchCoil }).subscribe(
-      (response: any) => {
-        // this.sadelA = response;
+  this.sadelService.search({ COILID: this.searchCoil }).subscribe(
+    (response: any) => {
 
-        // console.log(response);
+      if (response && response.length > 0) {
 
-        if (response && response.length > 0) {
-          this.searchCoilResult = response[0].COILID;
-          // console.log(this.searchCoilResult);
-        } else {
-          this.searchCoilResult = '';
+        const found = response[0];
+        this.searchCoilResult = found.COILID;
+
+        const row = found.ROWNAME?.toLowerCase();   // a, b, c...
+        
+        if (row !== 'a') {
+          // 👇 Navigate to correct saddle route
+          this.router.navigate([`/sadel-${row}`], {
+            queryParams: { highlight: found.COILID }   // pass coil id
+          });
+          
+          return;  // stop further code
         }
-        this.cdr.detectChanges(); //
 
-        // this.gridItems1st = this.sadelA.filter((item: any) => {
-        //   return item.FLR == 0;
-        // });
-
-        // this.gridItems1st = this.gridItems1st.sort((a: any, b: any) => {
-        //   const numA = Number(a.SADDLENAME.slice(1));
-        //   const numB = Number(b.SADDLENAME.slice(1));
-        //   return numA - numB;
-        // });
-
-        // this.gridItems2nd = this.sadelA.filter((item: any) => {
-        //   return item.FLR == 1;
-        // });
-        // this.gridItems = this.gridItems1st;
-      },
-      (respError) => {
-        // this.loading = false;
-        // this.commonService.showSnakBarMessage(respError, "error", 2000);
+      } else {
+        this.searchCoilResult = '';
       }
-    );
-  }
+
+      this.cdr.detectChanges();
+    }
+  );
+}
   selectItem(item: string) {
     // console.log('Selected:', item);
 
