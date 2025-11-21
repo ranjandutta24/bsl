@@ -5,7 +5,13 @@
     <div
       class="grid-item"
       *ngFor="let item of gridItems; let i = index"
-      [ngClass]="{ desable: !item.FIT,'hascoil': item.COILID, 'flash': item.SADDLENAME == pickupcoil?.SADDLENAME,  }"
+      [ngClass]="{
+        desable: !item.FIT,
+        hascoil: item.COILID,
+        flash:
+          item.SADDLENAME == pickupcoil?.SADDLENAME ||
+          item?.COILID == searchCoilResult
+      }"
       (contextmenu)="onRightClick($event, item)"
       (mouseenter)="hoveredItem = item"
       (mouseleave)="hoveredItem = null"
@@ -14,36 +20,13 @@
       {{ item.SADDLENAME }}
       <div class="overlay" *ngIf="hoveredItem === item">
         <div class="tab">
-          <div class="h">coilid {{ item.COILID }}</div>
-          <div class="h">saddel name {{ item.SADDLENAME }}</div>
-          <div class="h">Sadel information</div>
+          <div class="h">{{ item.SADDLENAME }}</div>
+          <div class="h">{{ item.COILID }}</div>
+          <div class="h">{{ item.FIT ? "Fit" : "Unfit" }}</div>
         </div>
       </div>
     </div>
   </div>
-
-  <!-- <div
-    class="popup"
-    *ngIf="popupVisible"
-    [style.top.px]="popupY"
-    [style.left.px]="popupX"
-  >
-    <div class="popup-header">
-      <span class="label">Sadel:</span>
-      <span class="value">{{ selectedSaddle?.SADDLENAME }}</span>
-    </div>
-
-    <ul class="popup-options">
-      <li
-        *ngFor="let item of selectedSaddle?.COILID ? items : emptyItems"
-        (click)="selectItem(item)"
-      >
-        <i [class]="getIcon(item)"></i>
-
-        {{ item }}
-      </li>
-    </ul>
-  </div> -->
 
   <div
     class="popup"
@@ -63,7 +46,7 @@
           <i [class]="getIcon('Pickup')"></i>
           Pickup
         </li>
-        <li (click)="selectItem('Option B')">
+        <li (click)="selectItem('Remove')">
           <i [class]="getIcon('Option B')"></i>
           Remove
         </li>
@@ -165,6 +148,20 @@
         />
         2nd High
       </label>
+    </div>
+
+    <div class="input-wrapper">
+      <input
+        maxlength="12"
+        id="coilIdInput"
+        class="coil-input"
+        type="text"
+        [(ngModel)]="searchCoil"
+        placeholder="Enter Coil ID"
+        title="Enter Coil ID"
+        (keyup.enter)="onSearch()"
+      />
+      <i class="fa fa-search search-icon"></i>
     </div>
 
     <!-- Pickup Text -->

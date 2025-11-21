@@ -119,7 +119,46 @@ export class SadelAComponent {
 
   showAddCoilModal = false;
   newCoilId = 'BSL00';
+  searchCoil = 'BSL00';
+  searchCoilResult: any = '';
+  onSearch() {
+    // console.log(this.searchCoil);
 
+    this.sadelService.search({ COILID: this.searchCoil }).subscribe(
+      (response: any) => {
+        // this.sadelA = response;
+
+        // console.log(response);
+
+        if (response && response.length > 0) {
+          this.searchCoilResult = response[0].COILID;
+          // console.log(this.searchCoilResult);
+        } else {
+          this.searchCoilResult = '';
+        }
+        this.cdr.detectChanges(); //
+
+        // this.gridItems1st = this.sadelA.filter((item: any) => {
+        //   return item.FLR == 0;
+        // });
+
+        // this.gridItems1st = this.gridItems1st.sort((a: any, b: any) => {
+        //   const numA = Number(a.SADDLENAME.slice(1));
+        //   const numB = Number(b.SADDLENAME.slice(1));
+        //   return numA - numB;
+        // });
+
+        // this.gridItems2nd = this.sadelA.filter((item: any) => {
+        //   return item.FLR == 1;
+        // });
+        // this.gridItems = this.gridItems1st;
+      },
+      (respError) => {
+        // this.loading = false;
+        // this.commonService.showSnakBarMessage(respError, "error", 2000);
+      }
+    );
+  }
   selectItem(item: string) {
     // console.log('Selected:', item);
 
@@ -138,7 +177,9 @@ export class SadelAComponent {
     } else if (item === 'Drop Coil') {
       console.log('drop');
       this.dropcoil();
-      // this.updateSaddle(item);
+    } else if (item === 'Remove') {
+      console.log('remove');
+      this.removecoil();
     } else if (item == 'Cancel') {
       this.pickupFlag = false;
       this.pickupcoil = null;
@@ -147,6 +188,29 @@ export class SadelAComponent {
     this.popupVisible = false;
   }
 
+  removecoil() {
+    this.sadelService
+      .update({
+        SADDLENAME: this.selectedSaddle.SADDLENAME,
+        COILID: null,
+      })
+      .subscribe(() => {
+        const index = this.gridItems.findIndex(
+          (item: any) => item.SADDLENAME === this.selectedSaddle.SADDLENAME
+        );
+
+        if (index !== -1) {
+          this.gridItems[index] = {
+            ...this.gridItems[index],
+            COILID: null,
+          };
+
+          // force change detection refresh
+          this.gridItems = [...this.gridItems];
+          this.cdr.detectChanges(); //
+        }
+      });
+  }
   private updateGridItem(saddleName: string, coilId: any) {
     const index = this.gridItems.findIndex(
       (item: any) => item.SADDLENAME === saddleName
