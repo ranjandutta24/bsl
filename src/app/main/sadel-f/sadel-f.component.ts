@@ -68,6 +68,20 @@ export class SadelFComponent {
     this.gridItems = this.gridItems1st;
   }
 
+  onSearch() {
+    this.sadelService.search({ COILID: this.searchCoil }).subscribe(
+      (response: any) => {
+        if (response && response.length > 0) {
+          this.searchCoilResult = response[0].COILID;
+          // console.log(this.searchCoilResult);
+        } else {
+          this.searchCoilResult = '';
+        }
+        this.cdr.detectChanges(); //
+      },
+      (respError) => {}
+    );
+  }
   onDoubleClick(item: any) {
     this.infoofsaddle = item;
 
@@ -99,22 +113,45 @@ export class SadelFComponent {
     // You can also use this.selectedhigh directly if needed
   }
 
-  onRightClick(event: MouseEvent, asset: any) {
+  onRightClick(event: MouseEvent, saddle: any) {
+    this.selectedSaddle = saddle; // store clicked asset
+    // console.log(this.selectedSaddle.FIT);
+    this.cdr.detectChanges(); //
     event.preventDefault();
     this.popupX = event.clientX;
     this.popupY = event.clientY;
-    this.selectedAsset = asset; // store clicked asset
+
     this.popupVisible = true;
-    this.pickupFlag = false;
+    // this.pickupFlag = false;
   }
 
   selectItem(item: string) {
-    console.log('Selected:', item);
+    // console.log('Selected:', item);
 
     if (item === 'Pickup') {
       this.pickupFlag = true;
+      this.pickupcoil = this.selectedSaddle;
+    } else if (item === 'Add Coil') {
+      this.showAddCoilModal = true;
+      console.log(this.selectedSaddle);
+    } else if (item === 'Unfit') {
+      console.log('unfit');
+      this.updateSaddle(item);
+    } else if (item === 'Fit') {
+      console.log('fit');
+      this.updateSaddle(item);
+    } else if (item === 'Drop Coil') {
+      console.log('drop');
+      this.dropcoil();
+    } else if (item === 'Remove') {
+      console.log('remove');
+      this.removecoil();
+    } else if (item == 'Cancel') {
+      this.pickupFlag = false;
+      this.pickupcoil = null;
     }
-    this.popupVisible = false; // close popup after selection
+
+    this.popupVisible = false;
   }
 
   removecoil() {

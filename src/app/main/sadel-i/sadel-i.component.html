@@ -47,7 +47,7 @@
           Pickup
         </li>
         <li (click)="selectItem('Remove')">
-          <i [class]="getIcon('Option B')"></i>
+          <i [class]="getIcon('Remove')"></i>
           Remove
         </li>
         <li
@@ -74,7 +74,7 @@
           [ngClass]="{ desableli: !selectedSaddle?.FIT }"
         >
           <i
-            [class]="getIcon('No Coil Available')"
+            [class]="getIcon('Add Coil')"
             [ngClass]="{ desableli: !selectedSaddle?.FIT }"
           ></i>
           Add Coil
@@ -84,7 +84,7 @@
           [ngClass]="{ desableli: !selectedSaddle?.FIT || !pickupcoil?.COILID }"
         >
           <i
-            [class]="getIcon('Placeholder Option')"
+            [class]="getIcon('Drop Coil')"
             [ngClass]="{
               desableli: !selectedSaddle?.FIT || !pickupcoil?.COILID
             }"
