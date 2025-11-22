@@ -32,8 +32,11 @@ export class SadelAComponent {
   saddeleInfo = false;
   pickupcoil: any;
   showAddCoilModal = false;
-  newCoilId = 'BSL00';
+  // newCoilId = 'BSL00';
   searchCoil = 'BSL00';
+
+  prefix: string = 'BSL00';
+  newCoilId: string = this.prefix;
   searchCoilResult: any = '';
 
   // dynamic items (could come from API, service, etc.)
@@ -78,7 +81,41 @@ export class SadelAComponent {
 
     window.addEventListener('highlight-coil', this.highlightHandler);
   }
+  blockPrefixEdit(event: KeyboardEvent) {
+    const input = event.target as HTMLInputElement;
+    const cursorPosition = input.selectionStart || 0;
 
+    // Prevent deleting or modifying inside prefix
+    if (
+      (event.key === 'Backspace' || event.key === 'Delete') &&
+      cursorPosition <= this.prefix.length
+    ) {
+      event.preventDefault();
+    }
+
+    // Prevent cursor going inside prefix using arrow/Home keys
+    if (
+      (event.key === 'ArrowLeft' || event.key === 'Home') &&
+      cursorPosition <= this.prefix.length
+    ) {
+      event.preventDefault();
+      setTimeout(() => {
+        input.setSelectionRange(this.prefix.length, this.prefix.length);
+      });
+    }
+  }
+
+  restorePrefix() {
+    if (!this.newCoilId.startsWith(this.prefix)) {
+      this.newCoilId = this.prefix + this.newCoilId.slice(this.prefix.length);
+    }
+
+    // Keep cursor after prefix
+    const input = document.getElementById('coilIdInput') as HTMLInputElement;
+    if (input.selectionStart! < this.prefix.length) {
+      input.setSelectionRange(this.prefix.length, this.prefix.length);
+    }
+  }
   ngOnDestroy() {
     window.removeEventListener('highlight-coil', this.highlightHandler);
   }
@@ -121,6 +158,8 @@ export class SadelAComponent {
     this.sadelService.coildetail({ COILID: item.COILID }).subscribe(
       (response) => {
         this.coilInfo = JSON.parse(JSON.stringify(response));
+        console.log(this.coilInfo);
+
         this.saddeleInfo = true;
       },
       (respError) => {
@@ -323,7 +362,8 @@ export class SadelAComponent {
         }
         this.createhistort(this.selectedSaddle.SADDLENAME, this.newCoilId);
         this.showAddCoilModal = false;
-        this.newCoilId = 'BSL00';
+        // this.newCoilId = 'BSL00';
+        this.newCoilId = this.prefix;
       });
   }
 
