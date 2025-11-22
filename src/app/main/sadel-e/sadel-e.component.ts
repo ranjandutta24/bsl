@@ -190,6 +190,10 @@ export class SadelEComponent {
         COILID: null,
       })
       .subscribe(() => {
+        this.updatehistory(
+          this.selectedSaddle.SADDLENAME,
+          this.selectedSaddle.COILID
+        );
         const index = this.gridItems.findIndex(
           (item: any) => item.SADDLENAME === this.selectedSaddle.SADDLENAME
         );
@@ -243,14 +247,31 @@ export class SadelEComponent {
       error: () => console.error('API update failed!'),
     });
 
-    // this.updatehistory(inhand.SADDLENAME, inhand.COILID);
+    this.updatehistory(inhand.SADDLENAME, inhand.COILID);
 
-    // // console.log(this.selectedSaddle.SADDLENAME, inhand.COILID);
+    // console.log(this.selectedSaddle.SADDLENAME, inhand.COILID);
 
-    // // // 1 history create
-    // this.createhistort(this.selectedSaddle.SADDLENAME, inhand.COILID);
+    // // 1 history create
+    this.createhistort(this.selectedSaddle.SADDLENAME, inhand.COILID);
   }
-
+  createhistort(sn: any, ci: any) {
+    this.sadelService
+      .cratehistory({
+        SADDLENAME: sn,
+        COILID: ci,
+        ADDTIME: new Date(),
+      })
+      .subscribe((r) => {});
+  }
+  updatehistory(sn: any, ci: any) {
+    this.sadelService
+      .updatehistory({
+        COILID: ci,
+        SADDLENAME: sn,
+        RMVTIME: new Date(),
+      })
+      .subscribe((r) => {});
+  }
   updateSaddle(status: any) {
     let newStatus = status == 'Fit' ? 1 : 0;
     this.sadelService
@@ -298,6 +319,7 @@ export class SadelEComponent {
           this.gridItems = [...this.gridItems];
           this.cdr.detectChanges(); //
         }
+        this.createhistort(this.selectedSaddle.SADDLENAME, this.newCoilId);
 
         this.showAddCoilModal = false;
         this.newCoilId = 'BSL00';

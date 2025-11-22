@@ -190,6 +190,10 @@ export class SadelBComponent {
         COILID: null,
       })
       .subscribe(() => {
+        this.updatehistory(
+          this.selectedSaddle.SADDLENAME,
+          this.selectedSaddle.COILID
+        );
         const index = this.gridItems.findIndex(
           (item: any) => item.SADDLENAME === this.selectedSaddle.SADDLENAME
         );
@@ -299,6 +303,7 @@ export class SadelBComponent {
           this.cdr.detectChanges(); //
         }
 
+        this.createhistort(this.selectedSaddle.SADDLENAME, this.newCoilId);
         this.showAddCoilModal = false;
         this.newCoilId = 'BSL00';
       });

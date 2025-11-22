@@ -42,7 +42,7 @@ export class SadelHComponent {
   constructor(
     private sadelService: SadelService,
     private cdr: ChangeDetectorRef,
-    private comm:SadelCommService
+    private comm: SadelCommService
   ) {}
 
   ngOnInit(): void {
@@ -75,41 +75,39 @@ export class SadelHComponent {
   }
 
   ngOnDestroy() {
-     window.removeEventListener('highlight-coil', this.highlightHandler);
-   }
+    window.removeEventListener('highlight-coil', this.highlightHandler);
+  }
 
-   highlightHandler = (e: any) => {
+  highlightHandler = (e: any) => {
     this.searchCoilResult = e.detail.coilId;
     this.cdr.detectChanges();
   };
   onSearch() {
-  this.sadelService.search({ COILID: this.searchCoil }).subscribe(
-    (response: any) => {
+    this.sadelService
+      .search({ COILID: this.searchCoil })
+      .subscribe((response: any) => {
+        if (!response?.length) {
+          this.searchCoilResult = '';
+          return;
+        }
 
-      if (!response?.length) {
-        this.searchCoilResult = "";
-        return;
-      }
+        const found = response[0];
+        const row = found.ROWNAME.toUpperCase(); // A/B/C...
+        const coilId = found.COILID;
 
-      const found = response[0];
-      const row = found.ROWNAME.toUpperCase();   // A/B/C...
-      const coilId = found.COILID;
+        if (row === 'H') {
+          // ✅ SAME COMPONENT → highlight here only
+          this.searchCoilResult = coilId;
 
-      if (row === 'H') {
+          // force change detection
+          this.cdr.detectChanges();
+          return;
+        }
 
-        // ✅ SAME COMPONENT → highlight here only
-        this.searchCoilResult = coilId;
-
-        // force change detection
-        this.cdr.detectChanges();
-        return;
-      }
-
-      // 🔥 DIFFERENT COMPONENT → Tell HOME to switch saddle
-      this.comm.switchSadel$.next({ row, coilId });
-    }
-  );
-}
+        // 🔥 DIFFERENT COMPONENT → Tell HOME to switch saddle
+        this.comm.switchSadel$.next({ row, coilId });
+      });
+  }
 
   createhistort(sn: any, ci: any) {
     this.sadelService
@@ -209,6 +207,10 @@ export class SadelHComponent {
         COILID: null,
       })
       .subscribe(() => {
+        this.updatehistory(
+          this.selectedSaddle.SADDLENAME,
+          this.selectedSaddle.COILID
+        );
         const index = this.gridItems.findIndex(
           (item: any) => item.SADDLENAME === this.selectedSaddle.SADDLENAME
         );
@@ -317,6 +319,7 @@ export class SadelHComponent {
           this.gridItems = [...this.gridItems];
           this.cdr.detectChanges(); //
         }
+        this.createhistort(this.selectedSaddle.SADDLENAME, this.newCoilId);
 
         this.showAddCoilModal = false;
         this.newCoilId = 'BSL00';
