@@ -69,14 +69,7 @@ export class SadelBComponent {
         // this.commonService.showSnakBarMessage(respError, "error", 2000);
       }
     );
-
     this.gridItems = this.gridItems1st;
-
-    //    window.addEventListener('highlight-coil', (e: any) => {
-    //    console.log(e.detail.coilId);
-    //    this.searchCoilResult = e.detail.coilId;
-
-    // });
     window.addEventListener('highlight-coil', this.highlightHandler);
   }
 
@@ -85,17 +78,8 @@ export class SadelBComponent {
   }
 
   highlightHandler = (e: any) => {
-    console.log(e);
-
-    // const { coilId, row } = e.detail;
-
-    // // ❗ check 1 — event is for this row only
-    // if (row !== this.currentRow) return;
-
-    // ❗ check 2 — then highlight
     this.searchCoilResult = e.detail.coilId;
     console.log('Highlighting in', this.currentRow, ':', e.detail.coilId);
-
     this.cdr.detectChanges();
   };
 
