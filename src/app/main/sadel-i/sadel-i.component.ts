@@ -6,6 +6,7 @@ import { FormsModule } from '@angular/forms';
 import { forkJoin } from 'rxjs';
 
 import { ChangeDetectorRef } from '@angular/core';
+import { SadelCommService } from '../../../services/sadel-commn.service';
 
 @Component({
   selector: 'app-sadel-i',
@@ -16,7 +17,8 @@ import { ChangeDetectorRef } from '@angular/core';
 export class SadelIComponent {
   constructor(
     private sadelService: SadelService,
-    private cdr: ChangeDetectorRef
+    private cdr: ChangeDetectorRef,
+    private comm:SadelCommService
   ) {}
 
   hoveredItem: any = null;
@@ -41,21 +43,6 @@ export class SadelIComponent {
   newCoilId = 'BSL00';
   searchCoil = 'BSL00';
   searchCoilResult: any = '';
-
-  onSearch() {
-    this.sadelService.search({ COILID: this.searchCoil }).subscribe(
-      (response: any) => {
-        if (response && response.length > 0) {
-          this.searchCoilResult = response[0].COILID;
-          // console.log(this.searchCoilResult);
-        } else {
-          this.searchCoilResult = '';
-        }
-        this.cdr.detectChanges(); //
-      },
-      (respError) => {}
-    );
-  }
 
   ngOnInit(): void {
     this.sadelService.search({ ROWNAME: 'I' }).subscribe(
@@ -84,7 +71,17 @@ export class SadelIComponent {
     );
 
     this.gridItems = this.gridItems1st;
+    window.addEventListener('highlight-coil', this.highlightHandler);
   }
+
+  ngOnDestroy() {
+     window.removeEventListener('highlight-coil', this.highlightHandler);
+   }
+
+   highlightHandler = (e: any) => {
+    this.searchCoilResult = e.detail.coilId;
+    this.cdr.detectChanges();
+  };
 
   onChangeHigh(event: Event): void {
     const inputElement = event.target as HTMLInputElement;
@@ -121,7 +118,7 @@ export class SadelIComponent {
 
   onRightClick(event: MouseEvent, saddle: any) {
     this.selectedSaddle = saddle; // store clicked asset
-    // console.log(this.selectedSaddle.FIT);
+    
     this.cdr.detectChanges(); //
 
     this.cdr.detectChanges(); //
@@ -134,8 +131,6 @@ export class SadelIComponent {
   }
 
   selectItem(item: string) {
-    // console.log('Selected:', item);
-
     if (item === 'Pickup') {
       this.pickupFlag = true;
       this.pickupcoil = this.selectedSaddle;
@@ -158,9 +153,37 @@ export class SadelIComponent {
       this.pickupFlag = false;
       this.pickupcoil = null;
     }
-
     this.popupVisible = false;
   }
+
+  onSearch() {
+    this.sadelService.search({ COILID: this.searchCoil }).subscribe(
+    (response: any) => {
+
+      if (!response?.length) {
+        this.searchCoilResult = "";
+        return;
+      }
+
+      const found = response[0];
+      const row = found.ROWNAME.toUpperCase();   // A/B/C...
+      const coilId = found.COILID;
+
+      if (row === 'I') {
+
+        // ✅ SAME COMPONENT → highlight here only
+        this.searchCoilResult = coilId;
+
+        // force change detection
+        this.cdr.detectChanges();
+        return;
+      }
+
+      // 🔥 DIFFERENT COMPONENT → Tell HOME to switch saddle
+      this.comm.switchSadel$.next({ row, coilId });
+    }
+  );
+}
 
   removecoil() {
     this.sadelService

@@ -5,6 +5,7 @@ import { CommonModule } from '@angular/common';
 import { forkJoin } from 'rxjs';
 
 import { ChangeDetectorRef } from '@angular/core';
+import { SadelCommService } from '../../../services/sadel-commn.service';
 
 @Component({
   selector: 'app-sadel-e',
@@ -39,7 +40,8 @@ export class SadelEComponent {
   items: string[] = ['Pickup', 'Delete', 'Details'];
   constructor(
     private sadelService: SadelService,
-    private cdr: ChangeDetectorRef
+    private cdr: ChangeDetectorRef,
+    private comm:SadelCommService
   ) {}
 
   ngOnInit(): void {
@@ -69,22 +71,46 @@ export class SadelEComponent {
     );
 
     this.gridItems = this.gridItems1st;
-  }
-  onSearch() {
-    this.sadelService.search({ COILID: this.searchCoil }).subscribe(
-      (response: any) => {
-        if (response && response.length > 0) {
-          this.searchCoilResult = response[0].COILID;
-          // console.log(this.searchCoilResult);
-        } else {
-          this.searchCoilResult = '';
-        }
-        this.cdr.detectChanges(); //
-      },
-      (respError) => {}
-    );
+    window.addEventListener('highlight-coil', this.highlightHandler);
   }
 
+   ngOnDestroy() {
+     window.removeEventListener('highlight-coil', this.highlightHandler);
+   }
+
+   highlightHandler = (e: any) => {
+    this.searchCoilResult = e.detail.coilId;
+    this.cdr.detectChanges();
+  };
+
+ onSearch() {
+  this.sadelService.search({ COILID: this.searchCoil }).subscribe(
+    (response: any) => {
+
+      if (!response?.length) {
+        this.searchCoilResult = "";
+        return;
+      }
+
+      const found = response[0];
+      const row = found.ROWNAME.toUpperCase();   // A/B/C...
+      const coilId = found.COILID;
+
+      if (row === 'E') {
+
+        // ✅ SAME COMPONENT → highlight here only
+        this.searchCoilResult = coilId;
+
+        // force change detection
+        this.cdr.detectChanges();
+        return;
+      }
+
+      // 🔥 DIFFERENT COMPONENT → Tell HOME to switch saddle
+      this.comm.switchSadel$.next({ row, coilId });
+    }
+  );
+}
   onDoubleClick(item: any) {
     this.infoofsaddle = item;
 
