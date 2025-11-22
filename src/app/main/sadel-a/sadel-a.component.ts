@@ -45,7 +45,7 @@ export class SadelAComponent {
     private sadelService: SadelService,
     private cdr: ChangeDetectorRef,
     private router: Router,
-    private comm: SadelCommService,
+    private comm: SadelCommService
   ) {}
 
   ngOnInit(): void {
@@ -79,24 +79,23 @@ export class SadelAComponent {
     window.addEventListener('highlight-coil', this.highlightHandler);
   }
 
-    ngOnDestroy() {
-  window.removeEventListener('highlight-coil', this.highlightHandler);
-}
+  ngOnDestroy() {
+    window.removeEventListener('highlight-coil', this.highlightHandler);
+  }
 
-highlightHandler = (e: any) => {
-  console.log(e);
-  
-  // const { coilId, row } = e.detail;
+  highlightHandler = (e: any) => {
+    console.log(e);
 
-  // // ❗ check 1 — event is for this row only
-  // if (row !== this.currentRow) return;
+    // const { coilId, row } = e.detail;
 
-  // ❗ check 2 — then highlight
-  this.searchCoilResult = e.detail.coilId;
-  
+    // // ❗ check 1 — event is for this row only
+    // if (row !== this.currentRow) return;
 
-  this.cdr.detectChanges();
-};
+    // ❗ check 2 — then highlight
+    this.searchCoilResult = e.detail.coilId;
+
+    this.cdr.detectChanges();
+  };
 
   onChangeHigh(event: Event): void {
     const inputElement = event.target as HTMLInputElement;
@@ -110,6 +109,7 @@ highlightHandler = (e: any) => {
 
     // You can also use this.selectedhigh directly if needed
   }
+
   onDoubleClick(item: any) {
     this.infoofsaddle = item;
 
@@ -145,37 +145,32 @@ highlightHandler = (e: any) => {
     // this.pickupFlag = false;
   }
 
-onSearch() {
+  onSearch() {
+    this.sadelService
+      .search({ COILID: this.searchCoil })
+      .subscribe((response: any) => {
+        if (!response?.length) {
+          this.searchCoilResult = '';
+          return;
+        }
 
-  this.sadelService.search({ COILID: this.searchCoil }).subscribe(
-    (response: any) => {
+        const found = response[0];
+        const row = found.ROWNAME.toUpperCase(); // A/B/C...
+        const coilId = found.COILID;
 
-      if (!response?.length) {
-        this.searchCoilResult = "";
-        return;
-      }
+        if (row === 'A') {
+          // ✅ SAME COMPONENT → highlight here only
+          this.searchCoilResult = coilId;
 
-      const found = response[0];
-      const row = found.ROWNAME.toUpperCase();   // A/B/C...
-      const coilId = found.COILID;
+          // force change detection
+          this.cdr.detectChanges();
+          return;
+        }
 
-      if (row === 'A') {
-
-        // ✅ SAME COMPONENT → highlight here only
-        this.searchCoilResult = coilId;
-
-        // force change detection
-        this.cdr.detectChanges();
-        return;
-      }
-
-      // 🔥 DIFFERENT COMPONENT → Tell HOME to switch saddle
-      this.comm.switchSadel$.next({ row, coilId });
-    }
-  );
-}
-
-
+        // 🔥 DIFFERENT COMPONENT → Tell HOME to switch saddle
+        this.comm.switchSadel$.next({ row, coilId });
+      });
+  }
 
   selectItem(item: string) {
     // console.log('Selected:', item);
@@ -213,6 +208,10 @@ onSearch() {
         COILID: null,
       })
       .subscribe(() => {
+        this.updatehistory(
+          this.selectedSaddle.SADDLENAME,
+          this.selectedSaddle.COILID
+        );
         const index = this.gridItems.findIndex(
           (item: any) => item.SADDLENAME === this.selectedSaddle.SADDLENAME
         );
@@ -265,6 +264,14 @@ onSearch() {
       },
       error: () => console.error('API update failed!'),
     });
+
+    // 1 history update
+    this.updatehistory(inhand.SADDLENAME, inhand.COILID);
+
+    // console.log(this.selectedSaddle.SADDLENAME, inhand.COILID);
+
+    // // 1 history create
+    this.createhistort(this.selectedSaddle.SADDLENAME, inhand.COILID);
   }
 
   updateSaddle(status: any) {
@@ -314,10 +321,29 @@ onSearch() {
           this.gridItems = [...this.gridItems];
           this.cdr.detectChanges(); //
         }
-
+        this.createhistort(this.selectedSaddle.SADDLENAME, this.newCoilId);
         this.showAddCoilModal = false;
         this.newCoilId = 'BSL00';
       });
+  }
+
+  createhistort(sn: any, ci: any) {
+    this.sadelService
+      .cratehistory({
+        SADDLENAME: sn,
+        COILID: ci,
+        ADDTIME: new Date(),
+      })
+      .subscribe((r) => {});
+  }
+  updatehistory(sn: any, ci: any) {
+    this.sadelService
+      .updatehistory({
+        COILID: ci,
+        SADDLENAME: sn,
+        RMVTIME: new Date(),
+      })
+      .subscribe((r) => {});
   }
 
   getIcon(item: any) {

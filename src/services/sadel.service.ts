@@ -73,6 +73,7 @@ export class SadelService {
       .post(this.apiUrl + 'sadel/update', saddle, httpOptions)
       .pipe(retry(1), catchError(this.errorHandler));
   }
+
   coildetail(coilid: any) {
     const httpOptions = {
       headers: new HttpHeaders({
@@ -82,6 +83,29 @@ export class SadelService {
     };
     return this.http
       .post(this.apiUrl + 'sadel/coildetail', coilid, httpOptions)
+      .pipe(retry(1), catchError(this.errorHandler));
+  }
+
+  cratehistory(coilid: any) {
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        Authorization: this.authorization,
+      }),
+    };
+    return this.http
+      .post(this.apiUrl + 'saddelhistory/create', coilid, httpOptions)
+      .pipe(retry(1), catchError(this.errorHandler));
+  }
+  updatehistory(coilid: any) {
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        Authorization: this.authorization,
+      }),
+    };
+    return this.http
+      .post(this.apiUrl + 'saddelhistory/update', coilid, httpOptions)
       .pipe(retry(1), catchError(this.errorHandler));
   }
 
