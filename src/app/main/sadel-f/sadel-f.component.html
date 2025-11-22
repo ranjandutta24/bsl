@@ -113,6 +113,8 @@
         id="coilIdInput"
         type="text"
         [(ngModel)]="newCoilId"
+        (keydown)="blockPrefixEdit($event)"
+        (input)="restorePrefix()"
         placeholder="Enter Coil ID"
         title="Enter Coil ID"
       />

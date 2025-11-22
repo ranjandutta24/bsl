@@ -27,12 +27,14 @@ export class SadelBComponent {
   saddeleInfo = false;
   pickupcoil: any;
   showAddCoilModal = false;
-  newCoilId = 'BSL00';
+  // newCoilId = 'BSL00';
   searchCoil = 'BSL00';
   searchCoilResult: any = '';
   coilInfo: any = [];
   selectedSaddle: any = '';
   currentRow = 'A';
+  prefix: string = 'BSL00';
+  newCoilId: string = this.prefix;
 
   // dynamic items (could come from API, service, etc.)
   items: string[] = ['Pickup', 'Delete', 'Details'];
@@ -305,7 +307,7 @@ export class SadelBComponent {
 
         this.createhistort(this.selectedSaddle.SADDLENAME, this.newCoilId);
         this.showAddCoilModal = false;
-        this.newCoilId = 'BSL00';
+        this.newCoilId = this.prefix;
       });
   }
 
@@ -338,6 +340,42 @@ export class SadelBComponent {
         return 'fa fa-times-circle';
       default:
         return 'fa fa-circle';
+    }
+  }
+
+  blockPrefixEdit(event: KeyboardEvent) {
+    const input = event.target as HTMLInputElement;
+    const cursorPosition = input.selectionStart || 0;
+
+    // Prevent deleting or modifying inside prefix
+    if (
+      (event.key === 'Backspace' || event.key === 'Delete') &&
+      cursorPosition <= this.prefix.length
+    ) {
+      event.preventDefault();
+    }
+
+    // Prevent cursor going inside prefix using arrow/Home keys
+    if (
+      (event.key === 'ArrowLeft' || event.key === 'Home') &&
+      cursorPosition <= this.prefix.length
+    ) {
+      event.preventDefault();
+      setTimeout(() => {
+        input.setSelectionRange(this.prefix.length, this.prefix.length);
+      });
+    }
+  }
+
+  restorePrefix() {
+    if (!this.newCoilId.startsWith(this.prefix)) {
+      this.newCoilId = this.prefix + this.newCoilId.slice(this.prefix.length);
+    }
+
+    // Keep cursor after prefix
+    const input = document.getElementById('coilIdInput') as HTMLInputElement;
+    if (input.selectionStart! < this.prefix.length) {
+      input.setSelectionRange(this.prefix.length, this.prefix.length);
     }
   }
 }
