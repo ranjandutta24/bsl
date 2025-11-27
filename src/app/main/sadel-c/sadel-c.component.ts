@@ -288,25 +288,33 @@ export class SadelCComponent {
         SADDLENAME: this.selectedSaddle.SADDLENAME,
         COILID: this.newCoilId,
       })
-      .subscribe(() => {
-        const index = this.gridItems.findIndex(
-          (item: any) => item.SADDLENAME === this.selectedSaddle.SADDLENAME
-        );
+      .subscribe({
+        next: () => {
+          // ✅ Update UI only if API succeeds
+          const index = this.gridItems.findIndex(
+            (item: any) => item.SADDLENAME === this.selectedSaddle.SADDLENAME
+          );
 
-        if (index !== -1) {
-          this.gridItems[index] = {
-            ...this.gridItems[index],
-            COILID: this.newCoilId,
-          };
+          if (index !== -1) {
+            this.gridItems[index] = {
+              ...this.gridItems[index],
+              COILID: this.newCoilId,
+            };
 
-          // force change detection refresh
-          this.gridItems = [...this.gridItems];
-          this.cdr.detectChanges(); //
-        }
-        this.createhistort(this.selectedSaddle.SADDLENAME, this.newCoilId);
+            // Force change detection
+            this.gridItems = [...this.gridItems];
+            this.cdr.detectChanges();
+          }
 
-        this.showAddCoilModal = false;
-        this.newCoilId = this.prefix;
+          this.createhistort(this.selectedSaddle.SADDLENAME, this.newCoilId);
+          this.showAddCoilModal = false;
+          this.newCoilId = this.prefix;
+        },
+
+        error: (err) => {
+          alert(err);
+          this.showAddCoilModal = true;
+        },
       });
   }
 

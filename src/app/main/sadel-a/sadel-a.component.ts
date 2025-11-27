@@ -371,20 +371,7 @@ export class SadelAComponent {
         },
 
         error: (err) => {
-          console.log(err);
-
           alert(err);
-
-          // ✅ Show user-friendly message
-          // if (err.includes('ORA-00001')) {
-          //   alert('Duplicate entry! This coil already exists.');
-          // } else if (err.includes('400')) {
-          //   alert('Invalid request data!');
-          // } else {
-          //   alert('Failed to save coil. Please try again.');
-          // }
-
-          // ✅ Do NOT update UI, keep modal open
           this.showAddCoilModal = true;
         },
       });
