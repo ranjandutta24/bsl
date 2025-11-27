@@ -21,7 +21,7 @@ export class SadelCComponent {
   ) {}
 
   hoveredItem: any = null;
-  selectedhigh = '1st';
+  selectedhigh = '';
   gridItems: any;
   sadelC: any;
   gridItems1st: any;
@@ -50,11 +50,7 @@ export class SadelCComponent {
     this.sadelService.search({ ROWNAME: 'C' }).subscribe(
       (response) => {
         this.sadelC = response;
-        this.sadelC = this.sadelC.sort((a: any, b: any) => {
-          const numA = Number(a.SADDLENAME.slice(1));
-          const numB = Number(b.SADDLENAME.slice(1));
-          return numA - numB;
-        });
+        this.sadelC.sort((a: any, b: any) => a.SADDLESEQ - b.SADDLESEQ);
 
         this.gridItems1st = this.sadelC.filter((item: any) => {
           return item.FLR == 0;
@@ -62,7 +58,15 @@ export class SadelCComponent {
         this.gridItems2nd = this.sadelC.filter((item: any) => {
           return item.FLR == 1;
         });
-        this.gridItems = this.gridItems1st;
+        let h = this.sadelService.getHigh();
+
+        if (h == 1) {
+          this.selectedhigh = '1st';
+          this.gridItems = this.gridItems1st;
+        } else {
+          this.selectedhigh = '2nd';
+          this.gridItems = this.gridItems2nd;
+        }
       },
       (respError) => {
         // this.loading = false;
@@ -70,7 +74,6 @@ export class SadelCComponent {
       }
     );
 
-    this.gridItems = this.gridItems1st;
     window.addEventListener('highlight-coil', this.highlightHandler);
   }
   ngOnDestroy() {
@@ -84,15 +87,13 @@ export class SadelCComponent {
 
   onChangeHigh(event: Event): void {
     const inputElement = event.target as HTMLInputElement;
-    console.log('Selected high:', inputElement.value);
-
     if (inputElement.value == '2nd') {
       this.gridItems = this.gridItems2nd;
+      this.sadelService.saveHigh(2);
     } else {
       this.gridItems = this.gridItems1st;
+      this.sadelService.saveHigh(1);
     }
-
-    // You can also use this.selectedhigh directly if needed
   }
   onDoubleClick(item: any) {
     this.infoofsaddle = item;

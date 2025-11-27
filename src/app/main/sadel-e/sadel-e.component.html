@@ -178,14 +178,40 @@
     <!-- Coil Info Card -->
     <div *ngIf="coilInfo && saddeleInfo" class="coil-info-card">
       <h4>Coil Information</h4>
-      <div class="coil-row"><span>Coil ID:</span> {{ coilInfo.COILID }}</div>
+
       <div class="coil-row">
         <span>Saddle Name:</span> {{ coilInfo.SADDLENAME }}
       </div>
+      <div class="coil-row"><span>Coil ID:</span> {{ coilInfo.COILID }}</div>
+      <div class="coil-row">
+        <span>HSMPRODTIME:</span>
+      </div>
+      <div class="coil-row">
+        {{ coilInfo.HSMPRODTIME | date : "dd-MM-yyyy HH:mm:ss" }}
+      </div>
+      <div class="coil-row"><span>HEATNO:</span> {{ coilInfo.HEATNO }}</div>
+      <div class="coil-row"><span>SLAB_ID:</span></div>
+      <div class="coil-row">{{ coilInfo.SLAB_ID }}</div>
+
+      <div class="coil-row">
+        <span>STEELGRADE:</span>
+      </div>
+      <div class="coil-row">
+        {{ coilInfo.STEELGRADE }}
+      </div>
+
       <div class="coil-row">
         <span>Thickness:</span> {{ coilInfo.THICK }} mm
       </div>
+
       <div class="coil-row"><span>Width:</span> {{ coilInfo.WIDTH }} mm</div>
+      <div class="coil-row"><span>LENGTH:</span> {{ coilInfo.LENGTH }} mm</div>
+      <div class="coil-row"><span>WEIGHT:</span> {{ coilInfo.WEIGHT }} ton</div>
+      <div class="coil-row"><span>IN DIA:</span> {{ coilInfo.IN_DIA }}</div>
+      <div class="coil-row"><span>OUT DIA:</span> {{ coilInfo.OUT_DIA }}</div>
+      <div class="coil-row">
+        <span>HRCC HR:</span> {{ coilInfo.HRCC_HR }} hr
+      </div>
     </div>
   </div>
 </div>

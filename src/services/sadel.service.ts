@@ -17,11 +17,19 @@ export class SadelService {
   public otype = 'Company';
 
   private jsonUrl = 'assets/jsons';
+  private high = 1;
 
   constructor(
     // @Inject(SESSION_STORAGE) private storage: StorageService,
     public http: HttpClient
   ) {}
+
+  getHigh() {
+    return this.high;
+  }
+  saveHigh(n: number) {
+    this.high = n;
+  }
 
   private getHeaders() {
     return new HttpHeaders({
@@ -110,12 +118,7 @@ export class SadelService {
   }
 
   errorHandler(error: any) {
-    console.log(error);
-    let message = error.error
-      ? error.error.error
-        ? error.error.error
-        : error.message
-      : error.message;
+    let message = error.error;
     console.log(message);
     return throwError(
       message ||
