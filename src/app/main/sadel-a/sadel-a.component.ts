@@ -199,6 +199,7 @@ export class SadelAComponent {
           this.no_result = 1;
           return;
         }
+        this.no_result = 0;
 
         const found = response[0];
         const row = found.ROWNAME.toUpperCase(); // A/B/C...

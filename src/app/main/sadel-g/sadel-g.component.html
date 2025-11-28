@@ -3,8 +3,13 @@
 <div class="fl">
   <div class="grid-container">
     <div
+      class="seg"
       class="grid-item"
       *ngFor="let item of gridItems; let i = index"
+      (contextmenu)="onRightClick($event, item)"
+      (mouseenter)="hoveredItem = item"
+      (mouseleave)="hoveredItem = null"
+      (dblclick)="onDoubleClick(item)"
       [ngClass]="{
         desable: !item.FIT,
         hascoil: item.COILID,
@@ -12,12 +17,20 @@
           item.SADDLENAME == pickupcoil?.SADDLENAME ||
           item?.COILID == searchCoilResult
       }"
-      (contextmenu)="onRightClick($event, item)"
-      (mouseenter)="hoveredItem = item"
-      (mouseleave)="hoveredItem = null"
-      (dblclick)="onDoubleClick(item)"
     >
-      {{ item.SADDLENAME }}
+      <p>{{ item.SADDLENAME }}</p>
+
+      <img
+        class="im"
+        [src]="
+          !item.FIT
+            ? 'assets/images/unfit.png'
+            : item.COILID
+            ? 'assets/images/hot.png'
+            : 'assets/images/fit.png'
+        "
+        alt=""
+      />
       <div class="overlay" *ngIf="hoveredItem === item">
         <div class="tab">
           <div class="h">{{ item.SADDLENAME }}</div>
