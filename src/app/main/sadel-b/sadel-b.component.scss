@@ -83,20 +83,6 @@
   width: 235px;
 }
 
-.coil-input {
-  width: 75%;
-  padding: 8px 35px 8px 12px; /* space for icon */
-  border: 2px solid #ccc;
-  border-radius: 8px;
-  font-size: 14px;
-  outline: none;
-  transition: all 0.25s ease-in-out;
-}
-
-.coil-input:focus {
-  border-color: #007bff;
-  box-shadow: 0 0 6px rgba(0, 123, 255, 0.35);
-}
 
 .search-icon {
   position: absolute;

@@ -19,7 +19,7 @@ export class SadelCComponent {
     private cdr: ChangeDetectorRef,
     private comm: SadelCommService
   ) {}
-
+  no_result = 0;
   hoveredItem: any = null;
   selectedhigh = '';
   gridItems: any;
@@ -144,6 +144,7 @@ export class SadelCComponent {
       .subscribe((response: any) => {
         if (!response?.length) {
           this.searchCoilResult = '';
+          this.no_result = 1;
           return;
         }
 

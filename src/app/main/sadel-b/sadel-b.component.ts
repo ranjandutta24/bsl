@@ -14,6 +14,7 @@ import { SadelCommService } from '../../../services/sadel-commn.service';
   styleUrl: './sadel-b.component.scss',
 })
 export class SadelBComponent {
+  no_result = 0;
   sadelB: any;
   gridItems1st: any;
   gridItems2nd: any;
@@ -147,6 +148,7 @@ export class SadelBComponent {
       .subscribe((response: any) => {
         if (!response?.length) {
           this.searchCoilResult = '';
+          this.no_result = 1;
           return;
         }
 

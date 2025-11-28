@@ -14,6 +14,7 @@ import { SadelCommService } from '../../../services/sadel-commn.service';
   styleUrl: './sadel-e.component.scss',
 })
 export class SadelEComponent {
+  no_result = 0;
   hoveredItem: any = null;
   selectedhigh = '';
   gridItems: any;
@@ -104,6 +105,7 @@ export class SadelEComponent {
       .subscribe((response: any) => {
         if (!response?.length) {
           this.searchCoilResult = '';
+          this.no_result = 1;
           return;
         }
 

@@ -2,6 +2,11 @@
 
 <div class="fl">
   <div class="grid-container">
+    <!-- <img
+  src="assets/images/design.png"
+  style="height: 100px; width: 100px"
+  alt=""
+/> -->
     <div
       class="grid-item"
       *ngFor="let item of gridItems; let i = index"
@@ -18,6 +23,7 @@
       (dblclick)="onDoubleClick(item)"
     >
       {{ item.SADDLENAME }}
+
       <div class="overlay" *ngIf="hoveredItem === item">
         <div class="tab">
           <div class="h">{{ item.SADDLENAME }}</div>
@@ -174,6 +180,8 @@
       />
       <i class="fa fa-search search-icon"></i>
     </div>
+
+    <p *ngIf="no_result == 1" class="nocoil">No Coil Found ☹️</p>
 
     <!-- Pickup Text -->
     <p *ngIf="pickupFlag" class="pickup-text">
