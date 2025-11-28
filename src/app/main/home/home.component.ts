@@ -21,10 +21,7 @@ import { SadelCommService } from '../../../services/sadel-commn.service';
 export class HomeComponent {
   selected: string = 'A';
 
-  constructor(
-    private comm: SadelCommService,
-    private cdr: ChangeDetectorRef
-  ) {}
+  constructor(private comm: SadelCommService, private cdr: ChangeDetectorRef) {}
 
   ngOnInit() {
     this.comm.switchSadel$.subscribe((data) => {
@@ -35,7 +32,7 @@ export class HomeComponent {
       setTimeout(() => {
         window.dispatchEvent(
           new CustomEvent('highlight-coil', {
-            detail: { coilId: data.coilId },
+            detail: { coilId: data.coilId, flr: data.flr },
           })
         );
       }, 300);

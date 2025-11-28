@@ -80,8 +80,16 @@ export class SadelFComponent {
   }
 
   highlightHandler = (e: any) => {
-    console.log(e);
-
+    let flr = e.detail.flr;
+    if (flr == 0) {
+      this.selectedhigh = '1st';
+      this.gridItems = this.gridItems1st;
+      this.sadelService.saveHigh(1);
+    } else {
+      this.selectedhigh = '2nd';
+      this.gridItems = this.gridItems2nd;
+      this.sadelService.saveHigh(2);
+    }
     this.searchCoilResult = e.detail.coilId;
     this.cdr.detectChanges();
   };
@@ -98,9 +106,21 @@ export class SadelFComponent {
         const found = response[0];
         const row = found.ROWNAME.toUpperCase(); // A/B/C...
         const coilId = found.COILID;
+        const flr = found.FLR;
 
         if (row === 'F') {
           // ✅ SAME COMPONENT → highlight here only
+          if (found.FLR == 1) {
+            // 2nd high
+            this.selectedhigh = '2nd';
+            this.gridItems = this.gridItems2nd;
+            this.sadelService.saveHigh(2);
+          } else {
+            // 1st high
+            this.selectedhigh = '1st';
+            this.gridItems = this.gridItems1st;
+            this.sadelService.saveHigh(1);
+          }
           this.searchCoilResult = coilId;
 
           // force change detection
@@ -109,7 +129,7 @@ export class SadelFComponent {
         }
 
         // 🔥 DIFFERENT COMPONENT → Tell HOME to switch saddle
-        this.comm.switchSadel$.next({ row, coilId });
+        this.comm.switchSadel$.next({ row, coilId, flr });
       });
   }
 
