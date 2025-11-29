@@ -26,6 +26,27 @@ body {
   height: 100%;
 }
 
+/* ✅ For laptop screen sizes */
+@media screen and (max-width: 1800px) {
+  .grid-container {
+    grid-template-columns: repeat(8, 1fr);
+  }
+}
+
+/* ✅ Optional: For smaller laptops / tablets */
+@media screen and (max-width: 1024px) {
+  .grid-container {
+    grid-template-columns: repeat(6, 1fr);
+  }
+}
+
+/* ✅ Optional: For mobile */
+@media screen and (max-width: 768px) {
+  .grid-container {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
 .grid-item {
   box-shadow: 2px 1px 2px 2px #c99a5f91;
 
@@ -83,7 +104,7 @@ body {
   border-bottom: 1px dotted black;
 }
 .q {
-  width: 14%;
+  width: 15%;
   background-color: #4498eb;
   height: 100%;
   border-left: 2px dotted #fc8d32;
@@ -295,7 +316,7 @@ i {
 
 .input-wrapper {
   position: relative;
-  width: 235px;
+  width: 100%;
 }
 
 .coil-input {
@@ -316,6 +337,7 @@ i {
   /* font-size: 14px; */
   outline: none;
   transition: all 0.25s ease-in-out;
+  position: relative;
 }
 
 .coil-input:focus {
@@ -325,11 +347,12 @@ i {
 
 .search-icon {
   position: absolute;
-  right: 10px;
+  right: 5%;
   top: 50%;
   transform: translateY(-50%);
   pointer-events: none; /* icon won't block clicking input */
-  color: #555;
+  color: #61a2e3;
+
   font-size: 16px;
 }
 
