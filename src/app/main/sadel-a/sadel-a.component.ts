@@ -241,7 +241,7 @@ export class SadelAComponent {
       this.pickupcoil = this.selectedSaddle;
     } else if (item === 'Add Coil') {
       this.showAddCoilModal = true;
-      console.log(this.selectedSaddle);
+      // console.log(this.selectedSaddle);
     } else if (item === 'Unfit') {
       console.log('unfit');
       this.updateSaddle(item);
@@ -362,44 +362,59 @@ export class SadelAComponent {
     this.showAddCoilModal = false;
   }
   saveCoil() {
-    //  call coil detali api to check coil exist or not
-
-    // if not exist show alert and keep modal open
-    // else proceed to update saddle
-
-    this.sadelService
-      .update({
-        SADDLENAME: this.selectedSaddle.SADDLENAME,
-        COILID: this.newCoilId,
-      })
-      .subscribe({
-        next: () => {
-          // ✅ Update UI only if API succeeds
-          const index = this.gridItems.findIndex(
-            (item: any) => item.SADDLENAME === this.selectedSaddle.SADDLENAME
+    this.sadelService.coilvalid({ COILID: this.newCoilId }).subscribe(
+      (response: any) => {
+        if (response.valid == 0) {
+          alert(
+            `Coil ID ${this.newCoilId} does not exist. Please check again.`
           );
+          // this.showAddCoilModal = true;
+          return;
+        }
 
-          if (index !== -1) {
-            this.gridItems[index] = {
-              ...this.gridItems[index],
-              COILID: this.newCoilId,
-            };
+        this.sadelService
+          .update({
+            SADDLENAME: this.selectedSaddle.SADDLENAME,
+            COILID: this.newCoilId,
+          })
+          .subscribe({
+            next: () => {
+              // ✅ Update UI only if API succeeds
+              const index = this.gridItems.findIndex(
+                (item: any) =>
+                  item.SADDLENAME === this.selectedSaddle.SADDLENAME
+              );
 
-            // Force change detection
-            this.gridItems = [...this.gridItems];
-            this.cdr.detectChanges();
-          }
+              if (index !== -1) {
+                this.gridItems[index] = {
+                  ...this.gridItems[index],
+                  COILID: this.newCoilId,
+                };
 
-          this.createhistort(this.selectedSaddle.SADDLENAME, this.newCoilId);
-          this.showAddCoilModal = false;
-          this.newCoilId = this.prefix;
-        },
+                // Force change detection
+                this.gridItems = [...this.gridItems];
+                this.cdr.detectChanges();
+              }
 
-        error: (err) => {
-          alert(err);
-          this.showAddCoilModal = true;
-        },
-      });
+              this.createhistort(
+                this.selectedSaddle.SADDLENAME,
+                this.newCoilId
+              );
+              this.showAddCoilModal = false;
+              this.newCoilId = this.prefix;
+            },
+
+            error: (err) => {
+              alert(err);
+              this.showAddCoilModal = true;
+            },
+          });
+      },
+      (respError) => {
+        let msg = `Error`;
+        alert(msg);
+      }
+    );
   }
 
   createhistort(sn: any, ci: any) {
@@ -441,3 +456,23 @@ export class SadelAComponent {
 //     element.COILID = this.newCoilId;
 //   }
 // });
+
+// SELECT
+//       W.SADDLENAME,
+//       W.UPDTIME,
+//       T.COILID,
+//       T.HSMPRODTIME,
+//       SUBSTR(T.SLAB_ID, 1, 2) || '1' || SUBSTR(T.SLAB_ID, 6, 5) AS HEATNO,
+//       T.SLAB_ID,
+//       T.STEELGRADE,
+//       ROUND(T.HSMTGTTHICKNESS, 2) AS THICK,
+//       T.HSMTGTWIDTH AS WIDTH,
+//       T.LENGTH,
+//       ROUND(T.WEIGHT, 2) AS WEIGHT,
+//       T.INNERDIAMETER AS IN_DIA,
+//       ROUND(T.OUTERDIAMETER, 0) AS OUT_DIA,
+//       ROUND((SYSDATE - T.HSMPRODTIME) * 24, 0) AS HRCC_HR
+//     FROM PDI_HSMDATA T
+//     JOIN WEB_SADDLE W ON T.COILID = W.COILID
+//     WHERE 1=1
+//    AND T.COILID = :1
