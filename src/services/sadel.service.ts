@@ -18,6 +18,7 @@ export class SadelService {
 
   private jsonUrl = 'assets/jsons';
   private high = 1;
+  pickupCoil: any = {};
 
   constructor(
     // @Inject(SESSION_STORAGE) private storage: StorageService,
@@ -29,6 +30,12 @@ export class SadelService {
   }
   saveHigh(n: number) {
     this.high = n;
+  }
+  getPickup() {
+    return this.pickupCoil;
+  }
+  savePickup(coil: any) {
+    this.pickupCoil = coil;
   }
 
   private getHeaders() {

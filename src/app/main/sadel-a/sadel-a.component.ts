@@ -70,6 +70,11 @@ export class SadelAComponent {
           return item.FLR == 1;
         });
 
+        this.pickupcoil = this.sadelService.getPickup();
+        if (this.pickupcoil.COILID) {
+          this.pickupFlag = true;
+        }
+
         let h = this.sadelService.getHigh();
 
         if (h == 1) {
@@ -239,6 +244,8 @@ export class SadelAComponent {
     if (item === 'Pickup') {
       this.pickupFlag = true;
       this.pickupcoil = this.selectedSaddle;
+      this.sadelService.savePickup(this.pickupcoil);
+      // console.log(this.pickupcoil);
     } else if (item === 'Add Coil') {
       this.showAddCoilModal = true;
       // console.log(this.selectedSaddle);
@@ -257,6 +264,7 @@ export class SadelAComponent {
     } else if (item == 'Cancel') {
       this.pickupFlag = false;
       this.pickupcoil = null;
+      this.sadelService.savePickup({});
     }
 
     this.popupVisible = false;
@@ -319,6 +327,7 @@ export class SadelAComponent {
 
         this.pickupFlag = false;
         this.pickupcoil = null;
+        this.sadelService.savePickup({});
 
         this.cdr.detectChanges();
         console.log('Drop coil completed successfully!');

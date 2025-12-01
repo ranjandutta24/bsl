@@ -60,6 +60,11 @@ export class SadelIComponent {
         this.gridItems2nd = this.sadelI.filter((item: any) => {
           return item.FLR == 1;
         });
+
+        this.pickupcoil = this.sadelService.getPickup();
+        if (this.pickupcoil.COILID) {
+          this.pickupFlag = true;
+        }
         let h = this.sadelService.getHigh();
 
         if (h == 1) {
@@ -130,6 +135,7 @@ export class SadelIComponent {
     if (item === 'Pickup') {
       this.pickupFlag = true;
       this.pickupcoil = this.selectedSaddle;
+      this.sadelService.savePickup(this.pickupcoil);
     } else if (item === 'Add Coil') {
       this.showAddCoilModal = true;
       console.log(this.selectedSaddle);
@@ -148,6 +154,7 @@ export class SadelIComponent {
     } else if (item == 'Cancel') {
       this.pickupFlag = false;
       this.pickupcoil = null;
+      this.sadelService.savePickup({});
     }
     this.popupVisible = false;
   }
@@ -250,6 +257,7 @@ export class SadelIComponent {
 
         this.pickupFlag = false;
         this.pickupcoil = null;
+        this.sadelService.savePickup({});
 
         this.cdr.detectChanges();
         console.log('Drop coil completed successfully!');
@@ -292,39 +300,59 @@ export class SadelIComponent {
     this.showAddCoilModal = false;
   }
   saveCoil() {
-    this.sadelService
-      .update({
-        SADDLENAME: this.selectedSaddle.SADDLENAME,
-        COILID: this.newCoilId,
-      })
-      .subscribe({
-        next: () => {
-          // ✅ Update UI only if API succeeds
-          const index = this.gridItems.findIndex(
-            (item: any) => item.SADDLENAME === this.selectedSaddle.SADDLENAME
+    this.sadelService.coilvalid({ COILID: this.newCoilId }).subscribe(
+      (response: any) => {
+        if (response.valid == 0) {
+          alert(
+            `Coil ID ${this.newCoilId} does not exist. Please check again.`
           );
+          // this.showAddCoilModal = true;
+          return;
+        }
 
-          if (index !== -1) {
-            this.gridItems[index] = {
-              ...this.gridItems[index],
-              COILID: this.newCoilId,
-            };
+        this.sadelService
+          .update({
+            SADDLENAME: this.selectedSaddle.SADDLENAME,
+            COILID: this.newCoilId,
+          })
+          .subscribe({
+            next: () => {
+              // ✅ Update UI only if API succeeds
+              const index = this.gridItems.findIndex(
+                (item: any) =>
+                  item.SADDLENAME === this.selectedSaddle.SADDLENAME
+              );
 
-            // Force change detection
-            this.gridItems = [...this.gridItems];
-            this.cdr.detectChanges();
-          }
+              if (index !== -1) {
+                this.gridItems[index] = {
+                  ...this.gridItems[index],
+                  COILID: this.newCoilId,
+                };
 
-          this.createhistort(this.selectedSaddle.SADDLENAME, this.newCoilId);
-          this.showAddCoilModal = false;
-          this.newCoilId = this.prefix;
-        },
+                // Force change detection
+                this.gridItems = [...this.gridItems];
+                this.cdr.detectChanges();
+              }
 
-        error: (err) => {
-          alert(err);
-          this.showAddCoilModal = true;
-        },
-      });
+              this.createhistort(
+                this.selectedSaddle.SADDLENAME,
+                this.newCoilId
+              );
+              this.showAddCoilModal = false;
+              this.newCoilId = this.prefix;
+            },
+
+            error: (err) => {
+              alert(err);
+              this.showAddCoilModal = true;
+            },
+          });
+      },
+      (respError) => {
+        let msg = `Error`;
+        alert(msg);
+      }
+    );
   }
 
   createhistort(sn: any, ci: any) {
