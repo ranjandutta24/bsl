@@ -9,6 +9,8 @@ import { ChangeDetectorRef } from '@angular/core';
 
 import { HttpClientModule } from '@angular/common/http';
 import { SadelCommService } from '../../../services/sadel-commn.service';
+import { CentralHandlerService } from '../../../services/shared.service';
+import { not } from 'rxjs/internal/util/not';
 
 @Component({
   selector: 'app-sadel-a',
@@ -50,7 +52,8 @@ export class SadelAComponent {
     private sadelService: SadelService,
     private cdr: ChangeDetectorRef,
     private router: Router,
-    private comm: SadelCommService
+    private comm: SadelCommService,
+    public central: CentralHandlerService
   ) {}
 
   ngOnInit(): void {
@@ -153,41 +156,40 @@ export class SadelAComponent {
     }
   }
 
+  // onDoubleClick(item: any) {
+  //   this.infoofsaddle = item;
+
+  //   if (item.COILID == null || item.COILID == '') {
+  //     this.saddeleInfo = false;
+  //     return;
+  //   }
+
+  //   this.sadelService.coildetail({ COILID: item.COILID }).subscribe(
+  //     (response) => {
+  //       this.coilInfo = JSON.parse(JSON.stringify(response));
+  //       console.log(this.coilInfo);
+
+  //       this.saddeleInfo = true;
+  //     },
+  //     (respError) => {
+  //       this.saddeleInfo = false;
+  //       // this.loading = false;
+  //       // this.commonService.showSnakBarMessage(respError, "error", 2000);
+  //     }
+  //   );
+  // }
+
   onDoubleClick(item: any) {
-    this.infoofsaddle = item;
-
-    if (item.COILID == null || item.COILID == '') {
-      this.saddeleInfo = false;
-      return;
-    }
-
-    this.sadelService.coildetail({ COILID: item.COILID }).subscribe(
-      (response) => {
-        this.coilInfo = JSON.parse(JSON.stringify(response));
-        console.log(this.coilInfo);
-
-        this.saddeleInfo = true;
-      },
-      (respError) => {
-        this.saddeleInfo = false;
-        // this.loading = false;
-        // this.commonService.showSnakBarMessage(respError, "error", 2000);
-      }
-    );
+    this.central.handleDoubleClick(item);
   }
 
   onRightClick(event: MouseEvent, saddle: any) {
     this.selectedSaddle = saddle; // store clicked asset
-    // console.log(this.selectedSaddle.FIT);
-    this.cdr.detectChanges(); //
-
     this.cdr.detectChanges(); //
     event.preventDefault();
     this.popupX = event.clientX;
     this.popupY = event.clientY;
-
     this.popupVisible = true;
-    // this.pickupFlag = false;
   }
 
   onSearch() {
@@ -360,6 +362,11 @@ export class SadelAComponent {
     this.showAddCoilModal = false;
   }
   saveCoil() {
+    //  call coil detali api to check coil exist or not
+
+    // if not exist show alert and keep modal open
+    // else proceed to update saddle
+
     this.sadelService
       .update({
         SADDLENAME: this.selectedSaddle.SADDLENAME,

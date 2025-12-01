@@ -6,6 +6,7 @@ import { forkJoin } from 'rxjs';
 
 import { ChangeDetectorRef } from '@angular/core';
 import { SadelCommService } from '../../../services/sadel-commn.service';
+import { CentralHandlerService } from '../../../services/shared.service';
 
 @Component({
   selector: 'app-sadel-b',
@@ -43,7 +44,8 @@ export class SadelBComponent {
   constructor(
     private sadelService: SadelService,
     private cdr: ChangeDetectorRef,
-    private comm: SadelCommService
+    private comm: SadelCommService,
+    public central: CentralHandlerService
   ) {}
   hoveredItem: any = null;
   selectedhigh = '';
@@ -111,22 +113,7 @@ export class SadelBComponent {
     }
   }
   onDoubleClick(item: any) {
-    this.infoofsaddle = item;
-
-    if (item.COILID == null || item.COILID == '') {
-      this.saddeleInfo = false;
-      return;
-    }
-
-    this.sadelService.coildetail({ COILID: item.COILID }).subscribe(
-      (response) => {
-        this.coilInfo = JSON.parse(JSON.stringify(response));
-        this.saddeleInfo = true;
-      },
-      (respError) => {
-        this.saddeleInfo = false;
-      }
-    );
+    this.central.handleDoubleClick(item);
   }
 
   onRightClick(event: MouseEvent, saddle: any) {
