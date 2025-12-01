@@ -6,8 +6,8 @@ import { ServiceComponent } from './service/service.component';
 import { SettingsComponent } from './settings/settings.component';
 
 const routes: Routes = [
-  { path: '', pathMatch: 'full', redirectTo: 'home' },
-  { path: 'home', component: HomeComponent },
+  { path: '', pathMatch: 'full', redirectTo: '' },
+  { path: '', component: HomeComponent },
   { path: 'dashboard', component: DashboardComponent },
   { path: 'services', component: ServiceComponent },
   { path: 'settings', component: SettingsComponent },
