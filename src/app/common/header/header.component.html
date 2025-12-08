@@ -4,25 +4,24 @@
     <ul class="nav-menu">
       <li
         class="nav-item nav-link"
-        [class.active]="isActive('/main/home')"
-        (click)="goToRoute('/main/home')"
+        [class.active]="isActive('/operation')"
+        (click)="goToRoute('/operation')"
       >
-        Home
-      </li>
-      <!-- <li
-        class="nav-item nav-link"
-        [class.active]="isActive('/main/services')"
-        (click)="goToRoute('/main/services')"
-      >
-        Services
+        Operation
       </li>
       <li
         class="nav-item nav-link"
-        [class.active]="isActive('/main/settings')"
-        (click)="goToRoute('/main/settings')"
+        [class.active]="isActive('/report')"
+        (click)="goToRoute('/report')"
       >
-        Settings
-      </li> -->
+        Report
+      </li>
+    </ul>
+    <h2>HRCC Coil Management System</h2>
+
+    <ul class="nav-menu-right">
+      <li class="user-greeting">Welcome, {{ getUserName() }}</li>
+      <li class="lo" (click)="logout()">Logout</li>
     </ul>
   </nav>
 </header>

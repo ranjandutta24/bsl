@@ -12,7 +12,7 @@ export class SadelService {
   //private apiUrl = 'https://erp.sisx.in/sisxerpapi/api';//Prod API
   private authorization = 'Bearer c2lzeFVQVkF1dGg6YjVQVTJPcFYyNCMxc24=';
   //For Sign up Link
-  private appUrl = 'https://erp.sisx.in/#/';
+
   private appUrlSms = 'https%3A%2F%2Fweb.educampuz.com%2F%23%2F';
   public otype = 'Company';
 
@@ -58,9 +58,9 @@ export class SadelService {
     return this.authorization;
   }
 
-  getAppUrl(): string {
-    return this.appUrl;
-  }
+  // getAppUrl(): string {
+  //   return this.appUrl;
+  // }
 
   getAppUrlSms(): string {
     return this.appUrlSms;

@@ -2,14 +2,16 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { HomeComponent } from './home/home.component';
-import { ServiceComponent } from './service/service.component';
+import { ServiceComponent } from './report/service.component';
 import { SettingsComponent } from './settings/settings.component';
+import { LoginComponent } from './login/login.component';
 
 const routes: Routes = [
-  { path: '', pathMatch: 'full', redirectTo: '' },
-  { path: '', component: HomeComponent },
+  { path: '', pathMatch: 'full', redirectTo: 'login' },
+  { path: 'login', component: LoginComponent },
+  { path: 'operation', component: HomeComponent },
   { path: 'dashboard', component: DashboardComponent },
-  { path: 'services', component: ServiceComponent },
+  { path: 'report', component: ServiceComponent },
   { path: 'settings', component: SettingsComponent },
 
   // { path: '**', component: NotFoundComponent },     // wildcard route for 404

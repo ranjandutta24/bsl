@@ -186,6 +186,7 @@ export class SadelAComponent {
 
   onDoubleClick(item: any) {
     this.central.handleDoubleClick(item);
+    // set central.coilInfo$ =null
   }
 
   onRightClick(event: MouseEvent, saddle: any) {
@@ -198,6 +199,8 @@ export class SadelAComponent {
   }
 
   onSearch() {
+    this.central.clearCoilInfo();
+
     this.sadelService
       .search({ COILID: this.searchCoil })
       .subscribe((response: any) => {

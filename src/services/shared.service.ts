@@ -39,6 +39,11 @@ export class CentralHandlerService {
     this.popupVisible = false;
   }
 
+  clearCoilInfo() {
+    this.coilInfoSubject.next(null);
+    this.saddleInfoSubject.next(false);
+  }
+
   // ------------------------
   // ✅ DOUBLE CLICK HANDLER
   // ------------------------
