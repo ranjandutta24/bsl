@@ -107,7 +107,8 @@ export class HomeComponent {
 
   @HostListener('document:keydown', ['$event'])
   onKeyPress(event: KeyboardEvent) {
-    // console.log('Key pressed:', event.key);
+    const hightList = ['1', '2'];
+    const keyList = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I'];
 
     const activeElement = document.activeElement;
     if (
@@ -118,8 +119,15 @@ export class HomeComponent {
       return;
     }
 
-    if (event.key.toUpperCase() >= 'A' && event.key.toUpperCase() <= 'I') {
-      this.selected = event.key.toUpperCase();
+    const key = event.key.toUpperCase();
+
+    if (keyList.includes(key)) {
+      this.selected = key;
+    }
+
+    if (hightList.includes(key)) {
+      // console.log(key);
+      // this.sadelService.saveHigh(parseInt(key));
     }
   }
 
