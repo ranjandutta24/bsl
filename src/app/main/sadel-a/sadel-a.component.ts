@@ -434,7 +434,14 @@ export class SadelAComponent {
             },
 
             error: (err) => {
-              alert(err);
+              // alert(err);
+
+              this.snackBar.open(err, 'Close', {
+                duration: 3000,
+                verticalPosition: 'bottom',
+                horizontalPosition: 'center',
+                panelClass: ['error-snackbar'],
+              });
               this.showAddCoilModal = true;
             },
           });

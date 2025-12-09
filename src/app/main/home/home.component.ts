@@ -33,7 +33,7 @@ export class HomeComponent {
 
   private createStatus(row: string) {
     return {
-      EMPTY: 0,
+      EMPTY: '000',
       FIT: 0,
       LOADED: 0,
       TOTAL: 0,

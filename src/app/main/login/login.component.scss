@@ -280,6 +280,12 @@ body {
   margin-bottom: 15px;
   display: flex;
   align-items: center;
+  background-color: rgb(63 96 129 / 62%);
+  padding: 10px 15px;
+  border-radius: 8px;
+  span {
+    margin-right: 5px;
+  }
 }
 
 .features i {
