@@ -21,7 +21,20 @@
 
     <ul class="nav-menu-right">
       <li class="user-greeting">Welcome, {{ getUserName() }}</li>
-      <li class="lo" (click)="logout()">Logout</li>
+      <!-- <li class="lo" (click)="logout()">Logout</li> -->
+
+      <!-- <i id="lg" class="fa fa-sign-out" (click)="logout()></i> -->
+      <i
+        id="lg"
+        class="fa fa-sign-out"
+        (click)="logout()"
+        role="button"
+        tabindex="0"
+        aria-label="Logout"
+      >
+      </i>
+
+      <!-- Logout icon -->
     </ul>
   </nav>
 </header>
