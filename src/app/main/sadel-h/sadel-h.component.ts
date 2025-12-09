@@ -161,7 +161,10 @@ export class SadelHComponent {
         SADDLENAME: sn,
         RMVTIME: new Date(),
       })
-      .subscribe((r) => {});
+      .subscribe((r) => {
+        this.comm.triggerStatusRefresh();
+        this.cdr.detectChanges();
+      });
   }
 
   onDoubleClick(item: any) {
@@ -312,6 +315,7 @@ export class SadelHComponent {
           };
 
           this.gridItems = [...this.gridItems];
+          this.comm.triggerStatusRefresh();
           this.cdr.detectChanges(); //
         }
       });
@@ -361,6 +365,7 @@ export class SadelHComponent {
               );
               this.showAddCoilModal = false;
               this.newCoilId = this.prefix;
+              this.comm.triggerStatusRefresh();
             },
 
             error: (err) => {

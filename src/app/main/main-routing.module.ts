@@ -5,16 +5,17 @@ import { HomeComponent } from './home/home.component';
 import { ServiceComponent } from './report/service.component';
 import { SettingsComponent } from './settings/settings.component';
 import { LoginComponent } from './login/login.component';
+import { AuthGuard } from '../auth.gurd';
 
 const routes: Routes = [
   { path: '', pathMatch: 'full', redirectTo: 'login' },
   { path: 'login', component: LoginComponent },
-  { path: 'operation', component: HomeComponent },
-  { path: 'dashboard', component: DashboardComponent },
-  { path: 'report', component: ServiceComponent },
-  { path: 'settings', component: SettingsComponent },
+ { path: 'operation', component: HomeComponent, canActivate: [AuthGuard] },
+  { path: 'dashboard', component: DashboardComponent, canActivate: [AuthGuard] },
+  { path: 'report', component: ServiceComponent, canActivate: [AuthGuard] },
+  { path: 'settings', component: SettingsComponent, canActivate: [AuthGuard] },
 
-  // { path: '**', component: NotFoundComponent },     // wildcard route for 404
+  { path: '**', redirectTo: 'login' }   // wildcard route for 404
 ];
 
 @NgModule({

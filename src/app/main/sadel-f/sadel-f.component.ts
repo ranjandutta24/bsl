@@ -287,7 +287,10 @@ export class SadelFComponent {
         SADDLENAME: sn,
         RMVTIME: new Date(),
       })
-      .subscribe((r) => {});
+      .subscribe((r) => {
+        this.comm.triggerStatusRefresh();
+        this.cdr.detectChanges();
+      });
   }
 
   updateSaddle(status: any) {
@@ -308,6 +311,7 @@ export class SadelFComponent {
           };
 
           this.gridItems = [...this.gridItems];
+          this.comm.triggerStatusRefresh();
           this.cdr.detectChanges(); //
         }
       });
@@ -357,6 +361,7 @@ export class SadelFComponent {
               );
               this.showAddCoilModal = false;
               this.newCoilId = this.prefix;
+              this.comm.triggerStatusRefresh();
             },
 
             error: (err) => {

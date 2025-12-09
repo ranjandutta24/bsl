@@ -288,6 +288,7 @@ export class SadelGComponent {
           };
 
           this.gridItems = [...this.gridItems];
+          this.comm.triggerStatusRefresh();
           this.cdr.detectChanges(); //
         }
       });
@@ -337,6 +338,7 @@ export class SadelGComponent {
               );
               this.showAddCoilModal = false;
               this.newCoilId = this.prefix;
+              this.comm.triggerStatusRefresh();
             },
 
             error: (err) => {
@@ -368,7 +370,10 @@ export class SadelGComponent {
         SADDLENAME: sn,
         RMVTIME: new Date(),
       })
-      .subscribe((r) => {});
+      .subscribe((r) => {
+        this.comm.triggerStatusRefresh();
+        this.cdr.detectChanges();
+      });
   }
 
   getIcon(item: any) {
