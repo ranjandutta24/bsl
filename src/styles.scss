@@ -447,3 +447,17 @@ i {
   border-radius: 10px;
   border: 1px solid #c5e2ff;
 }
+
+html,
+body {
+  height: 100%;
+}
+body {
+  margin: 0;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+}
+
+// .mat-snack-bar-container {
+//   margin-bottom: 150px !important;
+//   z-index: 10000 !important;
+// }

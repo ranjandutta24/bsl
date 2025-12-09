@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-header',
@@ -22,14 +23,52 @@ export class HeaderComponent {
   }
   getUserName(): string {
     // retrieve user name from local storage or any other storage mechanism
-    const userName = localStorage.getItem('USER_ID');
+    const userName = JSON.parse(localStorage.getItem('USER_ID') || '');
     return userName ? userName : 'Guest';
   }
+  // logout() {
+  //   // clear user session data from local storage or any other storage mechanism
+  //   localStorage.removeItem('USER_ID');
+  //   localStorage.removeItem('USER_NAME');
+  //   // navigate to login page
+  //   this.router.navigate(['/login']);
+  // }
+
   logout() {
-    // clear user session data from local storage or any other storage mechanism
-    localStorage.removeItem('USER_ID');
-    localStorage.removeItem('USER_NAME');
-    // navigate to login page
-    this.router.navigate(['/login']);
+    Swal.fire({
+      title: 'Are you sure?',
+      text: 'You will be logged out!',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonText: 'Yes, Logout',
+      cancelButtonText: 'Cancel',
+
+      // ✅ Change colors here
+      confirmButtonColor: '#e74c3c', // Red background
+      cancelButtonColor: '#6c757d', // Gray background
+    }).then((result) => {
+      if (result.isConfirmed) {
+        localStorage.removeItem('USER_ID');
+        localStorage.removeItem('USER_NAME');
+        this.router.navigate(['/login']);
+      }
+    });
+  }
+
+  logout1() {
+    Swal.fire({
+      title: 'Are you sure?',
+      text: 'You will be logged out!',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonText: 'Yes, Logout',
+      cancelButtonText: 'Cancel',
+    }).then((result) => {
+      if (result.isConfirmed) {
+        localStorage.removeItem('USER_ID');
+        localStorage.removeItem('USER_NAME');
+        this.router.navigate(['/login']);
+      }
+    });
   }
 }

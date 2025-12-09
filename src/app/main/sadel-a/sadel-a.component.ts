@@ -4,6 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { SadelService } from '../../../services/sadel.service';
 import { forkJoin } from 'rxjs';
 import { Router } from '@angular/router';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 import { ChangeDetectorRef } from '@angular/core';
 
@@ -53,7 +54,8 @@ export class SadelAComponent {
     private cdr: ChangeDetectorRef,
     private router: Router,
     private comm: SadelCommService,
-    public central: CentralHandlerService
+    public central: CentralHandlerService,
+    private snackBar: MatSnackBar
   ) {}
 
   ngOnInit(): void {
@@ -363,9 +365,9 @@ export class SadelAComponent {
             ...this.gridItems[index],
             FIT: newStatus,
           };
-        this.gridItems = [...this.gridItems];
+          this.gridItems = [...this.gridItems];
           this.comm.triggerStatusRefresh();
-             console.log('call this');
+          console.log('call this');
           this.cdr.detectChanges(); //
         }
       });
@@ -378,9 +380,20 @@ export class SadelAComponent {
     this.sadelService.coilvalid({ COILID: this.newCoilId }).subscribe(
       (response: any) => {
         if (response.valid == 0) {
-          alert(
-            `Coil ID ${this.newCoilId} does not exist. Please check again.`
+          this.snackBar.open(
+            `Coil ID ${this.newCoilId} data not present. Please check again.`,
+            'Close',
+            {
+              duration: 3000,
+              verticalPosition: 'bottom',
+              horizontalPosition: 'center',
+              panelClass: ['error-snackbar'],
+            }
           );
+
+          // alert(
+          //   `Coil ID ${this.newCoilId} does not exist. Please check again.`
+          // );
           // this.showAddCoilModal = true;
           return;
         }
@@ -416,12 +429,8 @@ export class SadelAComponent {
               this.showAddCoilModal = false;
               this.newCoilId = this.prefix;
 
-
-
-             this.comm.triggerStatusRefresh();
-             console.log('call this');
-             
-
+              this.comm.triggerStatusRefresh();
+              console.log('call this');
             },
 
             error: (err) => {
@@ -454,10 +463,9 @@ export class SadelAComponent {
         RMVTIME: new Date(),
       })
       .subscribe((r) => {
-
-           this.comm.triggerStatusRefresh();
-             console.log('call this');
-          this.cdr.detectChanges(); //
+        this.comm.triggerStatusRefresh();
+        console.log('call this');
+        this.cdr.detectChanges(); //
       });
   }
 
