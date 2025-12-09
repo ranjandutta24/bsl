@@ -363,8 +363,9 @@ export class SadelAComponent {
             ...this.gridItems[index],
             FIT: newStatus,
           };
-
-          this.gridItems = [...this.gridItems];
+        this.gridItems = [...this.gridItems];
+          this.comm.triggerStatusRefresh();
+             console.log('call this');
           this.cdr.detectChanges(); //
         }
       });
@@ -414,6 +415,13 @@ export class SadelAComponent {
               );
               this.showAddCoilModal = false;
               this.newCoilId = this.prefix;
+
+
+
+             this.comm.triggerStatusRefresh();
+             console.log('call this');
+             
+
             },
 
             error: (err) => {
@@ -445,7 +453,12 @@ export class SadelAComponent {
         SADDLENAME: sn,
         RMVTIME: new Date(),
       })
-      .subscribe((r) => {});
+      .subscribe((r) => {
+
+           this.comm.triggerStatusRefresh();
+             console.log('call this');
+          this.cdr.detectChanges(); //
+      });
   }
 
   getIcon(item: any) {

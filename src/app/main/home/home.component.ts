@@ -39,26 +39,34 @@ export class HomeComponent {
 
   ngOnInit() {
     // statuscount
-    this.sadelService.statuscount().subscribe(
-      (response: any) => {
-        // console.log(response);
-        this.Astatuscount = response.filter((item: any) => item.row === 'A')[0];
-        this.Bstatuscount = response.filter((item: any) => item.row === 'B')[0];
-        this.Cstatuscount = response.filter((item: any) => item.row === 'C')[0];
-        this.Dstatuscount = response.filter((item: any) => item.row === 'D')[0];
-        this.Estatuscount = response.filter((item: any) => item.row === 'E')[0];
-        this.Fstatuscount = response.filter((item: any) => item.row === 'F')[0];
-        this.Gstatuscount = response.filter((item: any) => item.row === 'G')[0];
-        this.Hstatuscount = response.filter((item: any) => item.row === 'H')[0];
-        this.Istatuscount = response.filter((item: any) => item.row === 'I')[0];
-        // console.log(this.Astatuscount);
-      },
+    // this.sadelService.statuscount().subscribe(
+    //   (response: any) => {
+    //     // console.log(response);
+    //     this.Astatuscount = response.filter((item: any) => item.row === 'A')[0];
+    //     this.Bstatuscount = response.filter((item: any) => item.row === 'B')[0];
+    //     this.Cstatuscount = response.filter((item: any) => item.row === 'C')[0];
+    //     this.Dstatuscount = response.filter((item: any) => item.row === 'D')[0];
+    //     this.Estatuscount = response.filter((item: any) => item.row === 'E')[0];
+    //     this.Fstatuscount = response.filter((item: any) => item.row === 'F')[0];
+    //     this.Gstatuscount = response.filter((item: any) => item.row === 'G')[0];
+    //     this.Hstatuscount = response.filter((item: any) => item.row === 'H')[0];
+    //     this.Istatuscount = response.filter((item: any) => item.row === 'I')[0];
+    //     // console.log(this.Astatuscount);
+    //   },
 
-      (respError) => {
-        // this.loading = false;
-        // this.commonService.showSnakBarMessage(respError, "error", 2000);
-      }
-    );
+    //   (respError) => {
+    //     // this.loading = false;
+    //     // this.commonService.showSnakBarMessage(respError, "error", 2000);
+    //   }
+    // );
+
+    this.loadStatusCount();
+
+    // Refresh when coil updated from any saddle component
+ this.comm.statusRefresh$.subscribe(() => {
+  console.log("REFRESH EVENT RECEIVED");   // 🔥 Add this to test
+  this.loadStatusCount();
+});
 
     this.comm.switchSadel$.subscribe((data) => {
       // Switch saddle
@@ -76,6 +84,27 @@ export class HomeComponent {
       this.cdr.detectChanges();
     });
   }
+
+loadStatusCount() {
+  this.sadelService.statuscount().subscribe(
+    (response: any) => {
+      const map = new Map(response.map((x: any) => [x.row, x]));
+
+      this.Astatuscount = map.get('A');
+      this.Bstatuscount = map.get('B');
+      this.Cstatuscount = map.get('C');
+      this.Dstatuscount = map.get('D');
+      this.Estatuscount = map.get('E');
+      this.Fstatuscount = map.get('F');
+      this.Gstatuscount = map.get('G');
+      this.Hstatuscount = map.get('H');
+      this.Istatuscount = map.get('I');
+
+      this.cdr.detectChanges();
+    }
+  );
+}
+
 
   // Map letters to components
   componentMap: Record<string, any> = {
