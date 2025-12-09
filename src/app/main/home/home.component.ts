@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { ChangeDetectorRef, Component } from '@angular/core';
+import { ChangeDetectorRef, Component, HostListener } from '@angular/core';
 import { SadelBComponent } from '../sadel-b/sadel-b.component';
 import { SadelAComponent } from '../sadel-a/sadel-a.component';
 import { SadelCComponent } from '../sadel-c/sadel-c.component';
@@ -31,6 +31,16 @@ export class HomeComponent {
   Hstatuscount: any;
   Istatuscount: any;
 
+  private createStatus(row: string) {
+    return {
+      EMPTY: 0,
+      FIT: 0,
+      LOADED: 0,
+      TOTAL: 0,
+      UNFIT: 0,
+      row: row,
+    };
+  }
   constructor(
     private comm: SadelCommService,
     private cdr: ChangeDetectorRef,
@@ -39,6 +49,16 @@ export class HomeComponent {
 
   ngOnInit() {
     // statuscount
+
+    this.Astatuscount = this.createStatus('A');
+    this.Bstatuscount = this.createStatus('B');
+    this.Cstatuscount = this.createStatus('C');
+    this.Dstatuscount = this.createStatus('D');
+    this.Estatuscount = this.createStatus('E');
+    this.Fstatuscount = this.createStatus('F');
+    this.Gstatuscount = this.createStatus('G');
+    this.Hstatuscount = this.createStatus('H');
+    this.Istatuscount = this.createStatus('I');
     // this.sadelService.statuscount().subscribe(
     //   (response: any) => {
     //     // console.log(response);
@@ -63,10 +83,10 @@ export class HomeComponent {
     this.loadStatusCount();
 
     // Refresh when coil updated from any saddle component
- this.comm.statusRefresh$.subscribe(() => {
-  console.log("REFRESH EVENT RECEIVED");   // 🔥 Add this to test
-  this.loadStatusCount();
-});
+    this.comm.statusRefresh$.subscribe(() => {
+      console.log('REFRESH EVENT RECEIVED'); // 🔥 Add this to test
+      this.loadStatusCount();
+    });
 
     this.comm.switchSadel$.subscribe((data) => {
       // Switch saddle
@@ -85,9 +105,26 @@ export class HomeComponent {
     });
   }
 
-loadStatusCount() {
-  this.sadelService.statuscount().subscribe(
-    (response: any) => {
+  @HostListener('document:keydown', ['$event'])
+  onKeyPress(event: KeyboardEvent) {
+    // console.log('Key pressed:', event.key);
+
+    const activeElement = document.activeElement;
+    if (
+      activeElement &&
+      (activeElement.tagName === 'INPUT' ||
+        activeElement.tagName === 'TEXTAREA')
+    ) {
+      return;
+    }
+
+    if (event.key.toUpperCase() >= 'A' && event.key.toUpperCase() <= 'I') {
+      this.selected = event.key.toUpperCase();
+    }
+  }
+
+  loadStatusCount() {
+    this.sadelService.statuscount().subscribe((response: any) => {
       const map = new Map(response.map((x: any) => [x.row, x]));
 
       this.Astatuscount = map.get('A');
@@ -101,10 +138,8 @@ loadStatusCount() {
       this.Istatuscount = map.get('I');
 
       this.cdr.detectChanges();
-    }
-  );
-}
-
+    });
+  }
 
   // Map letters to components
   componentMap: Record<string, any> = {
