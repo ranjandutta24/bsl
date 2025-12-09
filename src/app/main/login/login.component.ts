@@ -10,6 +10,8 @@ import { ChangeDetectorRef } from '@angular/core';
 import { SadelCommService } from '../../../services/sadel-commn.service';
 import { CentralHandlerService } from '../../../services/shared.service';
 import { UserService } from '../../../services/user.service';
+import { AuthService } from '../../../services/auth.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-login',
@@ -18,32 +20,37 @@ import { UserService } from '../../../services/user.service';
   styleUrl: './login.component.scss',
 })
 export class LoginComponent {
-  userid: string = '';
+ userid: string = '';
   password: string = '';
+  error: string = '';
 
-  constructor(private userService: UserService) {}
+  constructor(
+    private userService: UserService,
+    private auth: AuthService,
+    private router: Router
+  ) {}
 
   login() {
-    console.log(this.userid, this.password);
+    if (!this.userid || !this.password) {
+      this.error = 'Enter user id & password';
+      return;
+    }
 
-    this.userService
-      .login({ USER_ID: this.userid, PASSWORD: this.password })
+    this.userService.login({ USER_ID: this.userid, PASSWORD: this.password })
       .subscribe(
-        (response: any) => {
-          console.log(response);
+        (resp: any) => {
+          if (resp && resp['STATUS'] === 1) {
+            // Save the logged-in user
+            this.auth.login(resp.USER_ID );
 
-          // change routes to operation
-          if (response && response['STATUS'] === 1) {
-            // add to local storage
-            localStorage.setItem('USER_ID', response['USER_ID']);
-            // localStorage.setItem('USER_NAME', response['DATA']['USER_NAME']);
-            // this.router.navigate(['operation']);
-            window.location.href = '/operation';
+            // Navigate to operation
+            this.router.navigate(['/operation']);
+          } else {
+            this.error = 'Invalid credentials';
           }
         },
-        (respError) => {
-          // this.loading = false;
-          // this.commonService.showSnakBarMessage(respError, "error", 2000);
+        () => {
+          this.error = 'Login failed';
         }
       );
   }
