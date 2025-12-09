@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ViewEncapsulation } from '@angular/core';
 
 import { SadelService } from '../../../services/sadel.service';
 // import { CommonModule } from '../../common/common.module';
@@ -18,6 +18,7 @@ import { Router } from '@angular/router';
   imports: [CommonModule, FormsModule],
   templateUrl: './login.component.html',
   styleUrl: './login.component.scss',
+  //encapsulation: ViewEncapsulation.None
 })
 export class LoginComponent {
  userid: string = '';

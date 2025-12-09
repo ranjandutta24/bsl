@@ -92,12 +92,22 @@ body {
   position: relative;
 }
 
-.input-with-icon i {
+// .input-with-icon i {
+//   position: absolute;
+//   left: 15px;
+//   top: 50%;
+//   transform: translateY(-50%);
+//   color: #777;
+// }
+
+.input-with-icon .material-icons {
   position: absolute;
   left: 15px;
   top: 50%;
   transform: translateY(-50%);
-  color: #777;
+  color: #2575fc; /* Changed color for better visibility */
+  font-size: 20px;
+  z-index: 1; /* Added to ensure icon stays above */
 }
 
 .form-control {

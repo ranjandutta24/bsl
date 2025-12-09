@@ -6,6 +6,8 @@ import { FooterComponent } from './common/footer/footer.component';
 import { BrowserModule } from '@angular/platform-browser';
 import { CommonModule } from '@angular/common';
 
+
+
 @Component({
   selector: 'app-root',
   imports: [
@@ -13,7 +15,8 @@ import { CommonModule } from '@angular/common';
     HeaderComponent,
     FooterComponent,
     CommonModule,
-    // BrowserModule,
+    //BrowserModule,
+    //FontAwesomeModule 
   ],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss',

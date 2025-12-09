@@ -1,6 +1,6 @@
-<body>
+<!-- <body>
   <div class="container">
-    <!-- Left Panel with welcome message -->
+   
     <div class="left-panel">
       <h2>Welcome Back!</h2>
       <p>
@@ -16,7 +16,7 @@
       </ul>
     </div>
 
-    <!-- Right Panel with login form -->
+   
     <div class="right-panel">
       <div class="logo">
         <i class="fas fa-lock"></i>
@@ -61,22 +61,14 @@
               placeholder="Enter your password"
               required
             />
-            <!-- <button type="button" class="password-toggle" id="togglePassword">
-              <i class="fas fa-eye"></i>
-            </button> -->
+  
           </div>
           <div class="error-message" id="password-error">
             Password must be at least 6 characters long
           </div>
         </div>
 
-        <!-- <div class="options">
-          <div class="remember-me">
-            <input type="checkbox" id="remember" />
-            <label for="remember">Remember me</label>
-          </div>
-          <a href="#" class="forgot-password">Forgot password?</a>
-        </div> -->
+     
 
         <button type="submit" class="btn-login" (click)="login()">
           Sign In
@@ -84,4 +76,84 @@
       </form>
     </div>
   </div>
+</body> -->
+
+<body>
+  <div class="container">
+    <!-- Left Panel with welcome message -->
+    <div class="left-panel">
+      <h2>Welcome Back!</h2>
+      <p>
+        Sign in to access your personalized dashboard and manage your account
+        securely.
+      </p>
+      <ul class="features">
+        <li><span class="material-icons">security</span> HRCC Coil Movement Operation</li>
+        <li><span class="material-icons">bolt</span> Fast & Responsive Interface</li>
+        <li><span class="material-icons">description</span> Report</li>
+        <li><span class="material-icons">logout</span> Logout</li>
+      </ul>
+    </div>
+
+    <!-- Right Panel with login form -->
+    <div class="right-panel">
+      <div class="logo">
+        <span class="material-icons">lock</span>
+        <h1>HRCC</h1>
+      </div>
+
+      <div class="welcome-text">
+        <h2>Sign In</h2>
+        <p>Enter your credentials to access the page</p>
+      </div>
+
+      <form id="loginForm" (ngSubmit)="login()">
+        <div class="form-group">
+          <label for="userid">User ID</label>
+          <div class="input-with-icon">
+            <span class="material-icons">email</span>
+            <input
+              [ngModelOptions]="{ standalone: true }"
+              type="text"
+              [(ngModel)]="userid"
+              id="userid"
+              class="form-control"
+              placeholder="Enter your user ID"
+              required
+            />
+          </div>
+          <div class="error-message" id="email-error">
+            Please enter a valid user ID
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="password">Password</label>
+          <div class="input-with-icon">
+            <span class="material-icons">vpn_key</span>
+            <input
+              [ngModelOptions]="{ standalone: true }"
+              type="password"
+              [(ngModel)]="password"
+              id="password"
+              class="form-control"
+              placeholder="Enter your password"
+              required
+            />
+          </div>
+          <div class="error-message" id="password-error">
+            Password must be at least 6 characters long
+          </div>
+        </div>
+
+        <button type="submit" class="btn-login">
+          Sign In
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Add this in index.html if not already -->
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 </body>
+
