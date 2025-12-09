@@ -35,6 +35,7 @@ export class HeaderComponent {
   // }
 
   logout() {
+    console.log('df');
     Swal.fire({
       title: 'Are you sure?',
       text: 'You will be logged out!',

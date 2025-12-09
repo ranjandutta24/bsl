@@ -27,7 +27,7 @@ export class UserService {
 
   errorHandler(error: any) {
     let message = error.error;
-    console.log(message);
+
     return throwError(
       message ||
         'Remote server unreachable. Please check your Internet connection.'

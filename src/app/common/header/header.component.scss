@@ -120,7 +120,7 @@ lo {
   padding: 9px 30px;
   cursor: pointer;
   font-size: 15px;
-  font-weight: 600;
+  font-weight: 500;
   color: #ffffff;
   transition: all 0.3s ease;
   border-radius: 8px;
@@ -165,3 +165,21 @@ lo {
 }
 
 // #84b1dd
+.header-title {
+  // color: #2c3e50;
+  font-family: "Segoe UI", Arial, sans-serif;
+  font-size: 1.8rem;
+  font-weight: 500;
+  letter-spacing: -0.5px;
+  // margin: 0;
+  // text-transform: uppercase;
+}
+.flexh {
+  display: flex;
+  align-items: center;
+}
+.logo {
+  margin: 0 10px;
+  height: 40px;
+  width: auto;
+}
