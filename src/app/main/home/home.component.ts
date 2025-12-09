@@ -10,6 +10,7 @@ import { SadelGComponent } from '../sadel-g/sadel-g.component';
 import { SadelHComponent } from '../sadel-h/sadel-h.component';
 import { SadelIComponent } from '../sadel-i/sadel-i.component';
 import { SadelCommService } from '../../../services/sadel-commn.service';
+import { SadelService } from '../../../services/sadel.service';
 
 @Component({
   selector: 'app-home',
@@ -20,10 +21,45 @@ import { SadelCommService } from '../../../services/sadel-commn.service';
 })
 export class HomeComponent {
   selected: string = 'A';
+  Astatuscount: any;
+  Bstatuscount: any;
+  Cstatuscount: any;
+  Dstatuscount: any;
+  Estatuscount: any;
+  Fstatuscount: any;
+  Gstatuscount: any;
+  Hstatuscount: any;
+  Istatuscount: any;
 
-  constructor(private comm: SadelCommService, private cdr: ChangeDetectorRef) {}
+  constructor(
+    private comm: SadelCommService,
+    private cdr: ChangeDetectorRef,
+    private sadelService: SadelService
+  ) {}
 
   ngOnInit() {
+    // statuscount
+    this.sadelService.statuscount().subscribe(
+      (response: any) => {
+        // console.log(response);
+        this.Astatuscount = response.filter((item: any) => item.row === 'A')[0];
+        this.Bstatuscount = response.filter((item: any) => item.row === 'B')[0];
+        this.Cstatuscount = response.filter((item: any) => item.row === 'C')[0];
+        this.Dstatuscount = response.filter((item: any) => item.row === 'D')[0];
+        this.Estatuscount = response.filter((item: any) => item.row === 'E')[0];
+        this.Fstatuscount = response.filter((item: any) => item.row === 'F')[0];
+        this.Gstatuscount = response.filter((item: any) => item.row === 'G')[0];
+        this.Hstatuscount = response.filter((item: any) => item.row === 'H')[0];
+        this.Istatuscount = response.filter((item: any) => item.row === 'I')[0];
+        // console.log(this.Astatuscount);
+      },
+
+      (respError) => {
+        // this.loading = false;
+        // this.commonService.showSnakBarMessage(respError, "error", 2000);
+      }
+    );
+
     this.comm.switchSadel$.subscribe((data) => {
       // Switch saddle
       this.selected = data.row;
