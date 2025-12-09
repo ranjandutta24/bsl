@@ -104,6 +104,18 @@ lo {
   padding: 4px;
 }
 
+#lg {
+  cursor: pointer;
+  font-size: 20px;
+  color: #4498eb;
+  transition: all 1s ease-in-ou;
+}
+
+#lg:hover {
+  color: #ff8520;
+  // font-size: 22px;
+}
+
 .nav-item {
   padding: 9px 30px;
   cursor: pointer;
