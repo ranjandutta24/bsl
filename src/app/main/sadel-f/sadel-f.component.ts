@@ -7,6 +7,7 @@ import { forkJoin } from 'rxjs';
 import { ChangeDetectorRef } from '@angular/core';
 import { SadelCommService } from '../../../services/sadel-commn.service';
 import { CentralHandlerService } from '../../../services/shared.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-sadel-f',
@@ -45,7 +46,8 @@ export class SadelFComponent {
     private sadelService: SadelService,
     private cdr: ChangeDetectorRef,
     private comm: SadelCommService,
-    public central: CentralHandlerService
+    public central: CentralHandlerService,
+    private snackBar: MatSnackBar
   ) {}
 
   ngOnInit(): void {
@@ -324,8 +326,15 @@ export class SadelFComponent {
     this.sadelService.coilvalid({ COILID: this.newCoilId }).subscribe(
       (response: any) => {
         if (response.valid == 0) {
-          alert(
-            `Coil ID ${this.newCoilId} does not exist. Please check again.`
+          this.snackBar.open(
+            `Coil ID ${this.newCoilId} data not present. Please check again.`,
+            'Close',
+            {
+              duration: 3000,
+              verticalPosition: 'bottom',
+              horizontalPosition: 'center',
+              panelClass: ['error-snackbar'],
+            }
           );
           // this.showAddCoilModal = true;
           return;
@@ -365,7 +374,12 @@ export class SadelFComponent {
             },
 
             error: (err) => {
-              alert(err);
+              this.snackBar.open(err, 'Close', {
+                duration: 3000,
+                verticalPosition: 'bottom',
+                horizontalPosition: 'center',
+                panelClass: ['error-snackbar'],
+              });
               this.showAddCoilModal = true;
             },
           });

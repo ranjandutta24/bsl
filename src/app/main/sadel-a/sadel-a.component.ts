@@ -390,11 +390,6 @@ export class SadelAComponent {
               panelClass: ['error-snackbar'],
             }
           );
-
-          // alert(
-          //   `Coil ID ${this.newCoilId} does not exist. Please check again.`
-          // );
-          // this.showAddCoilModal = true;
           return;
         }
 
