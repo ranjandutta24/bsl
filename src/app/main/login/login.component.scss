@@ -277,6 +277,7 @@ body {
 }
 
 .features li {
+  position: relative;
   margin-bottom: 15px;
   display: flex;
   align-items: center;
@@ -286,6 +287,7 @@ body {
   span {
     margin-right: 5px;
   }
+  padding-left: 35px;
 }
 
 .features i {
@@ -355,4 +357,16 @@ body {
 .logo1 {
   height: 48px;
   margin-right: 10px;
+}
+.up {
+  height: 23px;
+  position: absolute;
+  bottom: 14px;
+  left: 13px;
+}
+.fe {
+  height: 24px;
+  position: absolute;
+  bottom: 8px;
+  left: 5px;
 }
