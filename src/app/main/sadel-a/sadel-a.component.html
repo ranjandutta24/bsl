@@ -31,10 +31,14 @@
         "
         alt=""
       />
-      <div class="overlay" *ngIf="hoveredItem === item">
+      <div class="overlay" *ngIf="hoveredItem === item && item.COILID">
         <div class="tab">
           <!-- <div class="h">{{ item.SADDLENAME }}</div> -->
           <div class="h">{{ item.COILID }}</div>
+          <div *ngIf="item.THICK" class="h">{{ item.THICK }}</div>
+          <div *ngIf="item.WIDTH" class="h">{{ item.WIDTH }}</div>
+          <div *ngIf="item.DEST" class="h">{{ item.DEST }}</div>
+          <div *ngIf="item.GRADE" class="h">{{ item.GRADE }}</div>
           <!-- <div class="h">{{ item.FIT ? "Fit" : "Unfit" }}</div> -->
         </div>
       </div>
