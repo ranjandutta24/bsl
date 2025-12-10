@@ -120,6 +120,10 @@ export class HomeComponent {
     }
 
     const key = event.key.toUpperCase();
+      // 🚫 Ignore if modifier keys are pressed (Shift, Ctrl, Alt, Meta)
+    if (event.ctrlKey || event.shiftKey || event.altKey || event.metaKey) {
+      return;
+    }
 
     if (keyList.includes(key)) {
       this.selected = key;
