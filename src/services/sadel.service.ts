@@ -85,7 +85,7 @@ export class SadelService {
       }),
     };
     return this.http
-      .post(this.apiUrl + 'sadel/update', saddle, httpOptions)
+      .post(this.apiUrl + 'sadel/update1', saddle, httpOptions)
       .pipe(retry(1), catchError(this.errorHandler));
   }
 
