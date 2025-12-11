@@ -278,7 +278,7 @@ i {
   color: white;
 }
 .desableli {
-  color: rgb(161, 161, 161);
+  color: rgb(161, 161, 161) !important;
 }
 
 .high-selection {
@@ -455,6 +455,11 @@ body {
 body {
   margin: 0;
   font-family: Roboto, "Helvetica Neue", sans-serif;
+}
+
+.opicon {
+  color: #4498eb;
+  margin-right: 10px;
 }
 
 // .mat-snack-bar-container {

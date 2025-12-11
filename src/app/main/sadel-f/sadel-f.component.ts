@@ -418,17 +418,8 @@ export class SadelFComponent {
     );
   }
 
-  getIcon(item: any) {
-    switch (item) {
-      case 'Pickup':
-        return 'fa fa-truck';
-      case 'Remove':
-        return 'fa fa-trash';
-      case 'Cancel':
-        return 'fa fa-times-circle';
-      default:
-        return 'fa fa-circle';
-    }
+  getIcon(action: string) {
+    return this.central.getIcon(action);
   }
 
   blockPrefixEdit(event: KeyboardEvent) {

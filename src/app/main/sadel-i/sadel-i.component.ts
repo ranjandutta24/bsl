@@ -420,23 +420,8 @@ export class SadelIComponent {
       });
   }
 
-  getIcon(item: any) {
-    switch (item) {
-      case 'Pickup':
-        return 'fa fa-truck';
-      case 'Add Coil':
-        return 'fa fa-plus';
-      case 'Remove':
-        return 'fa fa-plus';
-      case 'Drop Coil':
-        return 'fa fa-arrow-down';
-      case 'Unfit':
-        return 'fa-solid fa-notdef';
-      case 'Cancel':
-        return 'fa fa-times-circle';
-      default:
-        return 'fa fa-circle';
-    }
+  getIcon(action: string) {
+    return this.central.getIcon(action);
   }
 
   blockPrefixEdit(event: KeyboardEvent) {
