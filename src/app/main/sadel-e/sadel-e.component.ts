@@ -326,6 +326,33 @@ export class SadelEComponent {
   closeAddCoilModal() {
     this.showAddCoilModal = false;
   }
+
+  getImage(item: any): string {
+    // 1. Check unfit
+    if (!item.FIT) {
+      return 'assets/images/unfit.png';
+    }
+
+    // 2. Coil present
+    if (item.COILID) {
+      const diff = this.getMinuteDiff(item.HSMPRODTIME); // <-- your datetime field
+
+      return diff > 4320 ? 'assets/images/coil.png' : 'assets/images/hot.png';
+    }
+
+    // 3. No coil → fit
+    return 'assets/images/fit.png';
+  }
+
+  getMinuteDiff(dateString: string): number {
+    const givenDate = new Date(dateString);
+    const now = new Date();
+
+    const diffMs = now.getTime() - givenDate.getTime(); // use getTime()
+    const diffMinutes = Math.floor(diffMs / (1000 * 60));
+
+    return diffMinutes;
+  }
   saveCoil() {
     this.sadelService.coilvalid({ COILID: this.newCoilId }).subscribe(
       (response: any) => {

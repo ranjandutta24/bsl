@@ -20,17 +20,7 @@
     >
       <p>{{ item.SADDLENAME }}</p>
 
-      <img
-        class="im"
-        [src]="
-          !item.FIT
-            ? 'assets/images/unfit.png'
-            : item.COILID
-            ? 'assets/images/hot.png'
-            : 'assets/images/fit.png'
-        "
-        alt=""
-      />
+      <img class="im" [src]="getImage(item)" alt="" />
       <div class="overlay" *ngIf="hoveredItem === item">
         <div class="tab">
           <div class="h">{{ item.SADDLENAME }}</div>

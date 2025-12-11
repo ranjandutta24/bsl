@@ -367,7 +367,7 @@ export class SadelAComponent {
           };
           this.gridItems = [...this.gridItems];
           this.comm.triggerStatusRefresh();
-          console.log('call this');
+
           this.cdr.detectChanges(); //
         }
       });
@@ -375,6 +375,33 @@ export class SadelAComponent {
 
   closeAddCoilModal() {
     this.showAddCoilModal = false;
+  }
+
+  getImage(item: any): string {
+    // 1. Check unfit
+    if (!item.FIT) {
+      return 'assets/images/unfit.png';
+    }
+
+    // 2. Coil present
+    if (item.COILID) {
+      const diff = this.getMinuteDiff(item.HSMPRODTIME); // <-- your datetime field
+
+      return diff > 4320 ? 'assets/images/coil.png' : 'assets/images/hot.png';
+    }
+
+    // 3. No coil → fit
+    return 'assets/images/fit.png';
+  }
+
+  getMinuteDiff(dateString: string): number {
+    const givenDate = new Date(dateString);
+    const now = new Date();
+
+    const diffMs = now.getTime() - givenDate.getTime(); // use getTime()
+    const diffMinutes = Math.floor(diffMs / (1000 * 60));
+
+    return diffMinutes;
   }
   saveCoil() {
     this.sadelService
@@ -388,12 +415,6 @@ export class SadelAComponent {
         next: (response: any) => {
           // ✅ Update UI only if API succeeds
           console.log('API Response:', response);
-
-          // HSMPRODTIME: response.HSMPRODTIME,
-          // THICK: response.THICK,
-          // WIDTH: response.WIDTH,
-          // DEST: response.DEST,
-          // GRADE: response.GRADE,
 
           if (response.status == 3) {
             this.snackBar.open(
@@ -417,6 +438,11 @@ export class SadelAComponent {
             this.gridItems[index] = {
               ...this.gridItems[index],
               COILID: this.newCoilId,
+              HSMPRODTIME: response.HSMPRODTIME,
+              THICK: response.THICK,
+              WIDTH: response.WIDTH,
+              DEST: response.DEST,
+              GRADE: response.GRADE,
             };
 
             // Force change detection
@@ -445,57 +471,6 @@ export class SadelAComponent {
         },
       });
   }
-  // saveCoil() {
-
-  //      this.sadelService
-  //         .update({
-  //           SADDLENAME: this.selectedSaddle.SADDLENAME,
-  //           COILID: this.newCoilId,
-  //         })
-  //         .subscribe({
-  //           next: () => {
-  //             // ✅ Update UI only if API succeeds
-  //             const index = this.gridItems.findIndex(
-  //               (item: any) =>
-  //                 item.SADDLENAME === this.selectedSaddle.SADDLENAME
-  //             );
-
-  //             if (index !== -1) {
-  //               this.gridItems[index] = {
-  //                 ...this.gridItems[index],
-  //                 COILID: this.newCoilId,
-  //               };
-
-  //               // Force change detection
-  //               this.gridItems = [...this.gridItems];
-  //               this.cdr.detectChanges();
-  //             }
-
-  //             this.createhistort(
-  //               this.selectedSaddle.SADDLENAME,
-  //               this.newCoilId
-  //             );
-  //             this.showAddCoilModal = false;
-  //             this.newCoilId = this.prefix;
-
-  //             this.comm.triggerStatusRefresh();
-  //             console.log('call this');
-  //           },
-
-  //           error: (err) => {
-  //             // alert(err);
-
-  //             this.snackBar.open(err, 'Close', {
-  //               duration: 3000,
-  //               verticalPosition: 'bottom',
-  //               horizontalPosition: 'center',
-  //               panelClass: ['error-snackbar'],
-  //             });
-  //             this.showAddCoilModal = true;
-  //           },
-  //         });
-
-  // }
 
   createhistort(sn: any, ci: any) {
     this.sadelService
