@@ -335,7 +335,6 @@ export class SadelAComponent {
         this.sadelService.savePickup({});
 
         this.cdr.detectChanges();
-        console.log('Drop coil completed successfully!');
       },
       error: () => console.error('API update failed!'),
     });

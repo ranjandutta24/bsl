@@ -51,11 +51,11 @@
       <!-- Show these if COILID exists -->
       <ng-container *ngIf="selectedSaddle?.COILID">
         <li (click)="selectItem('Pickup')">
-          <i [class]="getIcon('Pickup')"></i>
+          <i class="opicon" [class]="getIcon('Pickup')"></i>
           Pickup
         </li>
         <li (click)="selectItem('Remove')">
-          <i [class]="getIcon('Option B')"></i>
+          <i class="opicon" [class]="getIcon('Remove')"></i>
           Remove
         </li>
         <li
@@ -63,14 +63,15 @@
           (click)="selectItem('Option C')"
         >
           <i
-            [class]="getIcon('Option C')"
+            class="opicon"
+            [class]="getIcon(selectedSaddle?.FIT ? 'Unfit' : 'Fit')"
             [ngClass]="{ desableli: selectedSaddle?.COILID }"
           ></i>
 
           {{ selectedSaddle?.FIT ? "Unfit" : "Fit" }}
         </li>
         <li (click)="selectItem('Cancel')">
-          <i [class]="getIcon('Cancel')"></i>
+          <i class="opicon" [class]="getIcon('Cancel')"></i>
           Cancel
         </li>
       </ng-container>
@@ -78,21 +79,23 @@
       <!-- Show these if COILID does not exist -->
       <ng-container *ngIf="!selectedSaddle?.COILID">
         <li
-          (click)="selectItem('Add Coil')"
+          (click)="selectItem(selectedSaddle?.FIT ? 'Add Coil' : 'Option C')"
           [ngClass]="{ desableli: !selectedSaddle?.FIT }"
         >
           <i
-            [class]="getIcon('No Coil Available')"
+            class="opicon"
+            [class]="getIcon('Add')"
             [ngClass]="{ desableli: !selectedSaddle?.FIT }"
           ></i>
           Add Coil
         </li>
         <li
-          (click)="selectItem('Drop Coil')"
+          (click)="selectItem(selectedSaddle?.FIT ? 'Drop Coil' : 'Option C')"
           [ngClass]="{ desableli: !selectedSaddle?.FIT || !pickupcoil?.COILID }"
         >
           <i
-            [class]="getIcon('Placeholder Option')"
+            class="opicon"
+            [class]="getIcon('Drop')"
             [ngClass]="{
               desableli: !selectedSaddle?.FIT || !pickupcoil?.COILID
             }"
@@ -100,11 +103,14 @@
           Drop Coil
         </li>
         <li (click)="selectItem(selectedSaddle?.FIT ? 'Unfit' : 'Fit')">
-          <i [class]="getIcon(selectedSaddle?.FIT ? 'Fit' : 'Unfit')"></i>
+          <i
+            class="opicon"
+            [class]="getIcon(selectedSaddle?.FIT ? 'Unfit' : 'Fit')"
+          ></i>
           {{ selectedSaddle?.FIT ? "Unfit" : "Fit" }}
         </li>
         <li (click)="selectItem('Cancel')">
-          <i [class]="getIcon('Placeholder Option')"></i>
+          <i class="opicon" [class]="getIcon('Cancel')"></i>
           Cancel
         </li>
       </ng-container>
