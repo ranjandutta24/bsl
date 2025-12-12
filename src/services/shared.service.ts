@@ -35,6 +35,27 @@ export class CentralHandlerService {
     this.popupVisible = true;
   }
 
+  getIcon(action: string): string {
+    switch (action) {
+      case 'Pickup':
+        return 'fa fa-circle-up';
+      case 'Remove':
+        return 'fa fa-xmark';
+      case 'Cancel':
+        return 'fa fa-ban';
+      case 'Fit':
+        return 'fa fa-f';
+      case 'Unfit':
+        return 'fa fa-u';
+      case 'Add':
+        return 'fa fa-plus';
+      case 'Drop':
+        return 'fa fa-circle-down';
+      default:
+        return 'fa fa-circle';
+    }
+  }
+
   hidePopup() {
     this.popupVisible = false;
   }

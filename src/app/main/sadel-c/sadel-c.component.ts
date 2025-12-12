@@ -7,6 +7,7 @@ import { forkJoin } from 'rxjs';
 import { ChangeDetectorRef } from '@angular/core';
 import { SadelCommService } from '../../../services/sadel-commn.service';
 import { CentralHandlerService } from '../../../services/shared.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-sadel-c',
@@ -19,7 +20,8 @@ export class SadelCComponent {
     private sadelService: SadelService,
     private cdr: ChangeDetectorRef,
     private comm: SadelCommService,
-    public central: CentralHandlerService
+    public central: CentralHandlerService,
+    private snackBar: MatSnackBar
   ) {}
   no_result = 0;
   hoveredItem: any = null;
@@ -301,12 +303,46 @@ export class SadelCComponent {
   closeAddCoilModal() {
     this.showAddCoilModal = false;
   }
+
+  getImage(item: any): string {
+    // 1. Check unfit
+    if (!item.FIT) {
+      return 'assets/images/unfit.png';
+    }
+
+    // 2. Coil present
+    if (item.COILID) {
+      const diff = this.getMinuteDiff(item.HSMPRODTIME); // <-- your datetime field
+
+      return diff > 4320 ? 'assets/images/coil.png' : 'assets/images/hot.png';
+    }
+
+    // 3. No coil → fit
+    return 'assets/images/fit.png';
+  }
+
+  getMinuteDiff(dateString: string): number {
+    const givenDate = new Date(dateString);
+    const now = new Date();
+
+    const diffMs = now.getTime() - givenDate.getTime(); // use getTime()
+    const diffMinutes = Math.floor(diffMs / (1000 * 60));
+
+    return diffMinutes;
+  }
   saveCoil() {
     this.sadelService.coilvalid({ COILID: this.newCoilId }).subscribe(
       (response: any) => {
         if (response.valid == 0) {
-          alert(
-            `Coil ID ${this.newCoilId} does not exist. Please check again.`
+          this.snackBar.open(
+            `Coil ID ${this.newCoilId} data not present. Please check again.`,
+            'Close',
+            {
+              duration: 3000,
+              verticalPosition: 'bottom',
+              horizontalPosition: 'center',
+              panelClass: ['error-snackbar'],
+            }
           );
           // this.showAddCoilModal = true;
           return;
@@ -346,7 +382,12 @@ export class SadelCComponent {
             },
 
             error: (err) => {
-              alert(err);
+              this.snackBar.open(err, 'Close', {
+                duration: 3000,
+                verticalPosition: 'bottom',
+                horizontalPosition: 'center',
+                panelClass: ['error-snackbar'],
+              });
               this.showAddCoilModal = true;
             },
           });
@@ -380,17 +421,8 @@ export class SadelCComponent {
       });
   }
 
-  getIcon(item: any) {
-    switch (item) {
-      case 'Pickup':
-        return 'fa fa-truck';
-      case 'Remove':
-        return 'fa fa-trash';
-      case 'Cancel':
-        return 'fa fa-times-circle';
-      default:
-        return 'fa fa-circle';
-    }
+  getIcon(action: string) {
+    return this.central.getIcon(action);
   }
 
   blockPrefixEdit(event: KeyboardEvent) {

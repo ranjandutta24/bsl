@@ -9,7 +9,7 @@
       (contextmenu)="onRightClick($event, item)"
       (mouseenter)="hoveredItem = item"
       (mouseleave)="hoveredItem = null"
-      (dblclick)="onDoubleClick(item)"
+      (click)="onDoubleClick(item)"
       [ngClass]="{
         desable: !item.FIT,
         hascoil: item.COILID,
@@ -20,22 +20,15 @@
     >
       <p>{{ item.SADDLENAME }}</p>
 
-      <img
-        class="im"
-        [src]="
-          !item.FIT
-            ? 'assets/images/unfit.png'
-            : item.COILID
-            ? 'assets/images/hot.png'
-            : 'assets/images/fit.png'
-        "
-        alt=""
-      />
-      <div class="overlay" *ngIf="hoveredItem === item">
+      <img class="im" [src]="getImage(item)" alt="" />
+      <div class="overlay" *ngIf="hoveredItem === item && item.COILID">
         <div class="tab">
-          <div class="h">{{ item.SADDLENAME }}</div>
+          <!-- <div class="h">{{ item.SADDLENAME }}</div> -->
           <div class="h">{{ item.COILID }}</div>
-          <div class="h">{{ item.FIT ? "Fit" : "Unfit" }}</div>
+          <div *ngIf="item.THICK" class="h">{{ item.THICK }}</div>
+          <div *ngIf="item.WIDTH" class="h">{{ item.WIDTH }}</div>
+          <div *ngIf="item.DEST" class="h">{{ item.DEST }}</div>
+          <div *ngIf="item.GRADE" class="h">{{ item.GRADE }}</div>
         </div>
       </div>
     </div>
@@ -56,11 +49,11 @@
       <!-- Show these if COILID exists -->
       <ng-container *ngIf="selectedSaddle?.COILID">
         <li (click)="selectItem('Pickup')">
-          <i [class]="getIcon('Pickup')"></i>
+          <i class="opicon" [class]="getIcon('Pickup')"></i>
           Pickup
         </li>
         <li (click)="selectItem('Remove')">
-          <i [class]="getIcon('Option B')"></i>
+          <i class="opicon" [class]="getIcon('Remove')"></i>
           Remove
         </li>
         <li
@@ -68,14 +61,15 @@
           (click)="selectItem('Option C')"
         >
           <i
-            [class]="getIcon('Option C')"
+            class="opicon"
+            [class]="getIcon(selectedSaddle?.FIT ? 'Unfit' : 'Fit')"
             [ngClass]="{ desableli: selectedSaddle?.COILID }"
           ></i>
 
           {{ selectedSaddle?.FIT ? "Unfit" : "Fit" }}
         </li>
         <li (click)="selectItem('Cancel')">
-          <i [class]="getIcon('Cancel')"></i>
+          <i class="opicon" [class]="getIcon('Cancel')"></i>
           Cancel
         </li>
       </ng-container>
@@ -83,21 +77,23 @@
       <!-- Show these if COILID does not exist -->
       <ng-container *ngIf="!selectedSaddle?.COILID">
         <li
-          (click)="selectItem('Add Coil')"
+          (click)="selectItem(selectedSaddle?.FIT ? 'Add Coil' : 'Option C')"
           [ngClass]="{ desableli: !selectedSaddle?.FIT }"
         >
           <i
-            [class]="getIcon('No Coil Available')"
+            class="opicon"
+            [class]="getIcon('Add')"
             [ngClass]="{ desableli: !selectedSaddle?.FIT }"
           ></i>
           Add Coil
         </li>
         <li
-          (click)="selectItem('Drop Coil')"
+          (click)="selectItem(selectedSaddle?.FIT ? 'Drop Coil' : 'Option C')"
           [ngClass]="{ desableli: !selectedSaddle?.FIT || !pickupcoil?.COILID }"
         >
           <i
-            [class]="getIcon('Placeholder Option')"
+            class="opicon"
+            [class]="getIcon('Drop')"
             [ngClass]="{
               desableli: !selectedSaddle?.FIT || !pickupcoil?.COILID
             }"
@@ -105,11 +101,14 @@
           Drop Coil
         </li>
         <li (click)="selectItem(selectedSaddle?.FIT ? 'Unfit' : 'Fit')">
-          <i [class]="getIcon(selectedSaddle?.FIT ? 'Fit' : 'Unfit')"></i>
+          <i
+            class="opicon"
+            [class]="getIcon(selectedSaddle?.FIT ? 'Unfit' : 'Fit')"
+          ></i>
           {{ selectedSaddle?.FIT ? "Unfit" : "Fit" }}
         </li>
         <li (click)="selectItem('Cancel')">
-          <i [class]="getIcon('Placeholder Option')"></i>
+          <i class="opicon" [class]="getIcon('Cancel')"></i>
           Cancel
         </li>
       </ng-container>
@@ -179,7 +178,7 @@
       <i class="fa fa-search search-icon"></i>
     </div>
 
-    <p *ngIf="no_result == 1" class="nocoil">No Coil Found ☹️</p>
+    <p *ngIf="no_result == 1" class="nocoil">Coil Not Found☹️</p>
 
     <!-- Pickup Text -->
     <p *ngIf="pickupFlag" class="pickup-text">

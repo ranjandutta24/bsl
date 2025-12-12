@@ -14,7 +14,7 @@
 
 import { ApplicationConfig, APP_INITIALIZER } from '@angular/core';
 import { provideZoneChangeDetection } from '@angular/core';
-import { provideRouter } from '@angular/router';
+import { provideRouter, withHashLocation } from '@angular/router';
 import { routes } from './app.routes';
 import { provideHttpClient } from '@angular/common/http';
 import { IpService } from '../services/ip.service';
@@ -40,7 +40,7 @@ export function initApp(ip: IpService, config: ConfigService) {
 export const appConfig: ApplicationConfig = {
   providers: [
     provideZoneChangeDetection({ eventCoalescing: true }),
-    provideRouter(routes),
+    provideRouter(routes, withHashLocation()),
     provideHttpClient(),
 
     {

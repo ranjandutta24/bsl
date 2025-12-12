@@ -10,13 +10,17 @@
       </p>
       <ul class="features">
         <li>
-          <span class="material-icons">engineering</span> HRCC Coil Movement
-          Operation
+          <img class="fe" [src]="'assets/images/hook.png'" alt="" /> HRCC Coil
+          Movement Operation
         </li>
         <li>
-          <span class="material-icons">bolt</span> Fast & Responsive Interface
+          <img class="fe" [src]="'assets/images/quick.png'" alt="" /> Fast &
+          Responsive Interface
         </li>
-        <li><span class="material-icons">description</span> Report</li>
+        <li>
+          <img class="fe" [src]="'assets/images/seo-report.png'" alt="" />
+          Report
+        </li>
       </ul>
     </div>
 
@@ -38,7 +42,8 @@
         <div class="form-group">
           <label for="userid">User ID</label>
           <div class="input-with-icon">
-            <span class="material-icons">person</span>
+            <!-- <span class="material-icons">person</span> -->
+            <img class="up" [src]="'assets/images/user.png'" alt="" />
             <input
               [ngModelOptions]="{ standalone: true }"
               type="text"
@@ -57,7 +62,8 @@
         <div class="form-group">
           <label for="password">Password</label>
           <div class="input-with-icon">
-            <span class="material-icons">vpn_key</span>
+            <img class="up" [src]="'assets/images/key.png'" alt="" />
+            <!-- <span class="material-icons">vpn_key</span> -->
             <input
               [ngModelOptions]="{ standalone: true }"
               type="password"

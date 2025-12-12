@@ -27,12 +27,16 @@ body {
 
 .left-panel {
   flex: 1;
-  background: linear-gradient(
-      rgba(37, 116, 252, 0.575),
-      rgba(255, 248, 234, 0.9)
-    ),
-    // background: linear-gradient(rgba(37, 117, 252, 0.9), rgba(106, 17, 203, 0.9)),
-    url("https://images.unsplash.com/photo-1555099962-4199c345e5dd?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80");
+
+  background: linear-gradient(rgb(37 116 252 / 74%), rgb(253 154 106 / 23%)),
+    url("../../../assets/images/bg-right.jpeg");
+  // background: linear-gradient(
+  //     rgba(37, 116, 252, 0.575),
+  //     rgba(255, 248, 234, 0.9)
+  //   ),
+  //   background: linear-gradient(rgba(37, 117, 252, 0.9), rgba(106, 17, 203, 0.9)),
+  //   url("https://images.unsplash.com/photo-1555099962-4199c345e5dd?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80");
+
   background-size: cover;
   background-position: center;
   color: white;
@@ -277,6 +281,7 @@ body {
 }
 
 .features li {
+  position: relative;
   margin-bottom: 15px;
   display: flex;
   align-items: center;
@@ -286,6 +291,7 @@ body {
   span {
     margin-right: 5px;
   }
+  padding-left: 35px;
 }
 
 .features i {
@@ -355,4 +361,16 @@ body {
 .logo1 {
   height: 48px;
   margin-right: 10px;
+}
+.up {
+  height: 23px;
+  position: absolute;
+  bottom: 14px;
+  left: 13px;
+}
+.fe {
+  height: 24px;
+  position: absolute;
+  bottom: 8px;
+  left: 5px;
 }

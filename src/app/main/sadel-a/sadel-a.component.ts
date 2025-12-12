@@ -335,7 +335,6 @@ export class SadelAComponent {
         this.sadelService.savePickup({});
 
         this.cdr.detectChanges();
-        console.log('Drop coil completed successfully!');
       },
       error: () => console.error('API update failed!'),
     });
@@ -367,7 +366,7 @@ export class SadelAComponent {
           };
           this.gridItems = [...this.gridItems];
           this.comm.triggerStatusRefresh();
-          console.log('call this');
+
           this.cdr.detectChanges(); //
         }
       });
@@ -376,81 +375,100 @@ export class SadelAComponent {
   closeAddCoilModal() {
     this.showAddCoilModal = false;
   }
+
+  getImage(item: any): string {
+    // 1. Check unfit
+    if (!item.FIT) {
+      return 'assets/images/unfit.png';
+    }
+
+    // 2. Coil present
+    if (item.COILID) {
+      const diff = this.getMinuteDiff(item.HSMPRODTIME); // <-- your datetime field
+
+      return diff > 4320 ? 'assets/images/coil.png' : 'assets/images/hot.png';
+    }
+
+    // 3. No coil → fit
+    return 'assets/images/fit.png';
+  }
+
+  getMinuteDiff(dateString: string): number {
+    const givenDate = new Date(dateString);
+    const now = new Date();
+
+    const diffMs = now.getTime() - givenDate.getTime(); // use getTime()
+    const diffMinutes = Math.floor(diffMs / (1000 * 60));
+
+    return diffMinutes;
+  }
   saveCoil() {
-    this.sadelService.coilvalid({ COILID: this.newCoilId }).subscribe(
-      (response: any) => {
-        if (response.valid == 0) {
-          this.snackBar.open(
-            `Coil ID ${this.newCoilId} data not present. Please check again.`,
-            'Close',
-            {
-              duration: 3000,
-              verticalPosition: 'bottom',
-              horizontalPosition: 'center',
-              panelClass: ['error-snackbar'],
-            }
-          );
+    this.sadelService
+      .update({
+        SADDLENAME: this.selectedSaddle.SADDLENAME,
+        COILID: this.newCoilId,
+      })
+      .subscribe({
+        // operation with response
 
-          // alert(
-          //   `Coil ID ${this.newCoilId} does not exist. Please check again.`
-          // );
-          // this.showAddCoilModal = true;
-          return;
-        }
+        next: (response: any) => {
+          // ✅ Update UI only if API succeeds
+          console.log('API Response:', response);
 
-        this.sadelService
-          .update({
-            SADDLENAME: this.selectedSaddle.SADDLENAME,
-            COILID: this.newCoilId,
-          })
-          .subscribe({
-            next: () => {
-              // ✅ Update UI only if API succeeds
-              const index = this.gridItems.findIndex(
-                (item: any) =>
-                  item.SADDLENAME === this.selectedSaddle.SADDLENAME
-              );
-
-              if (index !== -1) {
-                this.gridItems[index] = {
-                  ...this.gridItems[index],
-                  COILID: this.newCoilId,
-                };
-
-                // Force change detection
-                this.gridItems = [...this.gridItems];
-                this.cdr.detectChanges();
-              }
-
-              this.createhistort(
-                this.selectedSaddle.SADDLENAME,
-                this.newCoilId
-              );
-              this.showAddCoilModal = false;
-              this.newCoilId = this.prefix;
-
-              this.comm.triggerStatusRefresh();
-              console.log('call this');
-            },
-
-            error: (err) => {
-              // alert(err);
-
-              this.snackBar.open(err, 'Close', {
+          if (response.status == 3) {
+            this.snackBar.open(
+              // `Coil ID ${this.newCoilId}, Coil Data Not Available !!!. Please check again.`,
+              response.msg,
+              'Close',
+              {
                 duration: 3000,
                 verticalPosition: 'bottom',
                 horizontalPosition: 'center',
                 panelClass: ['error-snackbar'],
-              });
-              this.showAddCoilModal = true;
-            },
+              }
+            );
+            return;
+          }
+          const index = this.gridItems.findIndex(
+            (item: any) => item.SADDLENAME === this.selectedSaddle.SADDLENAME
+          );
+
+          if (index !== -1) {
+            this.gridItems[index] = {
+              ...this.gridItems[index],
+              COILID: this.newCoilId,
+              HSMPRODTIME: response.HSMPRODTIME,
+              THICK: response.THICK,
+              WIDTH: response.WIDTH,
+              DEST: response.DEST,
+              GRADE: response.GRADE,
+            };
+
+            // Force change detection
+            this.gridItems = [...this.gridItems];
+            this.cdr.detectChanges();
+          }
+
+          this.createhistort(this.selectedSaddle.SADDLENAME, this.newCoilId);
+          this.showAddCoilModal = false;
+          this.newCoilId = this.prefix;
+
+          this.comm.triggerStatusRefresh();
+          console.log('call this');
+        },
+
+        error: (err) => {
+          // alert(err);
+
+          this.snackBar.open(err.error, 'Close', {
+            duration: 3000,
+            verticalPosition: 'bottom',
+            horizontalPosition: 'center',
+            panelClass: ['error-snackbar'],
           });
-      },
-      (respError) => {
-        let msg = `Error`;
-        alert(msg);
-      }
-    );
+          this.showAddCoilModal = true;
+        },
+      });
   }
 
   createhistort(sn: any, ci: any) {
@@ -476,17 +494,8 @@ export class SadelAComponent {
       });
   }
 
-  getIcon(item: any) {
-    switch (item) {
-      case 'Pickup':
-        return 'fa fa-truck';
-      case 'Remove':
-        return 'fa fa-trash';
-      case 'Cancel':
-        return 'fa fa-times-circle';
-      default:
-        return 'fa fa-circle';
-    }
+  getIcon(action: string) {
+    return this.central.getIcon(action);
   }
 }
 

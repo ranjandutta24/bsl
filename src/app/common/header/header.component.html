@@ -28,18 +28,19 @@
       <li class="user-greeting">
         Welcome, <span class="user-name">{{ getUserName() }}</span>
       </li>
-      <li class="lo" (click)="logout()">Logout</li>
+      <li class="lo" (click)="logout()">
+        <i
+          id="lg"
+          class="fa fa-sign-out"
+          (click)="logout()"
+          role="button"
+          tabindex="0"
+          aria-label="Logout"
+        >
+        </i>
+      </li>
 
       <!-- <i id="lg" class="fa fa-sign-out" (click)="logout()></i> -->
-      <i
-        id="lg"
-        class="fa fa-sign-out"
-        (click)="logout()"
-        role="button"
-        tabindex="0"
-        aria-label="Logout"
-      >
-      </i>
 
       <!-- Logout icon -->
     </ul>
