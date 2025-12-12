@@ -8,8 +8,7 @@ import { catchError, retry, throwError } from 'rxjs';
 export class SadelService {
   //private apiUrl = 'http://localhost:4062/api';//Local API
   private apiUrl = 'http://192.168.10.210:4033/api/';
-  // private apiUrl = 'http://192.168.1.15/trisapidev/api';
-  //private apiUrl = 'https://erp.sisx.in/sisxerpapi/api';//Prod API
+
   private authorization = 'Bearer c2lzeFVQVkF1dGg6YjVQVTJPcFYyNCMxc24=';
   //For Sign up Link
 
