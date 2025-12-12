@@ -29,11 +29,11 @@ export function initApp(ip: IpService, config: ConfigService) {
       .getIp()
       .toPromise()
       .then((res: any) => {
-        config.setApiUrlBasedOnIp(res.ip);
+        config.setApiUrlBasedOnIp();
       })
       .catch(() => {
         // fallback if IP API fails
-        config.setApiUrlBasedOnIp('0.0.0.0');
+        config.setApiUrlBasedOnIp();
       });
 }
 

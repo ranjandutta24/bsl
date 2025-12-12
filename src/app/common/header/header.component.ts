@@ -22,10 +22,20 @@ export class HeaderComponent {
     return this.router.url === path;
   }
   getUserName(): string {
-    // retrieve user name from local storage or any other storage mechanism
-    const userName = JSON.parse(localStorage.getItem('USER_ID') || '');
-    return userName ? userName : 'Guest';
+    const storedValue = localStorage.getItem('USER_ID');
+
+    if (!storedValue) {
+      return 'Guest';
+    }
+
+    try {
+      return JSON.parse(storedValue);
+    } catch (e) {
+      console.error('Invalid USER_ID JSON in localStorage', e);
+      return 'Guest';
+    }
   }
+
   // logout() {
   //   // clear user session data from local storage or any other storage mechanism
   //   localStorage.removeItem('USER_ID');
