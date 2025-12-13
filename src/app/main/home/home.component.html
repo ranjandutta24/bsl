@@ -173,6 +173,25 @@
           </div>
         </div>
       </div>
+      <div
+        class="alpha"
+        [ngClass]="{ 'active-alpha': selected === 'X' }"
+        (click)="selected = 'X'"
+      >
+        <div class="flex">
+          <h2>X</h2>
+
+          <div class="count">
+            <p style="background-color: #598bbf">
+              L : {{ Xstatuscount.LOADED }}
+            </p>
+            <p style="background-color: #e5f2ff; color: rgb(56, 56, 56)">
+              E : {{ Xstatuscount.EMPTY }}
+            </p>
+            <p>U : {{ Xstatuscount.UNFIT }}</p>
+          </div>
+        </div>
+      </div>
     </div>
     <div class="right" [ngSwitch]="selected">
       <ng-container *ngIf="selectedComponent; else defaultMsg">

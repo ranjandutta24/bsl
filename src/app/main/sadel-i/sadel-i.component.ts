@@ -9,10 +9,11 @@ import { ChangeDetectorRef } from '@angular/core';
 import { SadelCommService } from '../../../services/sadel-commn.service';
 import { CentralHandlerService } from '../../../services/shared.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { TotalStatusComponent } from '../total-status/total-status.component';
 
 @Component({
   selector: 'app-sadel-i',
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, TotalStatusComponent],
   templateUrl: './sadel-i.component.html',
   styleUrl: './sadel-i.component.scss',
 })

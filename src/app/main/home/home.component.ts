@@ -11,6 +11,7 @@ import { SadelHComponent } from '../sadel-h/sadel-h.component';
 import { SadelIComponent } from '../sadel-i/sadel-i.component';
 import { SadelCommService } from '../../../services/sadel-commn.service';
 import { SadelService } from '../../../services/sadel.service';
+import { SadelXComponent } from '../sadel-x/sadel-x.component';
 
 @Component({
   selector: 'app-home',
@@ -30,6 +31,7 @@ export class HomeComponent {
   Gstatuscount: any;
   Hstatuscount: any;
   Istatuscount: any;
+  Xstatuscount: any;
 
   private createStatus(row: string) {
     return {
@@ -59,6 +61,7 @@ export class HomeComponent {
     this.Gstatuscount = this.createStatus('G');
     this.Hstatuscount = this.createStatus('H');
     this.Istatuscount = this.createStatus('I');
+    this.Xstatuscount = this.createStatus('X');
     // this.sadelService.statuscount().subscribe(
     //   (response: any) => {
     //     // console.log(response);
@@ -108,7 +111,7 @@ export class HomeComponent {
   @HostListener('document:keydown', ['$event'])
   onKeyPress(event: KeyboardEvent) {
     const hightList = ['1', '2'];
-    const keyList = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I'];
+    const keyList = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'X'];
 
     const activeElement = document.activeElement;
     if (
@@ -120,7 +123,7 @@ export class HomeComponent {
     }
 
     const key = event.key.toUpperCase();
-      // 🚫 Ignore if modifier keys are pressed (Shift, Ctrl, Alt, Meta)
+    // 🚫 Ignore if modifier keys are pressed (Shift, Ctrl, Alt, Meta)
     if (event.ctrlKey || event.shiftKey || event.altKey || event.metaKey) {
       return;
     }
@@ -148,6 +151,7 @@ export class HomeComponent {
       this.Gstatuscount = map.get('G');
       this.Hstatuscount = map.get('H');
       this.Istatuscount = map.get('I');
+      this.Xstatuscount = map.get('X');
 
       this.cdr.detectChanges();
     });
@@ -164,6 +168,7 @@ export class HomeComponent {
     G: SadelGComponent,
     H: SadelHComponent,
     I: SadelIComponent,
+    X: SadelXComponent,
   };
 
   // Returning dynamic component
