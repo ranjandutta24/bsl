@@ -13,7 +13,7 @@ export class ConfigService {
 
     table.host = host;
 
-    if (ip.startsWith('10.70')) {
+    if (host.startsWith('10.70')) {
       this.apiUrl = this.case1_apiUrl;
     } else {
       this.apiUrl = this.main_apiUrl;
