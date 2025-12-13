@@ -2,37 +2,26 @@ import { Injectable } from '@angular/core';
 
 @Injectable({ providedIn: 'root' })
 export class ConfigService {
-  apiUrl = 'http://192.168.10.210:4033/api/'; // default
+  apiUrl = 'http://192.168.10.210:4033/api/'; // final
 
-  // setApiUrlBasedOnIp(ip: string) {
-  //   console.log(ip);
+  main_apiUrl = 'http://192.168.10.210:4033/api/'; // default
+  case1_apiUrl = 'http://10.70.14.3:4033/api/'; // 10.70
 
-  //   if (ip.startsWith('192.168.10.75')) {
-  //     this.apiUrl = 'http://192.168.10.75:5000/api/';
-  //   } else if (ip.startsWith('192.168.4.')) {
-  //     this.apiUrl = 'http://192.168.4.10:4062/api/';
-  //   } else {
-  //     this.apiUrl = 'http://192.168.10.210:4033/api/';
-  //   }
-  // }
-
-  setApiUrlBasedOnIp() {
+  setApiUrlBasedOnIp(ip: any) {
     const table: any = {};
     const host = window.location.hostname;
 
     table.host = host;
 
-    if (host.startsWith('10.127')) {
-      this.apiUrl = 'http://192.168.10.210:4033/api/';
-    } else if (host.startsWith('10.128')) {
-      this.apiUrl = 'http://192.168.4.10:4062/api/';
+    if (ip.startsWith('10.70')) {
+      this.apiUrl = this.case1_apiUrl;
     } else {
-      this.apiUrl = 'https://public-server.com/api/';
+      this.apiUrl = this.main_apiUrl;
     }
 
     table.baseurl = this.apiUrl;
 
-    console.log('Access from:', host);
+    console.log('Access from:', ip);
     console.log('Base URL:', this.apiUrl);
 
     console.table(table); // ✅ Works

@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { catchError, retry, throwError } from 'rxjs';
+import { ConfigService } from './config.service';
 
 @Injectable({
   providedIn: 'root',
@@ -21,7 +22,8 @@ export class SadelService {
 
   constructor(
     // @Inject(SESSION_STORAGE) private storage: StorageService,
-    public http: HttpClient
+    public http: HttpClient,
+    private config: ConfigService
   ) {}
 
   getHigh() {
@@ -73,7 +75,7 @@ export class SadelService {
       }),
     };
     return this.http
-      .post(this.apiUrl + 'sadel/search', saddle, httpOptions)
+      .post(this.config.apiUrl + 'sadel/search', saddle, httpOptions)
       .pipe(retry(1), catchError(this.errorHandler));
   }
   update(saddle: any) {
@@ -84,7 +86,7 @@ export class SadelService {
       }),
     };
     return this.http
-      .post(this.apiUrl + 'sadel/update1', saddle, httpOptions)
+      .post(this.config.apiUrl + 'sadel/update1', saddle, httpOptions)
       .pipe(retry(1), catchError(this.errorHandler));
   }
 
@@ -96,7 +98,7 @@ export class SadelService {
       }),
     };
     return this.http
-      .post(this.apiUrl + 'sadel/coildetail', coilid, httpOptions)
+      .post(this.config.apiUrl + 'sadel/coildetail', coilid, httpOptions)
       .pipe(retry(1), catchError(this.errorHandler));
   }
   statuscount() {
@@ -107,7 +109,7 @@ export class SadelService {
       }),
     };
     return this.http
-      .post(this.apiUrl + 'sadel/statuscount', {}, httpOptions)
+      .post(this.config.apiUrl + 'sadel/statuscount', {}, httpOptions)
       .pipe(retry(1), catchError(this.errorHandler));
   }
   coilvalid(coilid: any) {
@@ -118,7 +120,7 @@ export class SadelService {
       }),
     };
     return this.http
-      .post(this.apiUrl + 'sadel/coilvalid', coilid, httpOptions)
+      .post(this.config.apiUrl + 'sadel/coilvalid', coilid, httpOptions)
       .pipe(retry(1), catchError(this.errorHandler));
   }
 
@@ -130,7 +132,7 @@ export class SadelService {
       }),
     };
     return this.http
-      .post(this.apiUrl + 'saddelhistory/create', coilid, httpOptions)
+      .post(this.config.apiUrl + 'saddelhistory/create', coilid, httpOptions)
       .pipe(retry(1), catchError(this.errorHandler));
   }
   updatehistory(coilid: any) {
@@ -141,7 +143,7 @@ export class SadelService {
       }),
     };
     return this.http
-      .post(this.apiUrl + 'saddelhistory/update', coilid, httpOptions)
+      .post(this.config.apiUrl + 'saddelhistory/update', coilid, httpOptions)
       .pipe(retry(1), catchError(this.errorHandler));
   }
 
