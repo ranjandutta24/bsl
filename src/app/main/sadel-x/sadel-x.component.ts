@@ -9,10 +9,11 @@ import { forkJoin } from 'rxjs';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { TotalStatusComponent } from '../../common/total-status/total-status.component';
+import { CoilInfoComponent } from '../../common/coil-info/coil-info.component';
 
 @Component({
   selector: 'app-sadel-x',
-  imports: [CommonModule, FormsModule, TotalStatusComponent],
+  imports: [CommonModule, FormsModule, TotalStatusComponent, CoilInfoComponent],
   templateUrl: './sadel-x.component.html',
   styleUrl: './sadel-x.component.scss',
 })

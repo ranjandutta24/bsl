@@ -9,10 +9,11 @@ import { SadelCommService } from '../../../services/sadel-commn.service';
 import { CentralHandlerService } from '../../../services/shared.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { TotalStatusComponent } from '../../common/total-status/total-status.component';
+import { CoilInfoComponent } from '../../common/coil-info/coil-info.component';
 
 @Component({
   selector: 'app-sadel-c',
-  imports: [CommonModule, FormsModule, TotalStatusComponent],
+  imports: [CommonModule, FormsModule, TotalStatusComponent, CoilInfoComponent],
   templateUrl: './sadel-c.component.html',
   styleUrl: './sadel-c.component.scss',
 })
