@@ -23,6 +23,7 @@ import { CoilInfoComponent } from '../../common/coil-info/coil-info.component';
 })
 export class SadelAComponent {
   @ViewChild('coilInput') coilInput!: ElementRef<HTMLInputElement>;
+  @ViewChild('popupRef') popupRef!: ElementRef;
   imagePath = 'assets/images/design.png';
   no_result = 0;
   hoveredItem: any = null;
@@ -253,8 +254,6 @@ export class SadelAComponent {
         this.comm.switchSadel$.next({ row, coilId, flr });
       });
   }
-
-  @ViewChild('popupRef') popupRef!: ElementRef;
 
   @HostListener('document:click', ['$event'])
   onDocumentClick(event: MouseEvent) {

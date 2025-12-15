@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, ElementRef, ViewChild } from '@angular/core';
+import { Component, ElementRef, HostListener, ViewChild } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { SadelService } from '../../../services/sadel.service';
 import { forkJoin } from 'rxjs';
@@ -19,6 +19,7 @@ import { CoilInfoComponent } from '../../common/coil-info/coil-info.component';
 })
 export class SadelCComponent {
   @ViewChild('coilInput') coilInput!: ElementRef<HTMLInputElement>;
+  @ViewChild('popupRef') popupRef!: ElementRef;
   constructor(
     private sadelService: SadelService,
     private cdr: ChangeDetectorRef,
@@ -52,7 +53,16 @@ export class SadelCComponent {
 
   prefix: string = 'BSL00';
   newCoilId: string = this.prefix;
+  @HostListener('document:click', ['$event'])
+  onDocumentClick(event: MouseEvent) {
+    if (!this.popupVisible) return;
 
+    const clickedInside = this.popupRef?.nativeElement.contains(event.target);
+
+    if (!clickedInside) {
+      this.popupVisible = false;
+    }
+  }
   ngOnInit(): void {
     this.central.selectedSaddle$.subscribe((name) => {
       this.infoofsaddle = name;

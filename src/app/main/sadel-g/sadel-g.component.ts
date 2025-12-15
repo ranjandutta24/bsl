@@ -1,4 +1,4 @@
-import { Component, ElementRef, ViewChild } from '@angular/core';
+import { Component, ElementRef, HostListener, ViewChild } from '@angular/core';
 import { SadelService } from '../../../services/sadel.service';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
@@ -19,6 +19,7 @@ import { CoilInfoComponent } from '../../common/coil-info/coil-info.component';
 })
 export class SadelGComponent {
   @ViewChild('coilInput') coilInput!: ElementRef<HTMLInputElement>;
+  @ViewChild('popupRef') popupRef!: ElementRef;
   no_result = 0;
   hoveredItem: any = null;
   selectedhigh = '';
@@ -52,7 +53,16 @@ export class SadelGComponent {
     public central: CentralHandlerService,
     private snackBar: MatSnackBar
   ) {}
+  @HostListener('document:click', ['$event'])
+  onDocumentClick(event: MouseEvent) {
+    if (!this.popupVisible) return;
 
+    const clickedInside = this.popupRef?.nativeElement.contains(event.target);
+
+    if (!clickedInside) {
+      this.popupVisible = false;
+    }
+  }
   ngOnInit(): void {
     this.central.selectedSaddle$.subscribe((name) => {
       this.infoofsaddle = name;

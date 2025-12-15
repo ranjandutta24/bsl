@@ -2,6 +2,7 @@ import {
   ChangeDetectorRef,
   Component,
   ElementRef,
+  HostListener,
   ViewChild,
 } from '@angular/core';
 import { SadelService } from '../../../services/sadel.service';
@@ -24,6 +25,7 @@ import { CoilInfoComponent } from '../../common/coil-info/coil-info.component';
 })
 export class SadelXComponent {
   @ViewChild('coilInput') coilInput!: ElementRef<HTMLInputElement>;
+  @ViewChild('popupRef') popupRef!: ElementRef;
   constructor(
     private sadelService: SadelService,
     private cdr: ChangeDetectorRef,
@@ -56,7 +58,16 @@ export class SadelXComponent {
   newCoilId: string = this.prefix;
   searchCoil = 'BSL00';
   searchCoilResult: any = '';
+  @HostListener('document:click', ['$event'])
+  onDocumentClick(event: MouseEvent) {
+    if (!this.popupVisible) return;
 
+    const clickedInside = this.popupRef?.nativeElement.contains(event.target);
+
+    if (!clickedInside) {
+      this.popupVisible = false;
+    }
+  }
   ngOnInit(): void {
     this.central.selectedSaddle$.subscribe((name) => {
       this.infoofsaddle = name;
