@@ -8,7 +8,7 @@ import { forkJoin } from 'rxjs';
 // import { CommonModule } from '../../common/common.module';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { TotalStatusComponent } from '../total-status/total-status.component';
+import { TotalStatusComponent } from '../../common/total-status/total-status.component';
 
 @Component({
   selector: 'app-sadel-x',

@@ -12,11 +12,12 @@ import { HttpClientModule } from '@angular/common/http';
 import { SadelCommService } from '../../../services/sadel-commn.service';
 import { CentralHandlerService } from '../../../services/shared.service';
 import { not } from 'rxjs/internal/util/not';
-import { TotalStatusComponent } from '../total-status/total-status.component';
+import { TotalStatusComponent } from '../../common/total-status/total-status.component';
+import { CoilInfoComponent } from '../../common/coil-info/coil-info.component';
 
 @Component({
   selector: 'app-sadel-a',
-  imports: [CommonModule, FormsModule, TotalStatusComponent],
+  imports: [CommonModule, FormsModule, TotalStatusComponent, CoilInfoComponent],
   templateUrl: './sadel-a.component.html',
   styleUrl: './sadel-a.component.scss',
 })

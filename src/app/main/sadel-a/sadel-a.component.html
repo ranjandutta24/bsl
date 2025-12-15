@@ -193,100 +193,19 @@
 
     <p *ngIf="no_result == 1" class="nocoil">Coil Not Found ☹️</p>
 
-    <!-- Pickup Text -->
+    <!-- * Pickup Text -->
     <p *ngIf="pickupFlag" class="pickup-text">
       <strong>{{
         "Pickup " + pickupcoil?.COILID + " From " + pickupcoil?.SADDLENAME
       }}</strong>
     </p>
 
-    <!-- Saddle Text -->
-    <!-- Coil Info Card -->
+    <!-- * Coil Info Card -->
     <ng-container *ngIf="central.coilInfo$ | async as coilInfo">
-      <div *ngIf="central.saddleInfo$ | async" class="coil-info-card">
-        <h4>Coil Information</h4>
-
-        <div class="coil-row">
-          <span>Saddle Name:</span> {{ coilInfo.SADDLENAME }}
-        </div>
-
-        <div class="coil-row"><span>Coil ID:</span> {{ coilInfo.COILID }}</div>
-
-        <div class="coil-row">
-          <span>HSMPRODTIME:</span>
-        </div>
-
-        <div class="coil-row">
-          {{ coilInfo.HSMPRODTIME | date : "dd-MM-yyyy HH:mm:ss" }}
-        </div>
-
-        <div class="coil-row"><span>HEATNO:</span> {{ coilInfo.HEATNO }}</div>
-
-        <div class="coil-row">
-          <span>SLAB_ID:</span>
-        </div>
-
-        <div class="coil-row">
-          {{ coilInfo.SLAB_ID }}
-        </div>
-
-        <div class="coil-row">
-          <span>STEELGRADE:</span>
-        </div>
-
-        <div class="coil-row">
-          {{ coilInfo.STEELGRADE }}
-        </div>
-
-        <div class="coil-row">
-          <span>Thickness:</span> {{ coilInfo.THICK }} mm
-        </div>
-
-        <div class="coil-row"><span>Width:</span> {{ coilInfo.WIDTH }} mm</div>
-
-        <div class="coil-row">
-          <span>LENGTH:</span> {{ coilInfo.LENGTH }} mm
-        </div>
-
-        <div class="coil-row">
-          <span>WEIGHT:</span> {{ coilInfo.WEIGHT }} ton
-        </div>
-
-        <div class="coil-row"><span>IN DIA:</span> {{ coilInfo.IN_DIA }}</div>
-
-        <div class="coil-row"><span>OUT DIA:</span> {{ coilInfo.OUT_DIA }}</div>
-
-        <div class="coil-row">
-          <span>HRCC HR:</span> {{ coilInfo.HRCC_HR }} hr
-        </div>
-      </div>
+      <app-coil-info [coilInfo]="coilInfo"></app-coil-info>
     </ng-container>
 
+    <!--  *  total status -->
     <app-total-status></app-total-status>
   </div>
 </div>
-
-<!-- "SADDLENAME": "A1",
-
-    "UPDTIME": "2025-09-06T02:44:38.000Z",
-    "COILID": "BSL001149561",
-
-    "HSMPRODTIME": "2025-02-18T15:11:00.000Z",
-
-    "HEATNO": "25150628",
-
-    "SLAB_ID": "25-0050628/403-T246",
-
-    "STEELGRADE": "IS10748GR3SIALK",
-
-    "THICK": 4.8,
-    "WIDTH": 1400,
-
-    "LENGTH": 385,
-
-    "WEIGHT": 20.87,
-
-    "IN_DIA": 820,
-
-    "OUT_DIA": 1739,
-    "HRCC_HR": 6640 -->
