@@ -40,6 +40,7 @@
             {{ getMinuteDiff(item.HSMPRODTIME) }}
           </div> -->
   <div
+    #popupRef
     class="popup"
     *ngIf="popupVisible"
     [style.top.px]="popupY"

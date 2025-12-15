@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, ElementRef, ViewChild } from '@angular/core';
+import { Component, ElementRef, HostListener, ViewChild } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { SadelService } from '../../../services/sadel.service';
 import { forkJoin } from 'rxjs';
@@ -254,6 +254,19 @@ export class SadelAComponent {
       });
   }
 
+  @ViewChild('popupRef') popupRef!: ElementRef;
+
+  @HostListener('document:click', ['$event'])
+  onDocumentClick(event: MouseEvent) {
+    if (!this.popupVisible) return;
+
+    const clickedInside = this.popupRef?.nativeElement.contains(event.target);
+
+    if (!clickedInside) {
+      this.popupVisible = false;
+    }
+  }
+
   selectItem(item: string) {
     // console.log('Selected:', item);
 
@@ -264,8 +277,8 @@ export class SadelAComponent {
     } else if (item === 'Add Coil') {
       this.showAddCoilModal = true;
       setTimeout(() => {
-      this.coilInput?.nativeElement.focus();
-    }, 0);
+        this.coilInput?.nativeElement.focus();
+      }, 0);
     } else if (item === 'Unfit') {
       console.log('unfit');
       this.updateSaddle(item);
