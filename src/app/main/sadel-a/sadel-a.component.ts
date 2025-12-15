@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, ElementRef, ViewChild } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { SadelService } from '../../../services/sadel.service';
 import { forkJoin } from 'rxjs';
@@ -22,6 +22,7 @@ import { CoilInfoComponent } from '../../common/coil-info/coil-info.component';
   styleUrl: './sadel-a.component.scss',
 })
 export class SadelAComponent {
+  @ViewChild('coilInput') coilInput!: ElementRef<HTMLInputElement>;
   imagePath = 'assets/images/design.png';
   no_result = 0;
   hoveredItem: any = null;
@@ -260,10 +261,11 @@ export class SadelAComponent {
       this.pickupFlag = true;
       this.pickupcoil = this.selectedSaddle;
       this.sadelService.savePickup(this.pickupcoil);
-      // console.log(this.pickupcoil);
     } else if (item === 'Add Coil') {
       this.showAddCoilModal = true;
-      // console.log(this.selectedSaddle);
+      setTimeout(() => {
+      this.coilInput?.nativeElement.focus();
+    }, 0);
     } else if (item === 'Unfit') {
       console.log('unfit');
       this.updateSaddle(item);
