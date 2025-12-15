@@ -87,7 +87,7 @@ export class HomeComponent {
 
     // Refresh when coil updated from any saddle component
     this.comm.statusRefresh$.subscribe(() => {
-      console.log('REFRESH EVENT RECEIVED'); // 🔥 Add this to test
+      // console.log('REFRESH EVENT RECEIVED'); // 🔥 Add this to test
       this.loadStatusCount();
     });
 
@@ -140,7 +140,7 @@ export class HomeComponent {
 
   loadStatusCount() {
     this.sadelService.statuscount().subscribe((response: any) => {
-      const map = new Map(response.map((x: any) => [x.row, x]));
+      const map = new Map(response.statuscount.map((x: any) => [x.row, x]));
 
       this.Astatuscount = map.get('A');
       this.Bstatuscount = map.get('B');

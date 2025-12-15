@@ -20,10 +20,11 @@ export class TotalStatusComponent {
       //   0
       // );
 
-      console.log(response);
+      console.log(response.report);
+      let report = response.report;
 
-      this.total_coil = response[11].TOTCOIL;
-      this.total_weight = response[11].WEIGHT;
+      this.total_coil = report.TOTCOIL;
+      this.total_weight = report.WEIGHT;
 
       console.log(this.total_coil);
       // this.cdr.detectChanges();
