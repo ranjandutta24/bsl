@@ -32,6 +32,7 @@ export class HomeComponent {
   Hstatuscount: any;
   Istatuscount: any;
   Xstatuscount: any;
+  Zstatuscount: any;
 
   private createStatus(row: string) {
     return {
@@ -62,6 +63,7 @@ export class HomeComponent {
     this.Hstatuscount = this.createStatus('H');
     this.Istatuscount = this.createStatus('I');
     this.Xstatuscount = this.createStatus('X');
+    this.Zstatuscount = this.createStatus('Z');
     // this.sadelService.statuscount().subscribe(
     //   (response: any) => {
     //     // console.log(response);
@@ -111,7 +113,7 @@ export class HomeComponent {
   @HostListener('document:keydown', ['$event'])
   onKeyPress(event: KeyboardEvent) {
     const hightList = ['1', '2'];
-    const keyList = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'X'];
+    const keyList = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'X', 'Z'];
 
     const activeElement = document.activeElement;
     if (
@@ -152,6 +154,7 @@ export class HomeComponent {
       this.Hstatuscount = map.get('H');
       this.Istatuscount = map.get('I');
       this.Xstatuscount = map.get('X');
+      this.Zstatuscount = map.get('Z');
 
       this.cdr.detectChanges();
     });
