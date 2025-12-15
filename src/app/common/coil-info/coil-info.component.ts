@@ -5,7 +5,7 @@ import { FormsModule } from '@angular/forms';
 @Component({
   selector: 'app-coil-info',
   templateUrl: './coil-info.component.html',
-  styleUrls: ['./coil-info.component.css'],
+  styleUrls: ['./coil-info.component.scss'],
   imports: [CommonModule, FormsModule],
 })
 export class CoilInfoComponent {
