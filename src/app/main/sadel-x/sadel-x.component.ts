@@ -58,6 +58,9 @@ export class SadelXComponent {
   newCoilId: string = this.prefix;
   searchCoil = 'BSL00';
   searchCoilResult: any = '';
+  saddleH: any;
+  saddleI: any;
+
   @HostListener('document:click', ['$event'])
   onDocumentClick(event: MouseEvent) {
     if (!this.popupVisible) return;
@@ -68,10 +71,56 @@ export class SadelXComponent {
       this.popupVisible = false;
     }
   }
+
+  mergeArrays(arr1: any, arr2: any, arr3: any) {
+    const result = [];
+
+    let i1 = 0,
+      i2 = 0,
+      i3 = 0;
+
+    while (i1 < arr1.length || i2 < arr2.length || i3 < arr3.length) {
+      // 1 from last array
+      if (i3 < arr3.length) {
+        result.push(arr3[i3++]);
+      }
+
+      // 4 from first array
+      for (let i = 0; i < 4 && i1 < arr1.length; i++) {
+        result.push(arr1[i1++]);
+      }
+
+      // 4 from second array
+      for (let i = 0; i < 4 && i2 < arr2.length; i++) {
+        result.push(arr2[i2++]);
+      }
+    }
+
+    return result;
+  }
   ngOnInit(): void {
     this.central.selectedSaddle$.subscribe((name) => {
       this.infoofsaddle = name;
     });
+
+    this.sadelService
+      .search({ ROWNAME: 'H', FLR: 0 })
+      .subscribe((response: any) => {
+        if (response) {
+          this.saddleH = response.filter((item: any) => {
+            return item.SADDLESEQ > 701;
+          });
+        }
+      });
+    this.sadelService
+      .search({ ROWNAME: 'I', FLR: 0 })
+      .subscribe((response: any) => {
+        if (response) {
+          this.saddleI = response.filter((item: any) => {
+            return item.SADDLESEQ > 793;
+          });
+        }
+      });
     this.sadelService.search({ ROWNAME: 'X' }).subscribe(
       (response) => {
         this.sadelI = response;
@@ -80,6 +129,12 @@ export class SadelXComponent {
         this.gridItems1st = this.sadelI.filter((item: any) => {
           return item.FLR == 0;
         });
+
+        this.gridItems1st = this.mergeArrays(
+          this.saddleH,
+          this.saddleI,
+          this.gridItems1st
+        );
 
         this.gridItems2nd = this.sadelI.filter((item: any) => {
           return item.FLR == 1;

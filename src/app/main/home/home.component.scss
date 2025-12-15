@@ -166,7 +166,7 @@ h1 {
 
 .alpha:hover {
   transform: scale(1.05);
-  background-color: #e0e0e0; /* Light gray hover background */
+  background-color: #dfffc4; /* Light gray hover background */
   color: #333; /* Optional: darker text on hover */
 }
 .flex {
@@ -222,10 +222,15 @@ p {
   background: linear-gradient(
     180deg,
     // #ff0000,
-    #ff9900,
-    // #00ff99,
+    // #ff9900,
+    // #dcae07,
     // #0099ff,
     // #9900ff
+    #ff5555,
+    #ffcc55,
+    #55ffcc,
+    #55aaff,
+    #cc55ff
   );
   // border-radius: 3px;
 }

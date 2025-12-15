@@ -19,9 +19,16 @@
         infoselect: infoofsaddle == item.SADDLENAME && item?.COILID
       }"
     >
-      <p>{{ item.SADDLENAME }}</p>
+      <p style="writing-mode: vertical-rl; text-orientation: mixed">
+        {{ item.SADDLENAME }}
+      </p>
 
-      <img class="im" [src]="getImage(item)" alt="" />
+      <img
+        *ngIf="item.SADDLESEQ > 849"
+        class="im"
+        [src]="getImage(item)"
+        alt=""
+      />
       <div class="overlay" *ngIf="hoveredItem === item && item.COILID">
         <div class="tab">
           <!-- <div class="h">{{ item.SADDLENAME }}</div> -->

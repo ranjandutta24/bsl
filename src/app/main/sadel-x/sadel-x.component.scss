@@ -1,0 +1,44 @@
+// .thin {
+//   width: 20px !important;
+// }
+// .grid-container-flex {
+//   display: flex;
+//   flex-wrap: wrap;
+
+//   background-color: antiquewhite;
+//   padding: 10px;
+
+//   //  margin-right: 5px;
+//   width: 85%;
+
+//   gap: 10px;
+//   //   background-color: #1e1e1e;
+//   // margin: 10px;
+//   // border-radius: 10px;
+//   height: 100%;
+// }
+
+// .grid-item {
+//   height: 50px;
+//   width: 130px;
+// }
+.grid-container {
+  background-color: antiquewhite;
+  padding: 10px;
+  width: 85%;
+  display: grid;
+  grid-template-columns: repeat(27, 1fr);
+  grid-template-rows: repeat(11, 1fr);
+  gap: 10px;
+  height: 100%;
+}
+
+/* normal items */
+.grid-item {
+  grid-column: span 1;
+}
+
+/* every 8th item smaller */
+.grid-item:nth-child(8n) {
+  grid-column: span 0.5; /* visually smaller */
+}
