@@ -122,11 +122,13 @@
 
       <label for="coilIdInput">Coil ID:</label>
       <input
+        #coilInput
         maxlength="12"
         id="coilIdInput"
         type="text"
         [(ngModel)]="newCoilId"
         placeholder="Enter Coil ID"
+        (keydown.enter)="saveCoil()"
         title="Enter Coil ID"
       />
 

@@ -268,8 +268,6 @@ export class SadelAComponent {
   }
 
   selectItem(item: string) {
-    // console.log('Selected:', item);
-
     if (item === 'Pickup') {
       this.pickupFlag = true;
       this.pickupcoil = this.selectedSaddle;
@@ -280,23 +278,18 @@ export class SadelAComponent {
         this.coilInput?.nativeElement.focus();
       }, 0);
     } else if (item === 'Unfit') {
-      console.log('unfit');
       this.updateSaddle(item);
     } else if (item === 'Fit') {
-      console.log('fit');
       this.updateSaddle(item);
     } else if (item === 'Drop Coil') {
-      console.log('drop');
       this.dropcoil();
     } else if (item === 'Remove') {
-      console.log('remove');
       this.removecoil();
     } else if (item == 'Cancel') {
       this.pickupFlag = false;
       this.pickupcoil = null;
       this.sadelService.savePickup({});
     }
-
     this.popupVisible = false;
   }
 

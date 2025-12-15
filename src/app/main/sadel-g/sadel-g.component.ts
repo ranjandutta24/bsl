@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ElementRef, ViewChild } from '@angular/core';
 import { SadelService } from '../../../services/sadel.service';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
@@ -18,6 +18,7 @@ import { CoilInfoComponent } from '../../common/coil-info/coil-info.component';
   styleUrl: './sadel-g.component.scss',
 })
 export class SadelGComponent {
+  @ViewChild('coilInput') coilInput!: ElementRef<HTMLInputElement>;
   no_result = 0;
   hoveredItem: any = null;
   selectedhigh = '';
@@ -175,33 +176,28 @@ export class SadelGComponent {
   }
 
   selectItem(item: string) {
-    // console.log('Selected:', item);
-
     if (item === 'Pickup') {
       this.pickupFlag = true;
       this.pickupcoil = this.selectedSaddle;
       this.sadelService.savePickup(this.pickupcoil);
     } else if (item === 'Add Coil') {
       this.showAddCoilModal = true;
-      console.log(this.selectedSaddle);
+      setTimeout(() => {
+        this.coilInput?.nativeElement.focus();
+      }, 0);
     } else if (item === 'Unfit') {
-      console.log('unfit');
       this.updateSaddle(item);
     } else if (item === 'Fit') {
-      console.log('fit');
       this.updateSaddle(item);
     } else if (item === 'Drop Coil') {
-      console.log('drop');
       this.dropcoil();
     } else if (item === 'Remove') {
-      console.log('remove');
       this.removecoil();
     } else if (item == 'Cancel') {
       this.pickupFlag = false;
       this.pickupcoil = null;
       this.sadelService.savePickup({});
     }
-
     this.popupVisible = false;
   }
 

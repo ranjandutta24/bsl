@@ -122,6 +122,7 @@
 
       <label for="coilIdInput">Coil ID:</label>
       <input
+        #coilInput
         maxlength="12"
         id="coilIdInput"
         type="text"
@@ -129,6 +130,7 @@
         (keydown)="blockPrefixEdit($event)"
         (input)="restorePrefix()"
         placeholder="Enter Coil ID"
+        (keydown.enter)="saveCoil()"
         title="Enter Coil ID"
       />
 
@@ -167,6 +169,7 @@
 
     <div class="input-wrapper">
       <input
+        #coilInput
         maxlength="12"
         id="coilIdInput"
         class="coil-input"

@@ -1,4 +1,9 @@
-import { ChangeDetectorRef, Component } from '@angular/core';
+import {
+  ChangeDetectorRef,
+  Component,
+  ElementRef,
+  ViewChild,
+} from '@angular/core';
 import { SadelService } from '../../../services/sadel.service';
 import { SadelCommService } from '../../../services/sadel-commn.service';
 import { CentralHandlerService } from '../../../services/shared.service';
@@ -18,6 +23,7 @@ import { CoilInfoComponent } from '../../common/coil-info/coil-info.component';
   styleUrl: './sadel-x.component.scss',
 })
 export class SadelXComponent {
+  @ViewChild('coilInput') coilInput!: ElementRef<HTMLInputElement>;
   constructor(
     private sadelService: SadelService,
     private cdr: ChangeDetectorRef,
@@ -145,18 +151,16 @@ export class SadelXComponent {
       this.sadelService.savePickup(this.pickupcoil);
     } else if (item === 'Add Coil') {
       this.showAddCoilModal = true;
-      console.log(this.selectedSaddle);
+      setTimeout(() => {
+        this.coilInput?.nativeElement.focus();
+      }, 0);
     } else if (item === 'Unfit') {
-      console.log('unfit');
       this.updateSaddle(item);
     } else if (item === 'Fit') {
-      console.log('fit');
       this.updateSaddle(item);
     } else if (item === 'Drop Coil') {
-      console.log('drop');
       this.dropcoil();
     } else if (item === 'Remove') {
-      console.log('remove');
       this.removecoil();
     } else if (item == 'Cancel') {
       this.pickupFlag = false;
