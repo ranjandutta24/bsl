@@ -38,7 +38,7 @@ export class HomeComponent {
       EMPTY: '000',
       FIT: 0,
       LOADED: 0,
-      TOTAL: 0,
+      TOTAL: 100,
       UNFIT: 0,
       row: row,
     };
