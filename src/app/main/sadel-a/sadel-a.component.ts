@@ -423,7 +423,6 @@ export class SadelAComponent {
 
         next: (response: any) => {
           // ✅ Update UI only if API succeeds
-          console.log('API Response:', response);
 
           if (response.status == 3) {
             this.snackBar.open(
@@ -464,7 +463,6 @@ export class SadelAComponent {
           this.newCoilId = this.prefix;
 
           this.comm.triggerStatusRefresh();
-          console.log('call this');
         },
 
         error: (err) => {

@@ -15,15 +15,17 @@ export class TotalStatusComponent {
 
   ngOnInit(): void {
     this.sadelService.statuscount().subscribe((response: any) => {
-      console.log(response);
-
       // this.total_coil = response.reduce(
       //   (sum: any, item: any) => sum + item.LOADED,
       //   0
       // );
-      this.total_coil = response[10].TOTCOIL;
-      this.total_weight = response[10].WEIGHT;
 
+      console.log(response);
+
+      this.total_coil = response[11].TOTCOIL;
+      this.total_weight = response[11].WEIGHT;
+
+      console.log(this.total_coil);
       // this.cdr.detectChanges();
     });
   }
