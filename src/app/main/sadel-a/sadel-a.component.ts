@@ -61,6 +61,9 @@ export class SadelAComponent {
   ) {}
 
   ngOnInit(): void {
+    this.central.selectedSaddle$.subscribe((name) => {
+      this.infoofsaddle = name;
+    });
     this.sadelService.search({ ROWNAME: 'A' }).subscribe(
       (response) => {
         this.sadelA = response;
@@ -189,6 +192,11 @@ export class SadelAComponent {
   // }
 
   onDoubleClick(item: any) {
+    // if (item.COILID) {
+    //   this.infoofsaddle = item.SADDLENAME;
+    // }
+    // console.log('i', item);
+
     this.central.handleDoubleClick(item);
     // set central.coilInfo$ =null
   }

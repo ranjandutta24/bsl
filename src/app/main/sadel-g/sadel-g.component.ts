@@ -53,6 +53,9 @@ export class SadelGComponent {
   ) {}
 
   ngOnInit(): void {
+    this.central.selectedSaddle$.subscribe((name) => {
+      this.infoofsaddle = name;
+    });
     this.sadelService.search({ ROWNAME: 'G' }).subscribe(
       (response) => {
         this.sadelG = response;

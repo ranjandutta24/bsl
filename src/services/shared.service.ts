@@ -68,11 +68,41 @@ export class CentralHandlerService {
   // ------------------------
   // ✅ DOUBLE CLICK HANDLER
   // ------------------------
+  // handleDoubleClick(item: any) {
+  //   this.infoOfSaddle = item;
+
+  //   if (!item?.COILID) {
+  //     this.saddleInfoSubject.next(false);
+  //     return;
+  //   }
+
+  //   this.sadelService.coildetail({ COILID: item.COILID }).subscribe({
+  //     next: (response) => {
+  //       this.coilInfoSubject.next(response);
+  //       this.saddleInfoSubject.next(true);
+  //     },
+  //     error: () => {
+  //       this.saddleInfoSubject.next(false);
+  //     },
+  //   });
+  // }
+
+  private selectedSaddleSubject = new BehaviorSubject<string | null>(null);
+  selectedSaddle$ = this.selectedSaddleSubject.asObservable();
+
+  setSelectedSaddle(name: string | null) {
+    this.selectedSaddleSubject.next(name);
+  }
+
   handleDoubleClick(item: any) {
     this.infoOfSaddle = item;
 
+    // ✅ store saddle name centrally
+    this.setSelectedSaddle(item?.SADDLENAME ?? null);
+
     if (!item?.COILID) {
       this.saddleInfoSubject.next(false);
+      this.coilInfoSubject.next(null);
       return;
     }
 

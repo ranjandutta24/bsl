@@ -15,7 +15,8 @@
         hascoil: item.COILID,
         flash:
           item.SADDLENAME == pickupcoil?.SADDLENAME ||
-          item?.COILID == searchCoilResult
+          item?.COILID == searchCoilResult,
+        infoselect: infoofsaddle == item.SADDLENAME && item?.COILID
       }"
     >
       <p>{{ item.SADDLENAME }}</p>
