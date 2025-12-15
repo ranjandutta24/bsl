@@ -275,6 +275,33 @@
           </div>
         </div>
       </div>
+      <div
+        class="alpha"
+        [ngClass]="{ 'active-alpha': selected === 'X' }"
+        (click)="selected = 'Z'"
+      >
+        <div class="flex">
+          <div>
+            <h2>Z</h2>
+            <span class="percent">
+              {{
+                ((Xstatuscount.LOADED / Xstatuscount.TOTAL) * 100).toFixed(1)
+              }}
+              %
+            </span>
+          </div>
+
+          <div class="count">
+            <p style="background-color: #598bbf">
+              L : {{ Xstatuscount.LOADED }}
+            </p>
+            <p style="background-color: #e5f2ff; color: rgb(56, 56, 56)">
+              E : {{ Xstatuscount.EMPTY }}
+            </p>
+            <p>U : {{ Xstatuscount.UNFIT }}</p>
+          </div>
+        </div>
+      </div>
     </div>
     <div class="right" [ngSwitch]="selected">
       <ng-container *ngIf="selectedComponent; else defaultMsg">

@@ -16,6 +16,8 @@ h1 {
 .left {
   width: 9%;
   background-color: #4498eb;
+  height: calc(100vh - 103px);
+  overflow-y: scroll;
 }
 .right {
   // padding: 10px;
@@ -201,4 +203,41 @@ p {
   font-size: 15px;
   font-weight: 500;
   font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* Width */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: #b1b1b1;
+  // border-radius: 3px;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(
+    180deg,
+    // #ff0000,
+    #ff9900,
+    // #00ff99,
+    // #0099ff,
+    // #9900ff
+  );
+  // border-radius: 3px;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(
+    180deg,
+    #ff5555,
+    #ffcc55,
+    #55ffcc,
+    #55aaff,
+    #cc55ff
+  );
 }
