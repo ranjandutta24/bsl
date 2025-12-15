@@ -12,6 +12,7 @@ import { SadelIComponent } from '../sadel-i/sadel-i.component';
 import { SadelCommService } from '../../../services/sadel-commn.service';
 import { SadelService } from '../../../services/sadel.service';
 import { SadelXComponent } from '../sadel-x/sadel-x.component';
+import { SadelZComponent } from '../sadel-z/sadel-z.component';
 
 @Component({
   selector: 'app-home',
@@ -172,6 +173,7 @@ export class HomeComponent {
     H: SadelHComponent,
     I: SadelIComponent,
     X: SadelXComponent,
+    Z: SadelZComponent,
   };
 
   // Returning dynamic component
