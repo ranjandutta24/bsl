@@ -1,1 +1,215 @@
-<p>sadel-z works!</p>
+<!-- <h1>ewfrew</h1> -->
+
+<div class="fl">
+  <div class="grid-container">
+    <div
+      class="seg"
+      class="grid-item"
+      *ngFor="let item of gridItems; let i = index"
+      (contextmenu)="onRightClick($event, item)"
+      (mouseenter)="hoveredItem = item"
+      (mouseleave)="hoveredItem = null"
+      (click)="onDoubleClick(item)"
+      [ngClass]="{
+        desable: !item.FIT,
+        hascoil: item.COILID,
+        flash:
+          item.SADDLENAME == pickupcoil?.SADDLENAME ||
+          item?.COILID == searchCoilResult,
+        infoselect: infoofsaddle == item.SADDLENAME && item?.COILID
+      }"
+    >
+      <p>{{ item.SADDLENAME }}</p>
+
+      <img class="im" [src]="getImage(item)" alt="" />
+
+      <div class="overlay" *ngIf="hoveredItem === item && item.COILID">
+        <div class="tab">
+          <!-- <div class="h">{{ item.SADDLENAME }}</div> -->
+          <div class="h">{{ item.COILID }}</div>
+          <div *ngIf="item.THICK" class="h">{{ item.THICK }}</div>
+          <div *ngIf="item.WIDTH" class="h">{{ item.WIDTH }}</div>
+          <div *ngIf="item.DEST" class="h">{{ item.DEST }}</div>
+          <div *ngIf="item.GRADE" class="h">{{ item.GRADE }}</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- <div *ngIf="item.HSMPRODTIME" class="h">
+            {{ getMinuteDiff(item.HSMPRODTIME) }}
+          </div> -->
+  <div
+    #popupRef
+    class="popup"
+    *ngIf="popupVisible"
+    [style.top.px]="popupY"
+    [style.left.px]="popupX"
+  >
+    <div class="popup-header">
+      <span class="label">Sadel:</span>
+      <span class="value">{{ selectedSaddle?.SADDLENAME }}</span>
+    </div>
+
+    <ul class="popup-options">
+      <!-- Show these if COILID exists -->
+      <ng-container *ngIf="selectedSaddle?.COILID">
+        <li (click)="selectItem('Pickup')">
+          <i class="opicon" [class]="getIcon('Pickup')"></i>
+          Pickup
+        </li>
+        <li (click)="selectItem('Remove')">
+          <i class="opicon" [class]="getIcon('Remove')"></i>
+          Remove
+        </li>
+        <li
+          [ngClass]="{ desableli: selectedSaddle?.COILID }"
+          (click)="selectItem('Option C')"
+        >
+          <i
+            class="opicon"
+            [class]="getIcon(selectedSaddle?.FIT ? 'Unfit' : 'Fit')"
+            [ngClass]="{ desableli: selectedSaddle?.COILID }"
+          ></i>
+
+          {{ selectedSaddle?.FIT ? "Unfit" : "Fit" }}
+        </li>
+        <li (click)="selectItem('Cancel')">
+          <i class="opicon" [class]="getIcon('Cancel')"></i>
+          Cancel
+        </li>
+      </ng-container>
+
+      <!-- Show these if COILID does not exist -->
+      <ng-container *ngIf="!selectedSaddle?.COILID">
+        <li
+          (click)="selectItem(selectedSaddle?.FIT ? 'Add Coil' : 'Option C')"
+          [ngClass]="{ desableli: !selectedSaddle?.FIT }"
+        >
+          <i
+            class="opicon"
+            [class]="getIcon('Add')"
+            [ngClass]="{ desableli: !selectedSaddle?.FIT }"
+          ></i>
+          Add Coil
+        </li>
+        <li
+          (click)="selectItem(selectedSaddle?.FIT ? 'Drop Coil' : 'Option C')"
+          [ngClass]="{ desableli: !selectedSaddle?.FIT || !pickupcoil?.COILID }"
+        >
+          <i
+            class="opicon"
+            [class]="getIcon('Drop')"
+            [ngClass]="{
+              desableli: !selectedSaddle?.FIT || !pickupcoil?.COILID
+            }"
+          ></i>
+          Drop Coil
+        </li>
+        <li (click)="selectItem(selectedSaddle?.FIT ? 'Unfit' : 'Fit')">
+          <i
+            class="opicon"
+            [class]="getIcon(selectedSaddle?.FIT ? 'Unfit' : 'Fit')"
+          ></i>
+          {{ selectedSaddle?.FIT ? "Unfit" : "Fit" }}
+        </li>
+        <li (click)="selectItem('Cancel')">
+          <i class="opicon" [class]="getIcon('Cancel')"></i>
+          Cancel
+        </li>
+      </ng-container>
+    </ul>
+  </div>
+
+  <div class="modal-overlay" *ngIf="showAddCoilModal">
+    <div class="small-modal">
+      <h3>Add Coil To Saddle {{ selectedSaddle.SADDLENAME }}</h3>
+
+      <label for="coilIdInput">Coil ID:</label>
+      <!-- <input
+        maxlength="12"
+        id="coilIdInput"
+        type="text"
+        [(ngModel)]="newCoilId"
+        placeholder="Enter Coil ID"
+        title="Enter Coil ID"
+      /> -->
+
+      <input
+        #coilInput
+        maxlength="12"
+        id="coilIdInput"
+        type="text"
+        [(ngModel)]="newCoilId"
+        (keydown)="blockPrefixEdit($event)"
+        (input)="restorePrefix()"
+        placeholder="Enter Coil ID"
+        (keydown.enter)="saveCoil()"
+        title="Enter Coil ID"
+      />
+
+      <div class="modal-actions">
+        <button (click)="saveCoil()">Save</button>
+        <button (click)="closeAddCoilModal()">Cancel</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="q">
+    <!-- High Selection -->
+    <div class="high-selection">
+      <label>
+        <input
+          (change)="onChangeHigh($event)"
+          type="radio"
+          name="high"
+          [(ngModel)]="selectedhigh"
+          value="1st"
+        />
+        1st High
+      </label>
+
+      <label>
+        <input
+          (change)="onChangeHigh($event)"
+          type="radio"
+          name="high"
+          [(ngModel)]="selectedhigh"
+          value="2nd"
+        />
+        2nd High
+      </label>
+    </div>
+
+    <div class="input-wrapper">
+      <input
+        maxlength="12"
+        id="coilIdInput"
+        class="coil-input"
+        type="text"
+        [(ngModel)]="searchCoil"
+        placeholder="Enter Coil ID"
+        title="Enter Coil ID"
+        (keyup.enter)="onSearch()"
+      />
+      <i class="fa fa-search search-icon"></i>
+    </div>
+
+    <p *ngIf="no_result == 1" class="nocoil">Coil Not Found ☹️</p>
+
+    <!-- * Pickup Text -->
+    <p *ngIf="pickupFlag" class="pickup-text">
+      <strong>{{
+        "Pickup " + pickupcoil?.COILID + " From " + pickupcoil?.SADDLENAME
+      }}</strong>
+    </p>
+
+    <!-- * Coil Info Card -->
+    <ng-container *ngIf="central.coilInfo$ | async as coilInfo">
+      <app-coil-info [coilInfo]="coilInfo"></app-coil-info>
+    </ng-container>
+
+    <!--  *  total status -->
+    <app-total-status></app-total-status>
+  </div>
+</div>

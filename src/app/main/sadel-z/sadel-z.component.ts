@@ -66,7 +66,7 @@ export class SadelZComponent {
     this.central.selectedSaddle$.subscribe((name) => {
       this.infoofsaddle = name;
     });
-    this.sadelService.search({ ROWNAME: 'A' }).subscribe(
+    this.sadelService.search({ ROWNAME: 'Z' }).subscribe(
       (response) => {
         this.sadelA = response;
         this.sadelA.sort((a: any, b: any) => a.SADDLESEQ - b.SADDLESEQ);
