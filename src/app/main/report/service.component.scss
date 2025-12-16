@@ -2,11 +2,93 @@
   height: calc(100vh - 104px);
   background-color: #ffffff;
 }
+.tab_report {
+  background-color: #f5f5f5fc;
+  text-align: center;
+  padding: 5px 10px;
+  border-radius: 8px;
+  color: #4497ea;
+  font-weight: 600;
+  cursor: pointer;
+  border: 2px solid #90c4ef;
+}
 
 .criteria {
-  height: 59px;
-  background-color: #ffffff;
+  justify-content: center;
+  height: 50px;
+  background-color: #50adff;
+  background: linear-gradient(
+    180deg,
+    rgba(176, 215, 255, 1) 0%,
+    rgba(68, 152, 235, 1) 100%
+  );
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 0 58px;
+  border-bottom: 1px solid #44bdeb;
 }
+
+input {
+  // width: 100%;
+  padding: 6px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  // margin-top: 6px;
+}
+.input-wrapper_report {
+}
+
+.coil-input-report {
+  padding: 6px 5px 6px 8px;
+  border: 1px solid #b3d1ef;
+  // color: #c7813e;
+  font-weight: 600;
+  font-size: 16px;
+  border-radius: 8px;
+  /* font-size: 14px; */
+  outline: none;
+  transition: all 0.25s ease-in-out;
+  position: relative;
+}
+
+.coil-input-report:focus {
+  border-color: #88bbf1;
+  box-shadow: 0 0 6px rgb(37, 137, 243);
+}
+
+.pdf-btn {
+  padding: 8px 19px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.pdf-btn-primary {
+  background: linear-gradient(135deg, #4498eb 0%, #3a87d9 100%);
+  color: white;
+  box-shadow: 0 4px 12px rgba(68, 152, 235, 0.3);
+}
+
+.pdf-btn-primary:hover {
+  background: linear-gradient(135deg, #3a87d9 0%, #3177c7 100%);
+  box-shadow: 0 6px 16px rgba(68, 152, 235, 0.4);
+  transform: translateY(-2px);
+}
+
+.pdf-btn-primary:active {
+  transform: translateY(0);
+  box-shadow: 0 2px 8px rgba(68, 152, 235, 0.3);
+}
+
 h1 {
   margin: 0%;
 }
@@ -28,7 +110,7 @@ body {
 .container {
   // max-width: 1200px;
   margin: 0 auto;
-  padding: 20px;
+  padding: 7px 15px;
   display: flex;
   justify-content: space-around;
 }
@@ -152,7 +234,7 @@ td {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 15px 20px;
+  padding: 9px 20px;
   background-color: #f9fbfe;
   border-top: 1px solid #eef2f7;
   color: #666;
