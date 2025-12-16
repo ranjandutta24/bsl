@@ -16,7 +16,10 @@
         flash:
           item.SADDLENAME == pickupcoil?.SADDLENAME ||
           item?.COILID == searchCoilResult,
-        infoselect: infoofsaddle == item.SADDLENAME && item?.COILID
+        infoselect: infoofsaddle == item.SADDLENAME && item?.COILID,
+
+        hascoil_thin:  item.COILID && getMinuteDiff(item.HSMPRODTIME)>4320 && item.SADDLESEQ <= 849,
+        hascoil_hot_thin:  item.COILID && getMinuteDiff(item.HSMPRODTIME)<4320 && item.SADDLESEQ <= 849,
       }"
     >
       <p style="writing-mode: vertical-rl; text-orientation: mixed">

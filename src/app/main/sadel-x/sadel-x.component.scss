@@ -42,3 +42,12 @@
 .grid-item:nth-child(8n) {
   grid-column: span 0.5; /* visually smaller */
 }
+
+.hascoil_thin {
+  background-color: #692210;
+  border: 2px solid #893512;
+}
+.hascoil_hot_thin {
+  background-color: #d24a3d;
+  border: 2px solid #893512;
+}

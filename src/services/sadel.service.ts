@@ -112,6 +112,17 @@ export class SadelService {
       .post(this.config.apiUrl + 'sadel/statuscount', {}, httpOptions)
       .pipe(retry(1), catchError(this.errorHandler));
   }
+  totalStock() {
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        Authorization: this.authorization,
+      }),
+    };
+    return this.http
+      .get(this.config.apiUrl + 'reports/totalstock', httpOptions)
+      .pipe(retry(1), catchError(this.errorHandler));
+  }
   coilvalid(coilid: any) {
     const httpOptions = {
       headers: new HttpHeaders({
