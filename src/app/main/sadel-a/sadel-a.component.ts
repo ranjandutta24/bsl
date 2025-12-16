@@ -214,31 +214,31 @@ export class SadelAComponent {
 
   onRightClick(event: MouseEvent, saddle: any, el: HTMLElement) {
     event.preventDefault();
-  
+
     this.selectedSaddle = saddle;
     this.popupVisible = true;
-  
+
     const rect = el.getBoundingClientRect();
     const GAP = 8;
-  
+
     // Default → open below saddle
     let x = rect.left;
     let y = rect.bottom + GAP;
-  
+
     setTimeout(() => {
       const popup = this.popupRef.nativeElement;
       const popupRect = popup.getBoundingClientRect();
-  
+
       // 🔥 If bottom overflow → open ABOVE saddle
       if (y + popupRect.height > window.innerHeight) {
         y = rect.top - popupRect.height - GAP;
       }
-  
+
       // 🔥 If right overflow → shift left
       if (x + popupRect.width > window.innerWidth) {
         x = window.innerWidth - popupRect.width - 10;
       }
-  
+
       this.popupX = x;
       this.popupY = y;
     });
@@ -433,8 +433,7 @@ export class SadelAComponent {
 
     // 2. Coil present
     if (item.COILID) {
-      const diff = this.getMinuteDiff(item.HSMPRODTIME); // <-- your datetime field
-
+      const diff = this.getMinuteDiff(item.HSMPRODTIME);
       return diff > 4320 ? 'assets/images/coil.png' : 'assets/images/hot.png';
     }
 

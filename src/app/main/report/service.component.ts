@@ -63,6 +63,23 @@ export class ServiceComponent {
     return summaryArray;
   }
 
+  getMinuteDiff(dateString: string): number {
+    const givenDate = new Date(dateString);
+    const now = new Date();
+
+    const diffMs = now.getTime() - givenDate.getTime(); // use getTime()
+    const diffMinutes = Math.floor(diffMs / (1000 * 60));
+
+    return diffMinutes;
+  }
+  ready() {
+    this.final_report = this.final_report.filter((item: any) => {
+      return this.getMinuteDiff(item.HSMPRODTIME) > 4320;
+    });
+  }
+  totalstock() {
+    this.final_report = this.raw_report;
+  }
   ngOnInit(): void {
     this.sadelService.totalStock().subscribe(
       (response) => {

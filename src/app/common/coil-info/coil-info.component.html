@@ -1,8 +1,7 @@
 <div class="coil-info-card" *ngIf="coilInfo">
-  <h4>Coil Information</h4>
-
-  <div class="coil-row">
-    <span>Saddle Name :</span> {{ coilInfo.SADDLENAME }}
+  <div class="cinfohead" style="display: flex; justify-content: space-between">
+    <h4>Coil Information</h4>
+    <h4>{{ coilInfo.SADDLENAME }}</h4>
   </div>
 
   <div class="coil-row"><span>Coil ID :</span> {{ coilInfo.COILID }}</div>
@@ -16,19 +15,25 @@
 
   <div class="coil-row"><span>Slab ID :</span> {{ coilInfo.SLAB_ID }}</div>
 
-  <div class="coil-row"><span>CCS Grade :</span> {{ coilInfo.STEELGRADE }}</div>
+  <div style="border-bottom: 1px dotted gray" class="coil-row">
+    <span>CCS Grade :</span> {{ coilInfo.STEELGRADE }}
+  </div>
 
   <div class="coil-row"><span>Thickness :</span> {{ coilInfo.THICK }} mm</div>
 
   <div class="coil-row"><span>Width :</span> {{ coilInfo.WIDTH }} mm</div>
 
+  <div class="coil-row"><span>Weight :</span> {{ coilInfo.WEIGHT }} Ton</div>
   <div class="coil-row"><span>Length :</span> {{ coilInfo.LENGTH }} mm</div>
+  <div class="coil-row">
+    <span>Cool Time :</span> {{ coilInfo.HRCC_HR }} Hrs.
+  </div>
+  <div class="coil-row">
+    <span>Destination :</span> {{ coilInfo.DESTINATON }}
+  </div>
+  <div class="coil-row"><span>Grade :</span> {{ coilInfo.GRADE }}</div>
 
-  <div class="coil-row"><span>Weight :</span> {{ coilInfo.WEIGHT }} ton</div>
+  <div class="coil-row"><span>In Dia :</span> {{ coilInfo.IN_DIA }} mm</div>
 
-  <div class="coil-row"><span>IN DIA :</span> {{ coilInfo.IN_DIA }}</div>
-
-  <div class="coil-row"><span>OUT DIA :</span> {{ coilInfo.OUT_DIA }}</div>
-
-  <div class="coil-row"><span>HRCC Hour :</span> {{ coilInfo.HRCC_HR }} hr</div>
+  <div class="coil-row"><span>Out Dia :</span> {{ coilInfo.OUT_DIA }} mm</div>
 </div>
