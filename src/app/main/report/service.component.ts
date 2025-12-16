@@ -69,13 +69,27 @@ export class ServiceComponent {
         this.raw_report = response;
         this.raw_report.sort((a: any, b: any) => a.SADDLESEQ - b.SADDLESEQ);
 
-        this.summary_report = this.createSummary(this.raw_report);
+        this.final_report = [...this.raw_report];
+
+        this.summary_report = this.createSummary(this.final_report);
       },
       (respError) => {
         // this.loading = false;
         // this.commonService.showSnakBarMessage(respError, "error", 2000);
       }
     );
+  }
+
+  onSearch() {
+    this.final_report = this.raw_report.filter((item: any) => {
+      return (
+        (this.CoilId ? item.COILID.startsWith(this.CoilId) : true) &&
+        (this.Width ? item.WIDTH == this.Width : true) &&
+        (this.Thick ? item.THICK == this.Thick : true) &&
+        (this.Dest ? item.DEST.startsWith(this.Dest) : true)
+      );
+    });
+    this.summary_report = this.createSummary(this.final_report);
   }
 }
 
