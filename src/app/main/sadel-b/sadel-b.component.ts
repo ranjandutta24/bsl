@@ -140,19 +140,52 @@ export class SadelBComponent {
     this.central.handleDoubleClick(item);
   }
 
-  onRightClick(event: MouseEvent, saddle: any) {
-    this.selectedSaddle = saddle; // store clicked asset
-    // console.log(this.selectedSaddle.FIT);
-    this.cdr.detectChanges(); //
+  // onRightClick(event: MouseEvent, saddle: any) {
+  //   this.selectedSaddle = saddle; // store clicked asset
+  //   // console.log(this.selectedSaddle.FIT);
+  //   this.cdr.detectChanges(); //
 
-    this.cdr.detectChanges(); //
+  //   this.cdr.detectChanges(); //
+  //   event.preventDefault();
+  //   this.popupX = event.clientX;
+  //   this.popupY = event.clientY;
+
+  //   this.popupVisible = true;
+  //   // this.pickupFlag = false;
+  // }
+
+    onRightClick(event: MouseEvent, saddle: any, el: HTMLElement) {
     event.preventDefault();
-    this.popupX = event.clientX;
-    this.popupY = event.clientY;
-
+  
+    this.selectedSaddle = saddle;
     this.popupVisible = true;
-    // this.pickupFlag = false;
+  
+    const rect = el.getBoundingClientRect();
+    const GAP = 8;
+  
+    // Default → open below saddle
+    let x = rect.left;
+    let y = rect.bottom + GAP;
+  
+    setTimeout(() => {
+      const popup = this.popupRef.nativeElement;
+      const popupRect = popup.getBoundingClientRect();
+  
+      // 🔥 If bottom overflow → open ABOVE saddle
+      if (y + popupRect.height > window.innerHeight) {
+        y = rect.top - popupRect.height - GAP;
+      }
+  
+      // 🔥 If right overflow → shift left
+      if (x + popupRect.width > window.innerWidth) {
+        x = window.innerWidth - popupRect.width - 10;
+      }
+  
+      this.popupX = x;
+      this.popupY = y;
+    });
   }
+  
   onSearch() {
     this.sadelService
       .search({ COILID: this.searchCoil })

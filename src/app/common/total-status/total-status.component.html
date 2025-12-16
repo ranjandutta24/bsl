@@ -1,4 +1,4 @@
-<div class="stats-card">
+<!-- <div class="stats-card">
   <div class="stat-item">
     <span class="label"> -</span>
     <span class="label">1st High</span>
@@ -18,4 +18,33 @@
     <span class="value">{{ s_weight }}</span>
     <span class="value">{{ total_weight }}</span>
   </div>
+</div> -->
+
+<div class="stats-card">
+  <div class="stat-header">
+    <span></span>
+    <span>Coils</span>
+    <span>Weight</span>
+  </div>
+
+  <div class="stat-row">
+    <span>1st High</span>
+    <span class="num">{{ f_total }}</span>
+    <span class="num">{{ f_weight }}</span>
+  </div>
+
+  <div class="stat-row">
+    <span>2nd High</span>
+    <span class="num">{{ s_total }}</span>
+    <span class="num">{{ s_weight }}</span>
+  </div>
+
+  <div class="stat-row">
+    <span>Total</span>
+    <span class="num total">{{ total_coil }}</span>
+    <span class="num total">{{ total_weight }}</span>
+  </div>
 </div>
+
+
+

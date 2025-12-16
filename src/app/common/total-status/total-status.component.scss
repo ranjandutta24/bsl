@@ -1,34 +1,107 @@
+// .stats-card {
+//   display: flex;
+//   gap: 24px;
+//   padding: 16px 24px;
+//   background: #ffffff;
+//   border-radius: 12px;
+//   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+//   width: fit-content;
+
+//   position: fixed;
+//   bottom: 55px;
+//   right: 10px; /* or right: 20px */
+// }
+
+// .stat-item {
+//   display: flex;
+//   flex-direction: column;
+//   //   min-width: 140px;
+// }
+
+// .label {
+//   font-size: 13px;
+//   color: #6b7280; /* gray */
+//   margin-bottom: 4px;
+//   text-transform: uppercase;
+//   letter-spacing: 0.5px;
+// }
+
+// .value {
+//   font-size: 15px;
+//   font-weight: 600;
+//   color: #111827; /* dark */
+//   text-align: end;
+// }
+
+
+
 .stats-card {
   display: flex;
-  gap: 24px;
-  padding: 16px 24px;
+  flex-direction: column;
+  gap: 6px;
+  padding: 12px 16px;
   background: #ffffff;
-  border-radius: 12px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  border-radius: 10px;
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.08);
   width: fit-content;
 
   position: fixed;
   bottom: 55px;
-  right: 10px; /* or right: 20px */
+  right: 10px;
+
+  font-family: "Inter", "Segoe UI", system-ui, sans-serif;
+  font-size: 14px;
 }
 
-.stat-item {
-  display: flex;
-  flex-direction: column;
-  //   min-width: 140px;
+/* Table-like alignment */
+.stat-header,
+.stat-row {
+  display: grid;
+  grid-template-columns: 60px 60px 60px; /* label + three numeric cols */
+  align-items: center;
+  gap: 10px;
 }
 
-.label {
-  font-size: 13px;
-  color: #6b7280; /* gray */
-  margin-bottom: 4px;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-}
-
-.value {
-  font-size: 15px;
+/* Header with background */
+.stat-header {
+  background: #b3ceff; /* soft gray */
+  color: #374151;
   font-weight: 600;
-  color: #111827; /* dark */
-  text-align: end;
+  padding: 6px 8px;
+  border-radius: 6px;
+  text-align: right;
 }
+
+.stat-header span:first-child {
+  text-align: left; /* empty spacer cell */
+}
+
+/* Data rows with thin dividers */
+.stat-row {
+  padding: 6px 8px;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.stat-row:last-child {
+  border-bottom: none;
+}
+
+/* Label + numbers */
+.row-label {
+  color: #374151;
+  font-weight: 600;
+  text-align: left;
+}
+
+.num {
+  color: #111827;
+  text-align: right;
+  font-variant-numeric: tabular-nums; /* perfect numeric alignment */
+}
+
+/* Highlight totals in blue */
+.num.total {
+  color: #2563eb;
+  font-weight: 700;
+}
+

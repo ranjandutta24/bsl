@@ -1,9 +1,10 @@
 import { Component } from '@angular/core';
 import { SadelService } from '../../../services/sadel.service';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-total-status',
-  imports: [],
+  imports: [CommonModule],
   templateUrl: './total-status.component.html',
   styleUrl: './total-status.component.scss',
 })

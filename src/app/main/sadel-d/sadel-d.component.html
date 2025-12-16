@@ -5,8 +5,9 @@
     <div
       class="seg"
       class="grid-item"
+      #segRef
       *ngFor="let item of gridItems; let i = index"
-      (contextmenu)="onRightClick($event, item)"
+      (contextmenu)="onRightClick($event, item, segRef      )"
       (mouseenter)="hoveredItem = item"
       (mouseleave)="hoveredItem = null"
       (click)="onDoubleClick(item)"
