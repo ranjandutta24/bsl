@@ -1,20 +1,67 @@
 import { Component } from '@angular/core';
 import { SadelService } from '../../../services/sadel.service';
 import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-service',
-  imports: [CommonModule],
+  imports: [CommonModule, FormsModule],
   templateUrl: './service.component.html',
   styleUrl: './service.component.scss',
 })
 export class ServiceComponent {
   raw_report: any;
+  final_report: any;
+  summary_report: any;
+  CoilId: any;
+  Width: any;
+  Thick: any;
+  Dest: any;
 
   constructor(
-    private sadelService: SadelService // private cdr: ChangeDetectorRef, // private router: Router, // private comm: SadelCommService, // public central: CentralHandlerService,
-  ) // private snackBar: MatSnackBar
-  {}
+    private sadelService: SadelService // private cdr: ChangeDetectorRef, // private router: Router, // private comm: SadelCommService, // public central: CentralHandlerService, // private snackBar: MatSnackBar
+  ) {}
+
+  createSummary(data: any) {
+    // Create a Map to group data by the combination of THICK, WIDTH, and DEST
+    const summaryMap = new Map();
+
+    data.forEach((item: any) => {
+      // Create a unique key from THICK, WIDTH, and DEST
+      const key = `${item.THICK}-${item.WIDTH}-${item.DEST}`;
+
+      if (!summaryMap.has(key)) {
+        // Initialize new group
+        summaryMap.set(key, {
+          THICK: item.THICK,
+          WIDTH: item.WIDTH,
+          DEST: item.DEST,
+          COILS: 1, // Row count
+          Wt: item.WEIGHT || 0, // Sum of weights
+          // Optional: Keep track of coil IDs if needed
+          coilIds: [item.COILID],
+        });
+      } else {
+        // Update existing group
+        const group = summaryMap.get(key);
+        group['COILS'] += 1;
+        group['Wt'] += item.WEIGHT || 0;
+        group.coilIds.push(item.COILID);
+      }
+    });
+
+    // Convert Map to array of objects
+    const summaryArray = Array.from(summaryMap.values());
+
+    // Format the Wt to 2 decimal places
+    summaryArray.forEach((item) => {
+      item['Wt'] = parseFloat(item['Wt'].toFixed(2));
+      // Remove coilIds if not needed in final output
+      delete item.coilIds;
+    });
+
+    return summaryArray;
+  }
 
   ngOnInit(): void {
     this.sadelService.totalStock().subscribe(
@@ -22,13 +69,27 @@ export class ServiceComponent {
         this.raw_report = response;
         this.raw_report.sort((a: any, b: any) => a.SADDLESEQ - b.SADDLESEQ);
 
-        console.log(this.raw_report);
+        this.final_report = [...this.raw_report];
+
+        this.summary_report = this.createSummary(this.final_report);
       },
       (respError) => {
         // this.loading = false;
         // this.commonService.showSnakBarMessage(respError, "error", 2000);
       }
     );
+  }
+
+  onSearch() {
+    this.final_report = this.raw_report.filter((item: any) => {
+      return (
+        (this.CoilId ? item.COILID.startsWith(this.CoilId) : true) &&
+        (this.Width ? item.WIDTH == this.Width : true) &&
+        (this.Thick ? item.THICK == this.Thick : true) &&
+        (this.Dest ? item.DEST.startsWith(this.Dest) : true)
+      );
+    });
+    this.summary_report = this.createSummary(this.final_report);
   }
 }
 
