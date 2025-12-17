@@ -17,6 +17,7 @@ export class ServiceComponent {
   Width: any;
   Thick: any;
   Dest: any;
+  selected = 'Total Stock';
 
   constructor(
     private sadelService: SadelService // private cdr: ChangeDetectorRef, // private router: Router, // private comm: SadelCommService, // public central: CentralHandlerService, // private snackBar: MatSnackBar
@@ -63,6 +64,15 @@ export class ServiceComponent {
     return summaryArray;
   }
 
+  getTotalweight(arr: any[]): number {
+    if (!Array.isArray(arr)) return 0;
+
+    return arr.reduce((sum, item) => {
+      const weight = Number(item?.WEIGHT) || 0;
+      return sum + weight;
+    }, 0);
+  }
+
   getMinuteDiff(dateString: string): number {
     const givenDate = new Date(dateString);
     const now = new Date();
@@ -76,9 +86,11 @@ export class ServiceComponent {
     this.final_report = this.final_report.filter((item: any) => {
       return this.getMinuteDiff(item.HSMPRODTIME) > 4320;
     });
+    this.selected = 'Ready Stock';
   }
   totalstock() {
     this.final_report = this.raw_report;
+    this.selected = 'Total Stock';
   }
   ngOnInit(): void {
     this.sadelService.totalStock().subscribe(

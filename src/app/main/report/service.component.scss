@@ -2,6 +2,18 @@
   height: calc(100vh - 104px);
   background-color: #ffffff;
 }
+.tab_report.selected_report {
+  background-color: #fd7e4b;
+  background: linear-gradient(
+    180deg,
+    rgb(248 255 176) 0%,
+    rgb(245 130 69) 100%
+  );
+  color: #474747;
+  font-weight: 600;
+  border: 2px solid #ff8f62;
+}
+
 .tab_report {
   background-color: #f5f5f5fc;
   text-align: center;
@@ -12,9 +24,18 @@
   cursor: pointer;
   border: 2px solid #90c4ef;
 }
+.cr_stats {
+  cursor: auto;
+  color: #444;
+  background: linear-gradient(
+    180deg,
+    rgb(237 237 237) 0%,
+    rgb(150 200 250) 100%
+  );
+}
 
 .criteria {
-  justify-content: center;
+  justify-content: space-between;
   height: 50px;
   background-color: #50adff;
   background: linear-gradient(
@@ -28,9 +49,14 @@
   padding: 0 58px;
   border-bottom: 1px solid #44bdeb;
 }
+.cr_seg {
+  display: flex;
+  gap: 10px;
+}
 
 input {
   // width: 100%;
+  width: 180px;
   padding: 6px;
   border-radius: 6px;
   border: 1px solid #ccc;
@@ -143,13 +169,23 @@ h1 {
   margin-bottom: 30px;
 }
 
+.nodata {
+  text-align: center;
+
+  font-size: 18px;
+  color: #888;
+  font-weight: 600;
+}
+
 .table-wrapper {
   max-height: 350px;
   overflow-y: scroll;
   border: 1px solid #e1e8f0;
 }
 .hot {
-  color: red;
+  color: #ff0000;
+  /* background-color: #ffebe3 !important; */
+  text-shadow: 0px 0px 20px #f33232;
 }
 table {
   width: 100%;
