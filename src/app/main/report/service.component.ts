@@ -19,6 +19,8 @@ export class ServiceComponent {
   Dest: any;
   selected = 'Total Stock';
 
+  raw_movement: any;
+
   constructor(
     private sadelService: SadelService // private cdr: ChangeDetectorRef, // private router: Router, // private comm: SadelCommService, // public central: CentralHandlerService, // private snackBar: MatSnackBar
   ) {}
@@ -101,6 +103,15 @@ export class ServiceComponent {
         this.final_report = [...this.raw_report];
 
         this.summary_report = this.createSummary(this.final_report);
+      },
+      (respError) => {
+        // this.loading = false;
+        // this.commonService.showSnakBarMessage(respError, "error", 2000);
+      }
+    );
+    this.sadelService.movementCoil().subscribe(
+      (response) => {
+        this.raw_movement = response;
       },
       (respError) => {
         // this.loading = false;

@@ -494,6 +494,12 @@ export class SadelZComponent {
         SADDLENAME: sn,
         COILID: ci,
         ADDTIME: new Date(),
+        THICK: this.selectedSaddle.THICK,
+        WIDTH: this.selectedSaddle.WIDTH,
+        WEIGHT: this.selectedSaddle.WEIGHT,
+        DEST: this.selectedSaddle.DEST,
+        HEATNO: this.selectedSaddle.HEATNO,
+        GRADE: this.selectedSaddle.GRADE,
       })
       .subscribe((r) => {});
   }

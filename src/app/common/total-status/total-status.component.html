@@ -32,14 +32,12 @@
     <span>Total</span>
   </div>
 
-    <!-- WEIGHT (FIXED ALIGNMENT) -->
+  <!-- WEIGHT (FIXED ALIGNMENT) -->
   <div class="stat-row">
-    <span class="row-label">
-      Tons
-    </span>
-    <span class="num">{{ f_weight | number:'1.0-0' }}</span>
-    <span class="num">{{ s_weight | number:'1.0-0' }}</span>
-    <span class="num totalred">{{ total_weight | number:'1.0-0' }}</span>
+    <span class="row-label"> Tons </span>
+    <span class="num">{{ f_weight | number : "1.0-0" }}</span>
+    <span class="num">{{ s_weight | number : "1.0-0" }}</span>
+    <span class="num total">{{ total_weight | number : "1.0-0" }}</span>
   </div>
 
   <!-- LOAD -->
@@ -55,7 +53,7 @@
     <span class="row-label">Empty</span>
     <span class="num">{{ f_empty }}</span>
     <span class="num">{{ s_empty }}</span>
-    <span class="num total">{{ tot_empty }}</span>
+    <span class="num totalred">{{ tot_empty }}</span>
   </div>
 
   <!-- UNFIT -->
@@ -66,8 +64,3 @@
     <span class="num total">{{ tot_unfit }}</span>
   </div>
 </div>
-
-
-
-
-

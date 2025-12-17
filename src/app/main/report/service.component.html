@@ -19,7 +19,7 @@
       >
         Ready Stock
       </div>
-      <div class="tab_report">Rolled but in yeard</div>
+      <div class="tab_report">Rolled but in yard</div>
     </div>
 
     <div class="cr_seg" *ngIf="final_report.length > 0">
@@ -222,6 +222,51 @@
       </div>
     </div>
   </div>
+
+  <!-- <div class="criteria2" style="margin: 8px 0px">
+    <div class="cr_seg">
+      <div
+        [ngClass]="{
+                      selected_report: selected =='Total Stock',
+                    }"
+        class="tab_report"
+        (click)="totalstock()"
+      >
+        Coils Received
+      </div>
+      <div
+        [ngClass]="{
+                      selected_report: selected=='Ready Stock',
+                    }"
+        class="tab_report"
+        (click)="ready()"
+      >
+        Yesterday ABC Shift
+      </div>
+      <div class="tab_report">Today Shift</div>
+    </div>
+    <div class="cr_seg">
+      <div
+        [ngClass]="{
+                      selected_report: selected =='Total Stock',
+                    }"
+        class="tab_report"
+        (click)="totalstock()"
+      >
+        Coil Exited
+      </div>
+      <div
+        [ngClass]="{
+                      selected_report: selected=='Ready Stock',
+                    }"
+        class="tab_report"
+        (click)="ready()"
+      >
+        Yesterday ABC Shift
+      </div>
+      <div class="tab_report">Today Shift</div>
+    </div>
+  </div> -->
   <div class="movment_table">
     <div class="container">
       <div class="table-container">
@@ -242,7 +287,7 @@
               <!-- const diff = this.getMinuteDiff(item.HSMPRODTIME); 
       return diff > 4320 ? 'assets/images/coil.png' : 'assets/images/hot.png'; -->
 
-              <tr *ngFor="let item of final_report; let i = index">
+              <tr *ngFor="let item of raw_movement; let i = index">
                 <td>{{ i + 1 }}</td>
                 <td
                   [ngClass]="{
@@ -252,13 +297,13 @@
                 >
                   {{ item.COILID }}
                 </td>
-                <td>{{ item.SADDLENAME }}</td>
-                <td>{{ item.WIDTH }}</td>
-                <td>{{ item.THICK }}</td>
+                <td>{{ item.HEATNO }}</td>
+                <td>{{ item.COILID }}</td>
+                <td>{{ item.GRADE }}</td>
 
                 <!-- show current time - item.HSMPRODTIME  -->
-                <td>{{ (getMinuteDiff(item.HSMPRODTIME) / 60).toFixed() }}</td>
-                <td>{{ item.DEST }}</td>
+                <td>{{ item.THICK }}</td>
+                <td>{{ item.WIDTH }}</td>
               </tr>
             </tbody>
           </table>
@@ -284,7 +329,7 @@
             <!-- <i class="fas fa-mouse-pointer"></i> -->
             <span>
               {{ selected }} report, Scroll vertically to view all
-              {{ final_report.length }} records</span
+              {{ raw_movement.length }} records</span
             >
           </div>
 
@@ -292,7 +337,7 @@
           <div *ngIf="final_report.length > 0" class="record-count">
             <i class="fas fa-database"></i>
             <span
-              >Total Records: <strong>{{ final_report.length }}</strong></span
+              >Total Records: <strong>{{ raw_movement.length }}</strong></span
             >
           </div>
         </div>
