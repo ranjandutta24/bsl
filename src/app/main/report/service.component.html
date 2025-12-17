@@ -1,63 +1,90 @@
 <div class="report_main">
   <div class="criteria">
-    <div class="tab_report" (click)="totalstock()">Total Stock</div>
-    <div class="tab_report" (click)="ready()">Ready Stock</div>
-    <div class="tab_report">Rolled but in yeard</div>
-
-    <!-- <label for="coilIdInput">Coil ID:</label> -->
-
-    <div class="input-wrapper_report">
-      <input
-        maxlength="12"
-        id="coilIdInput"
-        class="coil-input-report"
-        type="text"
-        [(ngModel)]="CoilId"
-        placeholder="Enter Coil ID"
-        title="Enter Coil ID"
-        (keyup.enter)="onSearch()"
-      />
+    <div class="cr_seg">
+      <div
+        [ngClass]="{
+                      selected_report: selected =='Total Stock',
+                    }"
+        class="tab_report"
+        (click)="totalstock()"
+      >
+        Total Stock
+      </div>
+      <div
+        [ngClass]="{
+                      selected_report: selected=='Ready Stock',
+                    }"
+        class="tab_report"
+        (click)="ready()"
+      >
+        Ready Stock
+      </div>
+      <div class="tab_report">Rolled but in yeard</div>
     </div>
 
-    <div class="input-wrapper_report">
-      <input
-        maxlength="12"
-        id="coilIdInput"
-        class="coil-input-report"
-        type="text"
-        [(ngModel)]="Width"
-        placeholder="Enter Width"
-        title="Enter Width"
-        (keyup.enter)="onSearch()"
-      />
-    </div>
-    <div class="input-wrapper_report">
-      <input
-        maxlength="12"
-        id="coilIdInput"
-        class="coil-input-report"
-        type="text"
-        [(ngModel)]="Thick"
-        placeholder="Enter Thickness"
-        title="Enter Thickness"
-        (keyup.enter)="onSearch()"
-      />
+    <div class="cr_seg" *ngIf="final_report.length > 0">
+      <div class="tab_report cr_stats">
+        Total Coil : {{ final_report.length }}
+      </div>
+      <div class="tab_report cr_stats">
+        Total Weight : {{ getTotalweight(final_report).toFixed(2) }}
+      </div>
     </div>
 
-    <div class="input-wrapper_report">
-      <input
-        maxlength="12"
-        id="coilIdInput"
-        class="coil-input-report"
-        type="text"
-        [(ngModel)]="Dest"
-        placeholder="Enter Destination"
-        title="Enter Destination"
-        (keyup.enter)="onSearch()"
-      />
+    <div class="cr_seg">
+      <div class="input-wrapper_report">
+        <input
+          maxlength="12"
+          id="coilIdInput"
+          class="coil-input-report"
+          type="text"
+          [(ngModel)]="CoilId"
+          placeholder="Enter Coil ID"
+          title="Enter Coil ID"
+          (keyup.enter)="onSearch()"
+        />
+      </div>
+
+      <div class="input-wrapper_report">
+        <input
+          maxlength="12"
+          id="coilIdInput"
+          class="coil-input-report"
+          type="text"
+          [(ngModel)]="Width"
+          placeholder="Enter Width"
+          title="Enter Width"
+          (keyup.enter)="onSearch()"
+        />
+      </div>
+      <div class="input-wrapper_report">
+        <input
+          maxlength="12"
+          id="coilIdInput"
+          class="coil-input-report"
+          type="text"
+          [(ngModel)]="Thick"
+          placeholder="Enter Thickness"
+          title="Enter Thickness"
+          (keyup.enter)="onSearch()"
+        />
+      </div>
+
+      <div class="input-wrapper_report">
+        <input
+          maxlength="12"
+          id="coilIdInput"
+          class="coil-input-report"
+          type="text"
+          [(ngModel)]="Dest"
+          placeholder="Enter Destination"
+          title="Enter Destination"
+          (keyup.enter)="onSearch()"
+        />
+      </div>
     </div>
   </div>
-  <div *ngIf="final_report != []" class="report_table">
+  <div *ngIf="final_report.length > 0" class="report_table">
     <div class="container">
       <div class="table-container">
         <div class="table-wrapper">
@@ -80,7 +107,7 @@
             <tbody>
               <!-- const diff = this.getMinuteDiff(item.HSMPRODTIME); 
       return diff > 4320 ? 'assets/images/coil.png' : 'assets/images/hot.png'; -->
-              <h2 *ngIf="summary_report.length == 0">No data !</h2>
+
               <tr *ngFor="let item of final_report; let i = index">
                 <td>{{ i + 1 }}</td>
                 <td
@@ -94,7 +121,9 @@
                 <td>{{ item.SADDLENAME }}</td>
                 <td>{{ item.WIDTH }}</td>
                 <td>{{ item.THICK }}</td>
-                <td>N/A</td>
+
+                <!-- show current time - item.HSMPRODTIME  -->
+                <td>{{ (getMinuteDiff(item.HSMPRODTIME) / 60).toFixed() }}</td>
                 <td>{{ item.DEST }}</td>
                 <td>{{ item.WEIGHT }}</td>
                 <td>{{ item.GRADE }}</td>
@@ -122,14 +151,15 @@
           </div>
 
           <div class="scroll-info">
-            <i class="fas fa-mouse-pointer"></i>
-            <span
-              >Scroll vertically to view all
+            <!-- <i class="fas fa-mouse-pointer"></i> -->
+            <span>
+              {{ selected }} report, Scroll vertically to view all
               {{ final_report.length }} records</span
             >
           </div>
 
-          <div class="record-count">
+          <h2 *ngIf="final_report.length == 0" class="nodata">! No data ☹️</h2>
+          <div *ngIf="final_report.length > 0" class="record-count">
             <i class="fas fa-database"></i>
             <span
               >Total Records: <strong>{{ final_report.length }}</strong></span
@@ -152,7 +182,7 @@
             </thead>
             <tbody>
               <!-- Table rows will be generated by JavaScript -->
-              <h2 *ngIf="summary_report.length == 0">No data !</h2>
+
               <tr *ngFor="let item of summary_report; let i = index">
                 <td>{{ i + 1 }}</td>
                 <td>{{ item.WIDTH }}</td>
@@ -179,8 +209,10 @@
             <!-- <i class="fas fa-mouse-pointer"></i> -->
             <span>Thickness X Grade X Width Summary </span>
           </div>
-
-          <div class="record-count">
+          <h2 class="nodata" *ngIf="summary_report.length == 0">
+            ! No data ☹️
+          </h2>
+          <div *ngIf="summary_report.length > 0" class="record-count">
             <i class="fas fa-database"></i>
             <span
               >Total Records: <strong>{{ summary_report.length }}</strong></span
