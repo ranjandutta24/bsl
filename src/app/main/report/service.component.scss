@@ -166,7 +166,7 @@ h1 {
   border-radius: 10px;
   overflow: hidden;
   box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
-  margin-bottom: 30px;
+  // margin-bottom: 30px;
 }
 
 .nodata {
@@ -178,9 +178,15 @@ h1 {
 }
 
 .table-wrapper {
-  max-height: 350px;
+  // max-height: 336px;
+  max-height: calc(100vh - 645px);
+
   overflow-y: scroll;
   border: 1px solid #e1e8f0;
+}
+.move_table_height {
+  max-height: 280px;
+  // max-height: calc(100vh - 611px);
 }
 .hot {
   color: #ff0000;
@@ -202,6 +208,16 @@ table {
   // min-width: 1100px;
   height: 348px;
 }
+#trdtable {
+  // min-width: 1100px;
+  height: 348px;
+  min-width: 850px;
+}
+#fthtable {
+  // min-width: 1100px;
+  height: 348px;
+  min-width: 850px;
+}
 thead {
   position: sticky;
   top: 0;
@@ -211,10 +227,10 @@ thead {
 th {
   background-color: #4498eb;
   color: white;
-  padding: 10px 15px;
+  padding: 6px 15px;
   text-align: left;
   font-weight: 600;
-  font-size: 1.05rem;
+  font-size: 0.8rem;
   border-right: 1px solid rgba(255, 255, 255, 0.1);
 }
 
@@ -333,13 +349,13 @@ td {
 
 /* Width */
 ::-webkit-scrollbar {
-  width: 8px;
+  width: 3px;
   height: 8px;
 }
 
 /* Track */
 ::-webkit-scrollbar-track {
-  background: #b1b1b1;
+  background: #dbf1ff;
   // border-radius: 3px;
 }
 
