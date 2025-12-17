@@ -191,39 +191,37 @@ export class SadelDComponent {
   //   // this.pickupFlag = false;
   // }
 
-
   onRightClick(event: MouseEvent, saddle: any, el: HTMLElement) {
     event.preventDefault();
-  
+
     this.selectedSaddle = saddle;
     this.popupVisible = true;
-  
+
     const rect = el.getBoundingClientRect();
     const GAP = 8;
-  
+
     // Default → open below saddle
     let x = rect.left;
     let y = rect.bottom + GAP;
-  
+
     setTimeout(() => {
       const popup = this.popupRef.nativeElement;
       const popupRect = popup.getBoundingClientRect();
-  
+
       // 🔥 If bottom overflow → open ABOVE saddle
       if (y + popupRect.height > window.innerHeight) {
         y = rect.top - popupRect.height - GAP;
       }
-  
+
       // 🔥 If right overflow → shift left
       if (x + popupRect.width > window.innerWidth) {
         x = window.innerWidth - popupRect.width - 10;
       }
-  
+
       this.popupX = x;
       this.popupY = y;
     });
   }
-
 
   selectItem(item: string) {
     if (item === 'Pickup') {
@@ -321,7 +319,16 @@ export class SadelDComponent {
     // console.log(this.selectedSaddle.SADDLENAME, inhand.COILID);
 
     // // 1 history create
-    this.createhistort(this.selectedSaddle.SADDLENAME, inhand.COILID);
+    this.createhistort(
+      this.selectedSaddle.SADDLENAME,
+      inhand.COILID,
+      inhand.THICK,
+      inhand.WIDTH,
+      inhand.WEIGHT,
+      inhand.DEST,
+      inhand.HEATNO,
+      inhand.GRADE
+    );
   }
 
   updateSaddle(status: any) {
@@ -426,7 +433,16 @@ export class SadelDComponent {
             this.cdr.detectChanges();
           }
 
-          this.createhistort(this.selectedSaddle.SADDLENAME, this.newCoilId);
+          this.createhistort(
+            this.selectedSaddle.SADDLENAME,
+            this.newCoilId,
+            response.THICK,
+            response.WIDTH,
+            response.WEIGHT,
+            response.DEST,
+            response.HEATNO,
+            response.GRADE
+          );
           this.showAddCoilModal = false;
           this.newCoilId = this.prefix;
 
@@ -448,12 +464,27 @@ export class SadelDComponent {
       });
   }
 
-  createhistort(sn: any, ci: any) {
+  createhistort(
+    sn: any,
+    ci: any,
+    th: any,
+    wd: any,
+    wgt: any,
+    dest: any,
+    hno: any,
+    grade: any
+  ) {
     this.sadelService
       .cratehistory({
         SADDLENAME: sn,
         COILID: ci,
         ADDTIME: new Date(),
+        THICK: th,
+        WIDTH: wd,
+        WEIGHT: wgt,
+        DEST: dest,
+        HEATNO: hno,
+        GRADE: grade,
       })
       .subscribe((r) => {});
   }

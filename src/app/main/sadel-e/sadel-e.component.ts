@@ -192,8 +192,7 @@ export class SadelEComponent {
   //   // this.pickupFlag = false;
   // }
 
-
-    onRightClick(event: MouseEvent, saddle: any, el: HTMLElement) {
+  onRightClick(event: MouseEvent, saddle: any, el: HTMLElement) {
     event.preventDefault();
 
     this.selectedSaddle = saddle;
@@ -321,14 +320,38 @@ export class SadelEComponent {
     // console.log(this.selectedSaddle.SADDLENAME, inhand.COILID);
 
     // // 1 history create
-    this.createhistort(this.selectedSaddle.SADDLENAME, inhand.COILID);
+    this.createhistort(
+      this.selectedSaddle.SADDLENAME,
+      inhand.COILID,
+      inhand.THICK,
+      inhand.WIDTH,
+      inhand.WEIGHT,
+      inhand.DEST,
+      inhand.HEATNO,
+      inhand.GRADE
+    );
   }
-  createhistort(sn: any, ci: any) {
+  createhistort(
+    sn: any,
+    ci: any,
+    th: any,
+    wd: any,
+    wgt: any,
+    dest: any,
+    hno: any,
+    grade: any
+  ) {
     this.sadelService
       .cratehistory({
         SADDLENAME: sn,
         COILID: ci,
         ADDTIME: new Date(),
+        THICK: th,
+        WIDTH: wd,
+        WEIGHT: wgt,
+        DEST: dest,
+        HEATNO: hno,
+        GRADE: grade,
       })
       .subscribe((r) => {});
   }
@@ -446,7 +469,16 @@ export class SadelEComponent {
             this.cdr.detectChanges();
           }
 
-          this.createhistort(this.selectedSaddle.SADDLENAME, this.newCoilId);
+          this.createhistort(
+            this.selectedSaddle.SADDLENAME,
+            this.newCoilId,
+            response.THICK,
+            response.WIDTH,
+            response.WEIGHT,
+            response.DEST,
+            response.HEATNO,
+            response.GRADE
+          );
           this.showAddCoilModal = false;
           this.newCoilId = this.prefix;
 

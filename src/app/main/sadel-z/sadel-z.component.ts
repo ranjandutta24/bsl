@@ -362,7 +362,16 @@ export class SadelZComponent {
     // console.log(this.selectedSaddle.SADDLENAME, inhand.COILID);
 
     // // 1 history create
-    this.createhistort(this.selectedSaddle.SADDLENAME, inhand.COILID);
+    this.createhistort(
+      this.selectedSaddle.SADDLENAME,
+      inhand.COILID,
+      inhand.THICK,
+      inhand.WIDTH,
+      inhand.WEIGHT,
+      inhand.DEST,
+      inhand.HEATNO,
+      inhand.GRADE
+    );
   }
 
   updateSaddle(status: any) {
@@ -466,7 +475,16 @@ export class SadelZComponent {
             this.cdr.detectChanges();
           }
 
-          this.createhistort(this.selectedSaddle.SADDLENAME, this.newCoilId);
+          this.createhistort(
+            this.selectedSaddle.SADDLENAME,
+            this.newCoilId,
+            response.THICK,
+            response.WIDTH,
+            response.WEIGHT,
+            response.DEST,
+            response.HEATNO,
+            response.GRADE
+          );
           this.showAddCoilModal = false;
           this.newCoilId = this.prefix;
 
@@ -488,18 +506,27 @@ export class SadelZComponent {
       });
   }
 
-  createhistort(sn: any, ci: any) {
+  createhistort(
+    sn: any,
+    ci: any,
+    th: any,
+    wd: any,
+    wgt: any,
+    dest: any,
+    hno: any,
+    grade: any
+  ) {
     this.sadelService
       .cratehistory({
         SADDLENAME: sn,
         COILID: ci,
         ADDTIME: new Date(),
-        THICK: this.selectedSaddle.THICK,
-        WIDTH: this.selectedSaddle.WIDTH,
-        WEIGHT: this.selectedSaddle.WEIGHT,
-        DEST: this.selectedSaddle.DEST,
-        HEATNO: this.selectedSaddle.HEATNO,
-        GRADE: this.selectedSaddle.GRADE,
+        THICK: th,
+        WIDTH: wd,
+        WEIGHT: wgt,
+        DEST: dest,
+        HEATNO: hno,
+        GRADE: grade,
       })
       .subscribe((r) => {});
   }
