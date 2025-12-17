@@ -21,30 +21,53 @@
 </div> -->
 
 <div class="stats-card">
+  <!-- Card Title -->
+  <div class="card-title">HRCC Yard Overview</div>
+
+  <!-- Header -->
   <div class="stat-header">
     <span></span>
-    <span>Coils</span>
-    <span>Weight</span>
-  </div>
-
-  <div class="stat-row">
-    <span>1st High</span>
-    <span class="num">{{ f_total }}</span>
-    <span class="num">{{ f_weight }}</span>
-  </div>
-
-  <div class="stat-row">
-    <span>2nd High</span>
-    <span class="num">{{ s_total }}</span>
-    <span class="num">{{ s_weight }}</span>
-  </div>
-
-  <div class="stat-row">
+    <span>1st</span>
+    <span>2nd</span>
     <span>Total</span>
+  </div>
+
+    <!-- WEIGHT (FIXED ALIGNMENT) -->
+  <div class="stat-row">
+    <span class="row-label">
+      Tons
+    </span>
+    <span class="num">{{ f_weight | number:'1.0-0' }}</span>
+    <span class="num">{{ s_weight | number:'1.0-0' }}</span>
+    <span class="num totalred">{{ total_weight | number:'1.0-0' }}</span>
+  </div>
+
+  <!-- LOAD -->
+  <div class="stat-row">
+    <span class="row-label">Load</span>
+    <span class="num">{{ f_total }}</span>
+    <span class="num">{{ s_total }}</span>
     <span class="num total">{{ total_coil }}</span>
-    <span class="num total">{{ total_weight }}</span>
+  </div>
+
+  <!-- EMPTY -->
+  <div class="stat-row">
+    <span class="row-label">Empty</span>
+    <span class="num">{{ f_empty }}</span>
+    <span class="num">{{ s_empty }}</span>
+    <span class="num total">{{ tot_empty }}</span>
+  </div>
+
+  <!-- UNFIT -->
+  <div class="stat-row">
+    <span class="row-label">Unfit</span>
+    <span class="num">{{ f_unfit }}</span>
+    <span class="num">{{ s_unfit }}</span>
+    <span class="num total">{{ tot_unfit }}</span>
   </div>
 </div>
+
+
 
 
 

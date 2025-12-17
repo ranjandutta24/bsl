@@ -302,6 +302,7 @@ export class SadelGComponent {
 
           this.gridItems = [...this.gridItems];
           this.comm.triggerStatusRefresh();
+          this.comm.triggerRefresh();
           this.cdr.detectChanges(); //
         }
       });
@@ -389,6 +390,7 @@ export class SadelGComponent {
           this.newCoilId = this.prefix;
 
           this.comm.triggerStatusRefresh();
+          this.comm.triggerRefresh();
         },
 
         error: (err) => {
@@ -423,6 +425,7 @@ export class SadelGComponent {
       })
       .subscribe((r) => {
         this.comm.triggerStatusRefresh();
+        this.comm.triggerRefresh();
         this.cdr.detectChanges();
       });
   }

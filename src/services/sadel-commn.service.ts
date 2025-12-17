@@ -25,5 +25,17 @@ export class SadelCommService {
   switchSadel(data: { row: string; coilId: string; flr: number }) {
     this.switchSadel$.next(data);
   }
+
+
+ // use For Refresh TotalStatusComponent
+  private refreshSubject = new Subject<void>();
+
+  // Observable for listeners
+  refresh$ = this.refreshSubject.asObservable();
+
+  // Call this to trigger refresh
+  triggerRefresh() {
+    this.refreshSubject.next();
+  }
 }
 
