@@ -113,7 +113,13 @@ export class ServiceComponent {
         this.sadelService.movementCoil().subscribe(
           (response) => {
             this.raw_movement = response;
-            this.isLoading = false;
+            this.sadelService.notinyard().subscribe((response)=>{
+              this.rolled_but_not_in_yard_report = JSON.parse(JSON.stringify(response));
+              this.isLoading = false;
+
+            },(respError)=>{
+
+            })
           },
           (respError) => {
             // this.loading = false;

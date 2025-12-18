@@ -134,6 +134,19 @@ export class SadelService {
       .get(this.config.apiUrl + 'reports/todayHistory', httpOptions)
       .pipe(retry(1), catchError(this.errorHandler));
   }
+
+  notinyard() {
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        Authorization: this.authorization,
+      }),
+    };
+    return this.http
+      .get(this.config.apiUrl + 'reports/notinyard', httpOptions)
+      .pipe(retry(1), catchError(this.errorHandler));
+  }
+
   coilvalid(coilid: any) {
     const httpOptions = {
       headers: new HttpHeaders({
