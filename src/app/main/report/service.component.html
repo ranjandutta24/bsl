@@ -19,7 +19,15 @@
       >
         Ready Stock
       </div>
-      <div class="tab_report" (click)="rolled_bniy()">Rolled but in yard</div>
+      <div
+        [ngClass]="{
+                      selected_report: selected=='Rolled But Not In Yard Stock',
+                    }"
+        class="tab_report"
+        (click)="rolled_bniy()"
+      >
+        Rolled but in yard
+      </div>
     </div>
 
     <div class="cr_seg" *ngIf="final_report.length > 0">

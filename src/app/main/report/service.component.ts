@@ -87,17 +87,20 @@ export class ServiceComponent {
     return diffMinutes;
   }
   ready() {
-    this.final_report = this.final_report.filter((item: any) => {
+    this.final_report = this.raw_report.filter((item: any) => {
       return this.getMinuteDiff(item.HSMPRODTIME) > 4320;
     });
+    this.summary_report = this.createSummary(this.final_report);
     this.selected = 'Ready Stock';
   }
   totalstock() {
     this.final_report = this.raw_report;
     this.selected = 'Total Stock';
+    this.summary_report = this.createSummary(this.final_report);
   }
   rolled_bniy() {
     this.final_report = this.rolled_but_not_in_yard_report;
+    this.summary_report = this.createSummary(this.final_report);
     this.selected = 'Rolled But Not In Yard Stock';
   }
   ngOnInit(): void {
@@ -113,13 +116,15 @@ export class ServiceComponent {
         this.sadelService.movementCoil().subscribe(
           (response) => {
             this.raw_movement = response;
-            this.sadelService.notinyard().subscribe((response)=>{
-              this.rolled_but_not_in_yard_report = JSON.parse(JSON.stringify(response));
-              this.isLoading = false;
-
-            },(respError)=>{
-
-            })
+            this.sadelService.notinyard().subscribe(
+              (response) => {
+                this.rolled_but_not_in_yard_report = JSON.parse(
+                  JSON.stringify(response)
+                );
+                this.isLoading = false;
+              },
+              (respError) => {}
+            );
           },
           (respError) => {
             // this.loading = false;
@@ -149,7 +154,7 @@ export class ServiceComponent {
         (this.CoilId ? item.COILID.startsWith(this.CoilId) : true) &&
         (this.Width ? item.WIDTH == this.Width : true) &&
         (this.Thick ? item.THICK == this.Thick : true) &&
-        (this.Dest ? item.DEST.startsWith(this.Dest) : true)
+        (this.Dest ? item.DEST.includes(this.Dest.toUpperCase()) : true)
       );
     });
     this.summary_report = this.createSummary(this.final_report);
