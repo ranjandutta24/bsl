@@ -21,12 +21,12 @@ export class ServiceComponent {
   selected = 'Total Stock';
   isLoading = true;
 
-
   //summary_report
   //raw_movement
 
   raw_movement: any;
-  raw_movement_with_removetime : any;
+  raw_movement_addtime: any;
+  raw_movement_with_removetime: any;
 
   constructor(
     private sadelService: SadelService // private cdr: ChangeDetectorRef, // private router: Router, // private comm: SadelCommService, // public central: CentralHandlerService, // private snackBar: MatSnackBar
@@ -120,20 +120,22 @@ export class ServiceComponent {
 
         this.sadelService.movementCoil().subscribe(
           (response) => {
-            // this.raw_movement = response;
+            this.raw_movement = response;
 
             //DEBASHIS
             let result = JSON.parse(JSON.stringify(response));
-            this.raw_movement = result.filter((row: { ADDTIME: null | undefined; RMVTIME: null | undefined; }) =>
-            row.ADDTIME !== null &&
-            row.ADDTIME !== undefined &&
-            (row.RMVTIME === null || row.RMVTIME === undefined)
+            this.raw_movement_addtime = result.filter(
+              (row: { ADDTIME: null | undefined; RMVTIME: null | undefined }) =>
+                row.ADDTIME !== null &&
+                row.ADDTIME !== undefined &&
+                (row.RMVTIME === null || row.RMVTIME === undefined)
             );
 
-            this.raw_movement_with_removetime =result.filter((row: { ADDTIME: null | undefined; RMVTIME: null | undefined; }) =>
-            row.ADDTIME !== null &&
-            row.ADDTIME !== undefined &&
-            (row.RMVTIME !== null || row.RMVTIME !== undefined)
+            this.raw_movement_with_removetime = result.filter(
+              (row: { ADDTIME: null | undefined; RMVTIME: null | undefined }) =>
+                row.ADDTIME !== null &&
+                row.ADDTIME !== undefined &&
+                (row.RMVTIME !== null || row.RMVTIME !== undefined)
             );
 
             console.log(this.raw_movement);
@@ -162,25 +164,27 @@ export class ServiceComponent {
     );
     this.sadelService.movementCoil().subscribe(
       (response) => {
-        // this.raw_movement = response;
+        this.raw_movement = response;
 
         //DEBASHIS
-            let result = JSON.parse(JSON.stringify(response));
-            this.raw_movement = result.filter((row: { ADDTIME: null | undefined; RMVTIME: null | undefined; }) =>
+        let result = JSON.parse(JSON.stringify(response));
+        this.raw_movement_addtime = result.filter(
+          (row: { ADDTIME: null | undefined; RMVTIME: null | undefined }) =>
             row.ADDTIME !== null &&
             row.ADDTIME !== undefined &&
             (row.RMVTIME === null || row.RMVTIME === undefined)
-            );
+        );
 
-             this.raw_movement_with_removetime =result.filter((row: { ADDTIME: null | undefined; RMVTIME: null | undefined; }) =>
+        this.raw_movement_with_removetime = result.filter(
+          (row: { ADDTIME: null | undefined; RMVTIME: null | undefined }) =>
             row.ADDTIME !== null &&
             row.ADDTIME !== undefined &&
             (row.RMVTIME !== null || row.RMVTIME !== undefined)
-            );
+        );
 
-            console.log(this.raw_movement);
-            
-            //DEBASHIS
+        console.log(this.raw_movement);
+
+        //DEBASHIS
       },
       (respError) => {
         // this.loading = false;
