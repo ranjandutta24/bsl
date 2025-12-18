@@ -252,7 +252,13 @@ export class SadelGComponent {
       .subscribe(() => {
         this.updatehistory(
           this.selectedSaddle.SADDLENAME,
-          this.selectedSaddle.COILID
+          this.selectedSaddle.COILID,
+          this.selectedSaddle.THICK,
+          this.selectedSaddle.WIDTH,
+          this.selectedSaddle.WEIGHT,
+          this.selectedSaddle.DEST,
+          this.selectedSaddle.HEATNO,
+          this.selectedSaddle.GRADE
         );
         const index = this.gridItems.findIndex(
           (item: any) => item.SADDLENAME === this.selectedSaddle.SADDLENAME
@@ -307,7 +313,16 @@ export class SadelGComponent {
       },
       error: () => console.error('API update failed!'),
     });
-    this.updatehistory(inhand.SADDLENAME, inhand.COILID);
+    this.updatehistory(
+      inhand.SADDLENAME,
+      inhand.COILID,
+      inhand.THICK,
+      inhand.WIDTH,
+      inhand.WEIGHT,
+      inhand.DEST,
+      inhand.HEATNO,
+      inhand.GRADE
+    );
 
     // console.log(this.selectedSaddle.SADDLENAME, inhand.COILID);
 
@@ -481,12 +496,27 @@ export class SadelGComponent {
       })
       .subscribe((r) => {});
   }
-  updatehistory(sn: any, ci: any) {
+  updatehistory(
+    sn: any,
+    ci: any,
+    th: any,
+    wd: any,
+    wgt: any,
+    dest: any,
+    hno: any,
+    grade: any
+  ) {
     this.sadelService
       .updatehistory({
         COILID: ci,
         SADDLENAME: sn,
         RMVTIME: new Date(),
+        THICK: th,
+        WIDTH: wd,
+        WEIGHT: wgt,
+        DEST: dest,
+        HEATNO: hno,
+        GRADE: grade,
       })
       .subscribe((r) => {
         this.comm.triggerStatusRefresh();
