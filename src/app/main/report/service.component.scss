@@ -33,6 +33,27 @@
     rgb(150 200 250) 100%
   );
 }
+.loader {
+  border: 15px solid #e7f6ff;
+  border-top: 9px solid #68adf2;
+  // border: 15px solid #68adf2;
+  // border-top: 9px solid #f69051;
+  border-radius: 50%;
+  width: 191px;
+  height: 192px;
+  animation: _ngcontent-ng-c2798354496_spin 1s linear infinite;
+  margin: auto;
+  margin-top: 100px;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
 
 .criteria {
   justify-content: space-between;

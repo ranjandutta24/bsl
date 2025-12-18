@@ -19,7 +19,7 @@
       >
         Ready Stock
       </div>
-      <div class="tab_report">Rolled but in yard</div>
+      <div class="tab_report" (click)="rolled_bniy()">Rolled but in yard</div>
     </div>
 
     <div class="cr_seg" *ngIf="final_report.length > 0">
@@ -84,7 +84,9 @@
       </div>
     </div>
   </div>
-  <div *ngIf="final_report.length > 0" class="report_table">
+
+  <div class="loader" *ngIf="isLoading"></div>
+  <div *ngIf="!isLoading" class="report_table">
     <div class="container">
       <div class="table-container">
         <div class="table-wrapper">
@@ -267,7 +269,7 @@
       <div class="tab_report">Today Shift</div>
     </div>
   </div> -->
-  <div class="movment_table">
+  <div *ngIf="!isLoading" class="movment_table">
     <div class="container">
       <div class="table-container">
         <div class="table-wrapper move_table_height">

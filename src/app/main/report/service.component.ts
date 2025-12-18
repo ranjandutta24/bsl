@@ -12,12 +12,14 @@ import { FormsModule } from '@angular/forms';
 export class ServiceComponent {
   raw_report: any;
   final_report: any;
+  rolled_but_not_in_yard_report: any;
   summary_report: any;
   CoilId: any;
   Width: any;
   Thick: any;
   Dest: any;
   selected = 'Total Stock';
+  isLoading = true;
 
   raw_movement: any;
 
@@ -94,6 +96,10 @@ export class ServiceComponent {
     this.final_report = this.raw_report;
     this.selected = 'Total Stock';
   }
+  rolled_bniy() {
+    this.final_report = this.rolled_but_not_in_yard_report;
+    this.selected = 'Rolled But Not In Yard Stock';
+  }
   ngOnInit(): void {
     this.sadelService.totalStock().subscribe(
       (response) => {
@@ -103,6 +109,17 @@ export class ServiceComponent {
         this.final_report = [...this.raw_report];
 
         this.summary_report = this.createSummary(this.final_report);
+
+        this.sadelService.movementCoil().subscribe(
+          (response) => {
+            this.raw_movement = response;
+            this.isLoading = false;
+          },
+          (respError) => {
+            // this.loading = false;
+            // this.commonService.showSnakBarMessage(respError, "error", 2000);
+          }
+        );
       },
       (respError) => {
         // this.loading = false;
