@@ -24,9 +24,9 @@ export class ServiceComponent {
   //summary_report
   //raw_movement
 
-  raw_movement: any;
-  raw_movement_addtime: any;
-  raw_movement_with_removetime: any;
+  raw_movement: any=[];
+  raw_movement_addtime:any=[];
+  raw_movement_with_removetime:any=[];
 
   constructor(
     private sadelService: SadelService // private cdr: ChangeDetectorRef, // private router: Router, // private comm: SadelCommService, // public central: CentralHandlerService, // private snackBar: MatSnackBar
@@ -120,26 +120,29 @@ export class ServiceComponent {
 
         this.sadelService.movementCoil().subscribe(
           (response) => {
-            this.raw_movement = response;
-
-            //DEBASHIS
             let result = JSON.parse(JSON.stringify(response));
-            this.raw_movement_addtime = result.filter(
-              (row: { ADDTIME: null | undefined; RMVTIME: null | undefined }) =>
-                row.ADDTIME !== null &&
-                row.ADDTIME !== undefined &&
-                (row.RMVTIME === null || row.RMVTIME === undefined)
-            );
+            this.raw_movement = result;
 
-            this.raw_movement_with_removetime = result.filter(
-              (row: { ADDTIME: null | undefined; RMVTIME: null | undefined }) =>
-                row.ADDTIME !== null &&
-                row.ADDTIME !== undefined &&
-                (row.RMVTIME !== null || row.RMVTIME !== undefined)
-            );
+           // DEBASHIS
+           if (result && result.length > 0) {
+           
+             this.raw_movement_addtime = result.filter(
+               (row: { ADDTIME: null | undefined; RMVTIME: null | undefined }) =>
+                 row.ADDTIME !== null &&
+                 row.ADDTIME !== undefined &&
+                 (row.RMVTIME === null || row.RMVTIME === undefined)
+             );
+           
+             this.raw_movement_with_removetime = result.filter(
+               (row: { ADDTIME: null | undefined; RMVTIME: null | undefined }) =>
+                 row.ADDTIME !== null &&
+                 row.ADDTIME !== undefined &&
+                 (row.RMVTIME !== null && row.RMVTIME !== undefined)   // ✅ FIXED
+             );
+           }
 
-            console.log(this.raw_movement);
-            //DEBASHIS
+           console.log(this.raw_movement_with_removetime);
+           // DEBASHIS
 
             this.sadelService.notinyard().subscribe(
               (response) => {
@@ -164,26 +167,26 @@ export class ServiceComponent {
     );
     this.sadelService.movementCoil().subscribe(
       (response) => {
-        this.raw_movement = response;
-
-        //DEBASHIS
         let result = JSON.parse(JSON.stringify(response));
-        this.raw_movement_addtime = result.filter(
-          (row: { ADDTIME: null | undefined; RMVTIME: null | undefined }) =>
-            row.ADDTIME !== null &&
-            row.ADDTIME !== undefined &&
-            (row.RMVTIME === null || row.RMVTIME === undefined)
-        );
+        this.raw_movement = result;
+        //DEBASHIS
+        if (result && result.length > 0) { 
+          this.raw_movement_addtime = result.filter(
+            (row: { ADDTIME: null | undefined; RMVTIME: null | undefined }) =>
+              row.ADDTIME !== null &&
+              row.ADDTIME !== undefined &&
+              (row.RMVTIME === null || row.RMVTIME === undefined)
+          );
+        
+          this.raw_movement_with_removetime = result.filter(
+            (row: { ADDTIME: null | undefined; RMVTIME: null | undefined }) =>
+              row.ADDTIME !== null &&
+              row.ADDTIME !== undefined &&
+              (row.RMVTIME !== null && row.RMVTIME !== undefined)   // ✅ FIXED
+          );
+        }
 
-        this.raw_movement_with_removetime = result.filter(
-          (row: { ADDTIME: null | undefined; RMVTIME: null | undefined }) =>
-            row.ADDTIME !== null &&
-            row.ADDTIME !== undefined &&
-            (row.RMVTIME !== null || row.RMVTIME !== undefined)
-        );
-
-        console.log(this.raw_movement);
-
+      console.log(this.raw_movement_with_removetime);
         //DEBASHIS
       },
       (respError) => {

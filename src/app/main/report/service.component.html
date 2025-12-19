@@ -298,7 +298,7 @@
       return diff > 4320 ? 'assets/images/coil.png' : 'assets/images/hot.png'; -->
 
               <tr *ngFor="let item of raw_movement_addtime; let i = index">
-                <td>{{ i + 1 }}</td>
+                <!-- <td>{{ i + 1 }}</td>
                 <td
                   [ngClass]="{
                     hot: getMinuteDiff(item.HSMPRODTIME) <4320,
@@ -310,10 +310,16 @@
                 <td>{{ item.HEATNO }}</td>
                 <td>{{ item.COILID }}</td>
                 <td>{{ item.GRADE }}</td>
-
-                <!-- show current time - item.HSMPRODTIME  -->
                 <td>{{ item.THICK }}</td>
-                <td>{{ item.WIDTH }}</td>
+                <td>{{ item.WIDTH }}</td> -->
+
+                <td>{{i+1}}</td>
+                <td>{{ item.ADDTIME | date : "dd-MMM HH:mm"  }}</td>
+                <td>{{ item.HEATNO }}</td>
+                <td>{{ item.COILID }}</td>
+                <td>{{ item.GRADE }}</td>
+                <td>{{ item.THICK}}</td>
+                <td>{{ item.WIDTH}}</td>
               </tr>
             </tbody>
           </table>
@@ -343,11 +349,11 @@
             >
           </div>
 
-          <h2 *ngIf="final_report.length == 0" class="nodata">! No data ☹️</h2>
-          <div *ngIf="final_report.length > 0" class="record-count">
+          <h2 *ngIf="raw_movement_addtime.length == 0" class="nodata">! No data ☹️</h2>
+          <div *ngIf="raw_movement_addtime.length > 0" class="record-count">
             <i class="fas fa-database"></i>
             <span
-              >Total Records: <strong>{{ raw_movement.length }}</strong></span
+              >Total Records: <strong>{{ raw_movement_addtime.length }}</strong></span
             >
           </div>
         </div>
@@ -358,7 +364,7 @@
             <thead>
               <tr>
                 <th>Sl</th>
-                <th>Receive Date</th>
+                <th>Exit Date</th>
                 <th>Heat No</th>
                 <th>HSM Coil ID</th>
                 <th>HSM Grd</th>
@@ -373,12 +379,12 @@
                 *ngFor="let item of raw_movement_with_removetime; let i = index"
               >
                 <td>{{ i + 1 }}</td>
-                <td>{{ item.WIDTH }}</td>
-                <td>{{ item.WIDTH }}</td>
-                <td>{{ item.THICK }}</td>
-                <td>{{ item.COILS }}</td>
-                <td>{{ item.Wt }}</td>
-                <td>{{ item.DEST }}</td>
+                <td>{{ item.RMVTIME | date : "dd-MMM HH:mm"  }}</td>
+                <td>{{ item.HEATNO }}</td>
+                <td>{{ item.COILID }}</td>
+                <td>{{ item.GRADE }}</td>
+                <td>{{ item.THICK}}</td>
+                <td>{{ item.WIDTH}}</td>
               </tr>
             </tbody>
           </table>
@@ -398,13 +404,13 @@
             <!-- <i class="fas fa-mouse-pointer"></i> -->
             <span>Thickness X Grade X Width Summary </span>
           </div>
-          <h2 class="nodata" *ngIf="summary_report.length == 0">
+          <h2 class="nodata" *ngIf="raw_movement_with_removetime.length == 0">
             ! No data ☹️
           </h2>
-          <div *ngIf="summary_report.length > 0" class="record-count">
+          <div *ngIf="raw_movement_with_removetime.length > 0" class="record-count">
             <i class="fas fa-database"></i>
             <span
-              >Total Records: <strong>{{ summary_report.length }}</strong></span
+              >Total Records: <strong>{{ raw_movement_with_removetime.length }}</strong></span
             >
           </div>
         </div>
