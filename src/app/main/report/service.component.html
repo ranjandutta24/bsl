@@ -30,7 +30,7 @@
       </div>
     </div>
 
-    <div class="cr_seg" *ngIf="final_report.length > 0">
+    <div class="cr_seg" *ngIf="final_report?.length > 0">
       <div class="tab_report cr_stats">
         Total Coil : {{ final_report.length }}
       </div>
@@ -164,7 +164,7 @@
           <div *ngIf="final_report.length > 0" class="record-count">
             <i class="fas fa-database"></i>
             <span
-              >Total Records: <strong>{{ final_report.length }}</strong></span
+              >Total Coils: <strong>{{ final_report.length }}</strong></span
             >
           </div>
         </div>
@@ -303,13 +303,13 @@
                 <td>{{ item.THICK }}</td>
                 <td>{{ item.WIDTH }}</td> -->
 
-                <td>{{i+1}}</td>
-                <td>{{ item.ADDTIME | date : "dd-MMM HH:mm"  }}</td>
+                <td>{{ i + 1 }}</td>
+                <td>{{ item.ADDTIME | date : "dd-MMM HH:mm" }}</td>
                 <td>{{ item.HEATNO }}</td>
                 <td>{{ item.COILID }}</td>
                 <td>{{ item.GRADE }}</td>
-                <td>{{ item.THICK}}</td>
-                <td>{{ item.WIDTH}}</td>
+                <td>{{ item.THICK }}</td>
+                <td>{{ item.WIDTH }}</td>
               </tr>
             </tbody>
           </table>
@@ -333,17 +333,17 @@
 
           <div class="scroll-info">
             <!-- <i class="fas fa-mouse-pointer"></i> -->
-            <span>
-              {{ selected }} report, Scroll vertically to view all
-              {{ raw_movement.length }} records</span
-            >
+            <span> Coil Added To Saddle History</span>
           </div>
 
-          <h2 *ngIf="raw_movement_addtime.length == 0" class="nodata">! No data ☹️</h2>
+          <h2 *ngIf="raw_movement_addtime.length == 0" class="nodata">
+            ! No data ☹️
+          </h2>
           <div *ngIf="raw_movement_addtime.length > 0" class="record-count">
             <i class="fas fa-database"></i>
             <span
-              >Total Records: <strong>{{ raw_movement_addtime.length }}</strong></span
+              >Total Records:
+              <strong>{{ raw_movement_addtime.length }}</strong></span
             >
           </div>
         </div>
@@ -369,12 +369,12 @@
                 *ngFor="let item of raw_movement_with_removetime; let i = index"
               >
                 <td>{{ i + 1 }}</td>
-                <td>{{ item.RMVTIME | date : "dd-MMM HH:mm"  }}</td>
+                <td>{{ item.RMVTIME | date : "dd-MMM HH:mm" }}</td>
                 <td>{{ item.HEATNO }}</td>
                 <td>{{ item.COILID }}</td>
                 <td>{{ item.GRADE }}</td>
-                <td>{{ item.THICK}}</td>
-                <td>{{ item.WIDTH}}</td>
+                <td>{{ item.THICK }}</td>
+                <td>{{ item.WIDTH }}</td>
               </tr>
             </tbody>
           </table>
@@ -392,15 +392,19 @@
 
           <div class="scroll-info">
             <!-- <i class="fas fa-mouse-pointer"></i> -->
-            <span>Thickness X Grade X Width Summary </span>
+            <span>Coil Remove from Saddle History</span>
           </div>
           <h2 class="nodata" *ngIf="raw_movement_with_removetime.length == 0">
             ! No data ☹️
           </h2>
-          <div *ngIf="raw_movement_with_removetime.length > 0" class="record-count">
+          <div
+            *ngIf="raw_movement_with_removetime.length > 0"
+            class="record-count"
+          >
             <i class="fas fa-database"></i>
             <span
-              >Total Records: <strong>{{ raw_movement_with_removetime.length }}</strong></span
+              >Total Records:
+              <strong>{{ raw_movement_with_removetime.length }}</strong></span
             >
           </div>
         </div>

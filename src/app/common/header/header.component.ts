@@ -14,7 +14,7 @@ export class HeaderComponent {
   home = 'home';
 
   goToRoute(path: string) {
-    console.log(path);
+    // console.log(path);
 
     this.router.navigate([path]);
   }

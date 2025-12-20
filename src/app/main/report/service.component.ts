@@ -5,9 +5,7 @@ import { FormsModule } from '@angular/forms';
 import pdfMake from 'pdfmake/build/pdfmake';
 import pdfFonts from 'pdfmake/build/vfs_fonts';
 
-
 (pdfMake as any).vfs = pdfFonts.vfs;
-
 
 @Component({
   selector: 'app-service',
@@ -30,9 +28,9 @@ export class ServiceComponent {
   //summary_report
   //raw_movement
 
-  raw_movement: any=[];
-  raw_movement_addtime:any=[];
-  raw_movement_with_removetime:any=[];
+  raw_movement: any = [];
+  raw_movement_addtime: any = [];
+  raw_movement_with_removetime: any = [];
 
   constructor(
     private sadelService: SadelService // private cdr: ChangeDetectorRef, // private router: Router, // private comm: SadelCommService, // public central: CentralHandlerService, // private snackBar: MatSnackBar
@@ -129,26 +127,32 @@ export class ServiceComponent {
             let result = JSON.parse(JSON.stringify(response));
             this.raw_movement = result;
 
-           // DEBASHIS
-           if (result && result.length > 0) {
-           
-             this.raw_movement_addtime = result.filter(
-               (row: { ADDTIME: null | undefined; RMVTIME: null | undefined }) =>
-                 row.ADDTIME !== null &&
-                 row.ADDTIME !== undefined &&
-                 (row.RMVTIME === null || row.RMVTIME === undefined)
-             );
-           
-             this.raw_movement_with_removetime = result.filter(
-               (row: { ADDTIME: null | undefined; RMVTIME: null | undefined }) =>
-                 row.ADDTIME !== null &&
-                 row.ADDTIME !== undefined &&
-                 (row.RMVTIME !== null && row.RMVTIME !== undefined)   // ✅ FIXED
-             );
-           }
+            // DEBASHIS
+            if (result && result.length > 0) {
+              this.raw_movement_addtime = result.filter(
+                (row: {
+                  ADDTIME: null | undefined;
+                  RMVTIME: null | undefined;
+                }) =>
+                  row.ADDTIME !== null &&
+                  row.ADDTIME !== undefined &&
+                  (row.RMVTIME === null || row.RMVTIME === undefined)
+              );
 
-           console.log(this.raw_movement_with_removetime);
-           // DEBASHIS
+              this.raw_movement_with_removetime = result.filter(
+                (row: {
+                  ADDTIME: null | undefined;
+                  RMVTIME: null | undefined;
+                }) =>
+                  row.ADDTIME !== null &&
+                  row.ADDTIME !== undefined &&
+                  row.RMVTIME !== null &&
+                  row.RMVTIME !== undefined // ✅ FIXED
+              );
+            }
+
+            //  console.log(this.raw_movement_with_removetime);
+            // DEBASHIS
 
             this.sadelService.notinyard().subscribe(
               (response) => {
@@ -176,23 +180,24 @@ export class ServiceComponent {
         let result = JSON.parse(JSON.stringify(response));
         this.raw_movement = result;
         //DEBASHIS
-        if (result && result.length > 0) { 
+        if (result && result.length > 0) {
           this.raw_movement_addtime = result.filter(
             (row: { ADDTIME: null | undefined; RMVTIME: null | undefined }) =>
               row.ADDTIME !== null &&
               row.ADDTIME !== undefined &&
               (row.RMVTIME === null || row.RMVTIME === undefined)
           );
-        
+
           this.raw_movement_with_removetime = result.filter(
             (row: { ADDTIME: null | undefined; RMVTIME: null | undefined }) =>
               row.ADDTIME !== null &&
               row.ADDTIME !== undefined &&
-              (row.RMVTIME !== null && row.RMVTIME !== undefined)   // ✅ FIXED
+              row.RMVTIME !== null &&
+              row.RMVTIME !== undefined // ✅ FIXED
           );
         }
 
-      console.log(this.raw_movement_with_removetime);
+        // console.log(this.raw_movement_with_removetime);
         //DEBASHIS
       },
       (respError) => {
@@ -214,7 +219,7 @@ export class ServiceComponent {
     this.summary_report = this.createSummary(this.final_report);
   }
 
- // ================= IMAGE TO BASE64 =================
+  // ================= IMAGE TO BASE64 =================
   getBase64ImageFromURL(url: string): Promise<string> {
     return new Promise((resolve, reject) => {
       const img = new Image();
@@ -237,8 +242,8 @@ export class ServiceComponent {
   // ================= ENTRY POINT =================
   downloadPDF() {
     this.getBase64ImageFromURL('assets/images/sail.png')
-      .then(logoBase64 => this.generatePDF(logoBase64))
-      .catch(err => {
+      .then((logoBase64) => this.generatePDF(logoBase64))
+      .catch((err) => {
         console.error(err);
         this.generatePDF(''); // fallback without logo
       });
@@ -246,7 +251,6 @@ export class ServiceComponent {
 
   // ================= PDF GENERATION =================
   generatePDF(logoBase64: string) {
-
     const body: any[] = [];
 
     // ===== TABLE HEADER =====
@@ -261,11 +265,11 @@ export class ServiceComponent {
       { text: 'Wt', style: 'tableHeader' },
       { text: 'Grade', style: 'tableHeader' },
       { text: 'Heat No', style: 'tableHeader' },
-      { text: 'Entry Dt', style: 'tableHeader' }
+      { text: 'Entry Dt', style: 'tableHeader' },
     ]);
 
     // ===== TABLE DATA =====
-    this.final_report.forEach((item:any, index:any) => {
+    this.final_report.forEach((item: any, index: any) => {
       body.push([
         index + 1,
         item.COILID,
@@ -277,13 +281,12 @@ export class ServiceComponent {
         item.WEIGHT,
         item.GRADE,
         item.HEATNO || 'N/A',
-        item.UPDTIME
+        item.UPDTIME,
       ]);
     });
 
     // ===== DOCUMENT DEFINITION =====
     const docDefinition: any = {
-
       pageSize: 'A4',
       pageOrientation: 'landscape',
       pageMargins: [40, 90, 40, 50],
@@ -293,75 +296,100 @@ export class ServiceComponent {
         color: 'gray',
         opacity: 0.07,
         bold: true,
-        fontSize: 120
+        fontSize: 120,
       },
 
       header: () => ({
-  margin: [40, 20, 40, 0],
-  columns: [
-    logoBase64 ? { image: logoBase64, width: 60, alignment: 'left' } : { text: '' },
-    {
-      stack: [
-        { text: 'Steel Authority of India Limited', style: 'title', alignment: 'center' },
-        { text: 'Coil Movement & Stock Report', style: 'subtitle', alignment: 'center' }
-      ],
-      width: '*'
-    },
-    {
-      text: new Date().toLocaleDateString(),
-      alignment: 'right',
-      fontSize: 9
-    }
-  ]
-}),
-
+        margin: [40, 20, 40, 0],
+        columns: [
+          logoBase64
+            ? { image: logoBase64, width: 60, alignment: 'left' }
+            : { text: '' },
+          {
+            stack: [
+              {
+                text: 'Steel Authority of India Limited',
+                style: 'title',
+                alignment: 'center',
+              },
+              {
+                text: 'Coil Movement & Stock Report',
+                style: 'subtitle',
+                alignment: 'center',
+              },
+            ],
+            width: '*',
+          },
+          {
+            text: new Date().toLocaleDateString(),
+            alignment: 'right',
+            fontSize: 9,
+          },
+        ],
+      }),
 
       footer: (currentPage: number, pageCount: number) => ({
         margin: [40, 0, 40, 20],
         columns: [
           { text: 'Generated by SAIL System', fontSize: 9 },
-          { text: `Page ${currentPage} of ${pageCount}`, alignment: 'right', fontSize: 9 }
-        ]
+          {
+            text: `Page ${currentPage} of ${pageCount}`,
+            alignment: 'right',
+            fontSize: 9,
+          },
+        ],
       }),
 
       content: [
         {
           table: {
             headerRows: 1,
-            widths: ['auto','*','*','auto','auto','auto','*','auto','*','*','*'],
-            body
+            widths: [
+              'auto',
+              '*',
+              '*',
+              'auto',
+              'auto',
+              'auto',
+              '*',
+              'auto',
+              '*',
+              '*',
+              '*',
+            ],
+            body,
           },
           layout: {
-            fillColor: (rowIndex: number) => rowIndex === 0 ? '#eeeeee' : null,
+            fillColor: (rowIndex: number) =>
+              rowIndex === 0 ? '#eeeeee' : null,
             hLineColor: '#cccccc',
             vLineColor: '#cccccc',
             paddingLeft: () => 6,
             paddingRight: () => 6,
             paddingTop: () => 4,
-            paddingBottom: () => 4
-          }
-        }
+            paddingBottom: () => 4,
+          },
+        },
       ],
 
       styles: {
         title: {
           fontSize: 14,
-          bold: true
+          bold: true,
         },
         subtitle: {
           fontSize: 11,
-          margin: [0, 4, 0, 0]
+          margin: [0, 4, 0, 0],
         },
         tableHeader: {
           bold: true,
-          fontSize: 9
-        }
-      }
+          fontSize: 9,
+        },
+      },
     };
 
     (pdfMake as any).createPdf(docDefinition).download('SAIL_Coil_Report.pdf');
   }
-
 }
 
 // ACTIVE

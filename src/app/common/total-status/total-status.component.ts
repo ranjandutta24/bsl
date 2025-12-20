@@ -11,7 +11,10 @@ import { SadelCommService } from '../../../services/sadel-commn.service';
   styleUrl: './total-status.component.scss',
 })
 export class TotalStatusComponent {
-  constructor(private sadelService: SadelService, private SadelCommservice:SadelCommService) {}
+  constructor(
+    private sadelService: SadelService,
+    private SadelCommservice: SadelCommService
+  ) {}
 
   private refreshSub!: Subscription;
 
@@ -26,12 +29,12 @@ export class TotalStatusComponent {
   total_weight: number = 0;
   tot_empty: number = 0;
   tot_unfit: number = 0;
-  
+
   f_total: number = 0;
   f_weight: number = 0;
   f_empty: number = 0;
   f_unfit: number = 0;
-  
+
   s_total: number = 0;
   s_weight: number = 0;
   s_empty: number = 0;
@@ -59,79 +62,74 @@ export class TotalStatusComponent {
   //   });
   // }
 
-//   ngOnInit(): void {
-//   this.sadelService.statuscount().subscribe({
-//     next: (response: any) => {
-//       const report = response?.report || {};
+  //   ngOnInit(): void {
+  //   this.sadelService.statuscount().subscribe({
+  //     next: (response: any) => {
+  //       const report = response?.report || {};
 
-//       /* ===== TOTAL ===== */
-//       this.total_coil   = report.TOTALCOIL   ?? 0;
-//       this.total_weight = report.TOTALWEIGHT    ?? 0;
-//       this.tot_empty    = report.TOTALEMPTY ?? 0;
-//       this.tot_unfit    = report.TOTALUNFIT ?? 0;
+  //       /* ===== TOTAL ===== */
+  //       this.total_coil   = report.TOTALCOIL   ?? 0;
+  //       this.total_weight = report.TOTALWEIGHT    ?? 0;
+  //       this.tot_empty    = report.TOTALEMPTY ?? 0;
+  //       this.tot_unfit    = report.TOTALUNFIT ?? 0;
 
-//       /* ===== 1st HIGH ===== */
-//       this.f_total  = report.F_TOTAL  ?? 0;
-//       this.f_weight = report.F_WEIGHT ?? 0;
-//       this.f_empty  = report.F_EMPTY  ?? 0;
-//       this.f_unfit  = report.F_UNFIT  ?? 0;
+  //       /* ===== 1st HIGH ===== */
+  //       this.f_total  = report.F_TOTAL  ?? 0;
+  //       this.f_weight = report.F_WEIGHT ?? 0;
+  //       this.f_empty  = report.F_EMPTY  ?? 0;
+  //       this.f_unfit  = report.F_UNFIT  ?? 0;
 
-//       /* ===== 2nd HIGH ===== */
-//       this.s_total  = report.S_TOTAL  ?? 0;
-//       this.s_weight = report.S_WEIGHT ?? 0;
-//       this.s_empty  = report.S_EMPTY  ?? 0;
-//       this.s_unfit  = report.S_UNFIT  ?? 0;
+  //       /* ===== 2nd HIGH ===== */
+  //       this.s_total  = report.S_TOTAL  ?? 0;
+  //       this.s_weight = report.S_WEIGHT ?? 0;
+  //       this.s_empty  = report.S_EMPTY  ?? 0;
+  //       this.s_unfit  = report.S_UNFIT  ?? 0;
 
-//       console.log('Yard Report:', report);
-//     },
-//     error: (err) => {
-//       console.error('Status Count API Error', err);
-//     }
-//   });
-// }
+  //       console.log('Yard Report:', report);
+  //     },
+  //     error: (err) => {
+  //       console.error('Status Count API Error', err);
+  //     }
+  //   });
+  // }
 
-ngOnInit(): void {
+  ngOnInit(): void {
     this.loadStats(); // initial load
     this.refreshSub = this.SadelCommservice.refresh$.subscribe(() => {
       this.loadStats(); // reload on refresh trigger
     });
   }
 
-
-
-loadStats() {
+  loadStats() {
     this.sadelService.statuscount().subscribe({
-    next: (response: any) => {
-      const report = response?.report || {};
+      next: (response: any) => {
+        const report = response?.report || {};
 
-      /* ===== TOTAL ===== */
-      this.total_coil   = report.TOTALCOIL   ?? 0;
-      this.total_weight = report.TOTALWEIGHT    ?? 0;
-      this.tot_empty    = report.TOTALEMPTY ?? 0;
-      this.tot_unfit    = report.TOTALUNFIT ?? 0;
+        /* ===== TOTAL ===== */
+        this.total_coil = report.TOTALCOIL ?? 0;
+        this.total_weight = report.TOTALWEIGHT ?? 0;
+        this.tot_empty = report.TOTALEMPTY ?? 0;
+        this.tot_unfit = report.TOTALUNFIT ?? 0;
 
-      /* ===== 1st HIGH ===== */
-      this.f_total  = report.F_TOTAL  ?? 0;
-      this.f_weight = report.F_WEIGHT ?? 0;
-      this.f_empty  = report.F_EMPTY  ?? 0;
-      this.f_unfit  = report.F_UNFIT  ?? 0;
+        /* ===== 1st HIGH ===== */
+        this.f_total = report.F_TOTAL ?? 0;
+        this.f_weight = report.F_WEIGHT ?? 0;
+        this.f_empty = report.F_EMPTY ?? 0;
+        this.f_unfit = report.F_UNFIT ?? 0;
 
-      /* ===== 2nd HIGH ===== */
-      this.s_total  = report.S_TOTAL  ?? 0;
-      this.s_weight = report.S_WEIGHT ?? 0;
-      this.s_empty  = report.S_EMPTY  ?? 0;
-      this.s_unfit  = report.S_UNFIT  ?? 0;
-
-      console.log('Yard Report:', report);
-    },
-    error: (err) => {
-      console.error('Status Count API Error', err);
-    }
-  });
+        /* ===== 2nd HIGH ===== */
+        this.s_total = report.S_TOTAL ?? 0;
+        this.s_weight = report.S_WEIGHT ?? 0;
+        this.s_empty = report.S_EMPTY ?? 0;
+        this.s_unfit = report.S_UNFIT ?? 0;
+      },
+      error: (err) => {
+        console.error('Status Count API Error', err);
+      },
+    });
   }
 
   ngOnDestroy(): void {
     this.refreshSub?.unsubscribe();
   }
-
 }

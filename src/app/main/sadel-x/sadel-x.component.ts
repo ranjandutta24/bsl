@@ -110,55 +110,59 @@ export class SadelXComponent {
           this.saddleH = response.filter((item: any) => {
             return item.SADDLESEQ > 701;
           });
+
+          this.sadelService
+            .search({ ROWNAME: 'I', FLR: 0 })
+            .subscribe((response: any) => {
+              if (response) {
+                this.saddleI = response.filter((item: any) => {
+                  return item.SADDLESEQ > 793;
+                });
+
+                this.sadelService.search({ ROWNAME: 'X' }).subscribe(
+                  (response) => {
+                    this.sadelI = response;
+                    this.sadelI.sort(
+                      (a: any, b: any) => a.SADDLESEQ - b.SADDLESEQ
+                    );
+
+                    this.gridItems1st = this.sadelI.filter((item: any) => {
+                      return item.FLR == 0;
+                    });
+
+                    this.gridItems1st = this.mergeArrays(
+                      this.saddleH,
+                      this.saddleI,
+                      this.gridItems1st
+                    );
+
+                    this.gridItems2nd = this.sadelI.filter((item: any) => {
+                      return item.FLR == 1;
+                    });
+
+                    this.pickupcoil = this.sadelService.getPickup();
+                    if (this.pickupcoil.COILID) {
+                      this.pickupFlag = true;
+                    }
+                    let h = this.sadelService.getHigh();
+
+                    if (h == 1) {
+                      this.selectedhigh = '1st';
+                      this.gridItems = this.gridItems1st;
+                    } else {
+                      this.selectedhigh = '2nd';
+                      this.gridItems = this.gridItems2nd;
+                    }
+                  },
+                  (respError) => {
+                    // this.loading = false;
+                    // this.commonService.showSnakBarMessage(respError, "error", 2000);
+                  }
+                );
+              }
+            });
         }
       });
-    this.sadelService
-      .search({ ROWNAME: 'I', FLR: 0 })
-      .subscribe((response: any) => {
-        if (response) {
-          this.saddleI = response.filter((item: any) => {
-            return item.SADDLESEQ > 793;
-          });
-        }
-      });
-    this.sadelService.search({ ROWNAME: 'X' }).subscribe(
-      (response) => {
-        this.sadelI = response;
-        this.sadelI.sort((a: any, b: any) => a.SADDLESEQ - b.SADDLESEQ);
-
-        this.gridItems1st = this.sadelI.filter((item: any) => {
-          return item.FLR == 0;
-        });
-
-        this.gridItems1st = this.mergeArrays(
-          this.saddleH,
-          this.saddleI,
-          this.gridItems1st
-        );
-
-        this.gridItems2nd = this.sadelI.filter((item: any) => {
-          return item.FLR == 1;
-        });
-
-        this.pickupcoil = this.sadelService.getPickup();
-        if (this.pickupcoil.COILID) {
-          this.pickupFlag = true;
-        }
-        let h = this.sadelService.getHigh();
-
-        if (h == 1) {
-          this.selectedhigh = '1st';
-          this.gridItems = this.gridItems1st;
-        } else {
-          this.selectedhigh = '2nd';
-          this.gridItems = this.gridItems2nd;
-        }
-      },
-      (respError) => {
-        // this.loading = false;
-        // this.commonService.showSnakBarMessage(respError, "error", 2000);
-      }
-    );
 
     window.addEventListener('highlight-coil', this.highlightHandler);
   }
