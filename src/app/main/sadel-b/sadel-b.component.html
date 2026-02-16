@@ -17,11 +17,18 @@
         flash:
           item.SADDLENAME == pickupcoil?.SADDLENAME ||
           item?.COILID == searchCoilResult,
-        infoselect: infoofsaddle == item.SADDLENAME && item?.COILID
+        infoselect: infoofsaddle == item.SADDLENAME && item?.COILID,
+        dependent: item.dependent,
       }"
     >
       <p>{{ item.SADDLENAME }}</p>
 
+      <img
+        *ngIf="item.dependent"
+        class="im_dep"
+        [src]="'assets/images/link6.png'"
+        alt=""
+      />
       <img class="im" [src]="getImage(item)" alt="" />
       <div class="overlay" *ngIf="hoveredItem === item && item.COILID">
         <div class="tab">
@@ -98,7 +105,7 @@
             class="opicon"
             [class]="getIcon('Drop')"
             [ngClass]="{
-              desableli: !selectedSaddle?.FIT || !pickupcoil?.COILID
+              desableli: !selectedSaddle?.FIT || !pickupcoil?.COILID,
             }"
           ></i>
           Drop Coil
@@ -138,6 +145,28 @@
 
       <div class="modal-actions">
         <button (click)="saveCoil()">Save</button>
+        <button (click)="closeAddCoilModal()">Cancel</button>
+      </div>
+    </div>
+  </div>
+  <div class="modal-overlay" *ngIf="showUnfitModal">
+    <div class="small-modal">
+      <h3>Are You Sure to unfit this {{ selectedSaddle.SADDLENAME }}</h3>
+
+      <label for="unfitsaddel">Remark</label>
+      <input
+        #unfitsaddel
+        maxlength="100"
+        id="unfitsaddel"
+        type="text"
+        [(ngModel)]="unfitRemark"
+        placeholder="Enter Remark"
+        (keydown.enter)="updateSaddle('Unfit')"
+        title="Enter Coil ID"
+      />
+
+      <div class="modal-actions">
+        <button (click)="updateSaddle('Unfit')">Save</button>
         <button (click)="closeAddCoilModal()">Cancel</button>
       </div>
     </div>

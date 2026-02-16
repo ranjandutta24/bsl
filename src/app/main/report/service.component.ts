@@ -24,6 +24,8 @@ export class ServiceComponent {
   Dest: any;
   selected = 'Total Stock';
   isLoading = true;
+  selectedStockType: string = 'Total Stock';
+  selectedHeight: string = 'all';
 
   //summary_report
   //raw_movement
@@ -33,7 +35,7 @@ export class ServiceComponent {
   raw_movement_with_removetime: any = [];
 
   constructor(
-    private sadelService: SadelService // private cdr: ChangeDetectorRef, // private router: Router, // private comm: SadelCommService, // public central: CentralHandlerService, // private snackBar: MatSnackBar
+    private sadelService: SadelService, // private cdr: ChangeDetectorRef, // private router: Router, // private comm: SadelCommService, // public central: CentralHandlerService, // private snackBar: MatSnackBar
   ) {}
 
   createSummary(data: any) {
@@ -95,23 +97,95 @@ export class ServiceComponent {
 
     return diffMinutes;
   }
+  // ready() {
+  //   this.final_report = this.raw_report.filter((item: any) => {
+  //     return this.getMinuteDiff(item.HSMPRODTIME) > 4320;
+  //   });
+  //   this.summary_report = this.createSummary(this.final_report);
+  //   this.selected = 'Ready Stock';
+  // }
+  // totalstock() {
+  //   this.final_report = this.raw_report;
+
+  //   console.log(this.final_report);
+
+  //   this.selected = 'Total Stock';
+  //   this.summary_report = this.createSummary(this.final_report);
+  // }
+  // rolled_bniy() {
+  //   this.final_report = this.rolled_but_not_in_yard_report;
+  //   this.summary_report = this.createSummary(this.final_report);
+  //   this.selected = 'Rolled But Not In Yard Stock';
+  // }
   ready() {
-    this.final_report = this.raw_report.filter((item: any) => {
-      return this.getMinuteDiff(item.HSMPRODTIME) > 4320;
-    });
-    this.summary_report = this.createSummary(this.final_report);
+    this.selectedStockType = 'Ready Stock';
     this.selected = 'Ready Stock';
+    this.applyFilters();
   }
+
   totalstock() {
-    this.final_report = this.raw_report;
+    this.selectedStockType = 'Total Stock';
     this.selected = 'Total Stock';
-    this.summary_report = this.createSummary(this.final_report);
+    this.applyFilters();
   }
+
   rolled_bniy() {
-    this.final_report = this.rolled_but_not_in_yard_report;
-    this.summary_report = this.createSummary(this.final_report);
+    this.selectedStockType = 'Rolled But Not In Yard Stock';
     this.selected = 'Rolled But Not In Yard Stock';
+    this.applyFilters();
   }
+
+  // onSelectChange(event: any) {
+  //   const value = event.target.value;
+
+  //   if (value === 'first') {
+  //     // FLR==1
+  //     this.final_report = this.raw_report.filter((item: any) => item.FLR === 0);
+  //     this.summary_report = this.createSummary(this.final_report);
+  //   } else if (value === 'second') {
+  //     // FIT==1
+  //     this.final_report = this.raw_report.filter((item: any) => item.FLR === 1);
+  //     this.summary_report = this.createSummary(this.final_report);
+  //     // your logic
+  //   } else if (value === 'all') {
+  //     this.final_report = this.raw_report;
+  //     this.summary_report = this.createSummary(this.final_report);
+  //   }
+  // }
+  onSelectChange(event: any) {
+    this.selectedHeight = event.target.value;
+    this.applyFilters();
+  }
+
+  applyFilters() {
+    let data = [];
+
+    // ✅ Stock Type Filter
+    if (this.selectedStockType === 'Ready Stock') {
+      data = this.raw_report.filter(
+        (item: any) => this.getMinuteDiff(item.HSMPRODTIME) > 4320,
+      );
+    } else if (this.selectedStockType === 'Rolled But Not In Yard Stock') {
+      data = this.rolled_but_not_in_yard_report;
+      this.final_report = data;
+      this.summary_report = this.createSummary(this.final_report);
+      return;
+    } else {
+      data = this.raw_report;
+    }
+
+    // ✅ Height Filter
+    if (this.selectedHeight === 'first') {
+      data = data.filter((item: any) => item.FLR === 0);
+    } else if (this.selectedHeight === 'second') {
+      data = data.filter((item: any) => item.FLR === 1);
+    }
+
+    // Final Result
+    this.final_report = data;
+    this.summary_report = this.createSummary(this.final_report);
+  }
+
   ngOnInit(): void {
     this.sadelService.totalStock().subscribe(
       (response) => {
@@ -136,7 +210,7 @@ export class ServiceComponent {
                 }) =>
                   row.ADDTIME !== null &&
                   row.ADDTIME !== undefined &&
-                  (row.RMVTIME === null || row.RMVTIME === undefined)
+                  (row.RMVTIME === null || row.RMVTIME === undefined),
               );
 
               this.raw_movement_with_removetime = result.filter(
@@ -147,7 +221,7 @@ export class ServiceComponent {
                   row.ADDTIME !== null &&
                   row.ADDTIME !== undefined &&
                   row.RMVTIME !== null &&
-                  row.RMVTIME !== undefined // ✅ FIXED
+                  row.RMVTIME !== undefined, // ✅ FIXED
               );
             }
 
@@ -157,23 +231,23 @@ export class ServiceComponent {
             this.sadelService.notinyard().subscribe(
               (response) => {
                 this.rolled_but_not_in_yard_report = JSON.parse(
-                  JSON.stringify(response)
+                  JSON.stringify(response),
                 );
                 this.isLoading = false;
               },
-              (respError) => {}
+              (respError) => {},
             );
           },
           (respError) => {
             // this.loading = false;
             // this.commonService.showSnakBarMessage(respError, "error", 2000);
-          }
+          },
         );
       },
       (respError) => {
         // this.loading = false;
         // this.commonService.showSnakBarMessage(respError, "error", 2000);
-      }
+      },
     );
     this.sadelService.movementCoil().subscribe(
       (response) => {
@@ -185,7 +259,7 @@ export class ServiceComponent {
             (row: { ADDTIME: null | undefined; RMVTIME: null | undefined }) =>
               row.ADDTIME !== null &&
               row.ADDTIME !== undefined &&
-              (row.RMVTIME === null || row.RMVTIME === undefined)
+              (row.RMVTIME === null || row.RMVTIME === undefined),
           );
 
           this.raw_movement_with_removetime = result.filter(
@@ -193,7 +267,7 @@ export class ServiceComponent {
               row.ADDTIME !== null &&
               row.ADDTIME !== undefined &&
               row.RMVTIME !== null &&
-              row.RMVTIME !== undefined // ✅ FIXED
+              row.RMVTIME !== undefined, // ✅ FIXED
           );
         }
 
@@ -203,7 +277,7 @@ export class ServiceComponent {
       (respError) => {
         // this.loading = false;
         // this.commonService.showSnakBarMessage(respError, "error", 2000);
-      }
+      },
     );
   }
 

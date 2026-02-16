@@ -43,6 +43,7 @@ export class SadelGComponent {
   newCoilId: string = this.prefix;
   searchCoil = 'BSL00';
   searchCoilResult: any = '';
+  secondHighWithCoil: any[] = [];
 
   // dynamic items (could come from API, service, etc.)
   items: string[] = ['Pickup', 'Delete', 'Details'];
@@ -51,7 +52,7 @@ export class SadelGComponent {
     private cdr: ChangeDetectorRef,
     private comm: SadelCommService,
     public central: CentralHandlerService,
-    private snackBar: MatSnackBar
+    private snackBar: MatSnackBar,
   ) {}
   @HostListener('document:click', ['$event'])
   onDocumentClick(event: MouseEvent) {
@@ -79,6 +80,14 @@ export class SadelGComponent {
           return item.FLR == 1;
         });
 
+        this.secondHighWithCoil = [
+          ...new Set(
+            this.gridItems2nd
+              .filter((item: any) => item.COILID)
+              .flatMap((item: any) => item.SADDLENAME.split('_')),
+          ),
+        ];
+
         this.pickupcoil = this.sadelService.getPickup();
         if (this.pickupcoil.COILID) {
           this.pickupFlag = true;
@@ -87,7 +96,15 @@ export class SadelGComponent {
 
         if (h == 1) {
           this.selectedhigh = '1st';
-          this.gridItems = this.gridItems1st;
+          this.gridItems = this.gridItems1st.map((item: any) => {
+            if (this.secondHighWithCoil.includes(item.SADDLENAME)) {
+              item.dependent = true;
+            } else {
+              item.dependent = false; // optional but good practice
+            }
+
+            return item;
+          });
         } else {
           this.selectedhigh = '2nd';
           this.gridItems = this.gridItems2nd;
@@ -96,7 +113,7 @@ export class SadelGComponent {
       (respError) => {
         // this.loading = false;
         // this.commonService.showSnakBarMessage(respError, "error", 2000);
-      }
+      },
     );
 
     window.addEventListener('highlight-coil', this.highlightHandler);
@@ -258,10 +275,10 @@ export class SadelGComponent {
           this.selectedSaddle.WEIGHT,
           this.selectedSaddle.DEST,
           this.selectedSaddle.HEATNO,
-          this.selectedSaddle.GRADE
+          this.selectedSaddle.GRADE,
         );
         const index = this.gridItems.findIndex(
-          (item: any) => item.SADDLENAME === this.selectedSaddle.SADDLENAME
+          (item: any) => item.SADDLENAME === this.selectedSaddle.SADDLENAME,
         );
 
         if (index !== -1) {
@@ -278,7 +295,7 @@ export class SadelGComponent {
   }
   private updateGridItem(saddleName: string, coilId: any) {
     const index = this.gridItems.findIndex(
-      (item: any) => item.SADDLENAME === saddleName
+      (item: any) => item.SADDLENAME === saddleName,
     );
     if (index !== -1) {
       this.gridItems[index] = { ...this.gridItems[index], COILID: coilId };
@@ -321,7 +338,7 @@ export class SadelGComponent {
       inhand.WEIGHT,
       inhand.DEST,
       inhand.HEATNO,
-      inhand.GRADE
+      inhand.GRADE,
     );
 
     // console.log(this.selectedSaddle.SADDLENAME, inhand.COILID);
@@ -335,7 +352,7 @@ export class SadelGComponent {
       inhand.WEIGHT,
       inhand.DEST,
       inhand.HEATNO,
-      inhand.GRADE
+      inhand.GRADE,
     );
   }
 
@@ -348,7 +365,7 @@ export class SadelGComponent {
       })
       .subscribe(() => {
         const index = this.gridItems.findIndex(
-          (item: any) => item.SADDLENAME === this.selectedSaddle.SADDLENAME
+          (item: any) => item.SADDLENAME === this.selectedSaddle.SADDLENAME,
         );
         if (index !== -1) {
           this.gridItems[index] = {
@@ -417,12 +434,12 @@ export class SadelGComponent {
                 verticalPosition: 'bottom',
                 horizontalPosition: 'center',
                 panelClass: ['error-snackbar'],
-              }
+              },
             );
             return;
           }
           const index = this.gridItems.findIndex(
-            (item: any) => item.SADDLENAME === this.selectedSaddle.SADDLENAME
+            (item: any) => item.SADDLENAME === this.selectedSaddle.SADDLENAME,
           );
 
           if (index !== -1) {
@@ -449,7 +466,7 @@ export class SadelGComponent {
             response.WEIGHT,
             response.DEST,
             response.HEATNO,
-            response.GRADE
+            response.GRADE,
           );
           this.showAddCoilModal = false;
           this.newCoilId = this.prefix;
@@ -480,7 +497,7 @@ export class SadelGComponent {
     wgt: any,
     dest: any,
     hno: any,
-    grade: any
+    grade: any,
   ) {
     this.sadelService
       .cratehistory({
@@ -504,7 +521,7 @@ export class SadelGComponent {
     wgt: any,
     dest: any,
     hno: any,
-    grade: any
+    grade: any,
   ) {
     this.sadelService
       .updatehistory({

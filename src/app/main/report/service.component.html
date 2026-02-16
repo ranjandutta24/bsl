@@ -3,8 +3,8 @@
     <div class="cr_seg">
       <div
         [ngClass]="{
-                      selected_report: selected =='Total Stock',
-                    }"
+          selected_report: selected == 'Total Stock',
+        }"
         class="tab_report"
         (click)="totalstock()"
       >
@@ -12,8 +12,8 @@
       </div>
       <div
         [ngClass]="{
-                      selected_report: selected=='Ready Stock',
-                    }"
+          selected_report: selected == 'Ready Stock',
+        }"
         class="tab_report"
         (click)="ready()"
       >
@@ -21,13 +21,31 @@
       </div>
       <div
         [ngClass]="{
-                      selected_report: selected=='Rolled But Not In Yard Stock',
-                    }"
+          selected_report: selected == 'Rolled But Not In Yard Stock',
+        }"
         class="tab_report"
         (click)="rolled_bniy()"
       >
         Rolled but in yard
       </div>
+      <!-- <label for="dsf"> a</label> -->
+      <select
+        class="tab_report"
+        style="font-size: 15px"
+        name="dsf"
+        id="dsf"
+        (change)="onSelectChange($event)"
+      >
+        <option style="text-align: left; font-size: 15px" value="all">
+          All
+        </option>
+        <option style="text-align: left; font-size: 15px" value="first">
+          1st High
+        </option>
+        <option style="text-align: left; font-size: 15px" value="second">
+          2nd High
+        </option>
+      </select>
     </div>
 
     <div class="cr_seg" *ngIf="final_report?.length > 0">
@@ -122,8 +140,7 @@
                 <td>{{ i + 1 }}</td>
                 <td
                   [ngClass]="{
-                    hot: getMinuteDiff(item.HSMPRODTIME) <4320,
-                
+                    hot: getMinuteDiff(item.HSMPRODTIME) < 4320,
                   }"
                 >
                   {{ item.COILID }}
@@ -138,7 +155,7 @@
                 <td>{{ item.WEIGHT }}</td>
                 <td>{{ item.GRADE }}</td>
                 <td>{{ item.HEATNO || "N/A" }}</td>
-                <td>{{ item.UPDTIME | date : "dd-MMM HH:mm" }}</td>
+                <td>{{ item.UPDTIME | date: "dd-MMM HH:mm" }}</td>
               </tr>
             </tbody>
           </table>
@@ -304,7 +321,7 @@
                 <td>{{ item.WIDTH }}</td> -->
 
                 <td>{{ i + 1 }}</td>
-                <td>{{ item.ADDTIME | date : "dd-MMM HH:mm" }}</td>
+                <td>{{ item.ADDTIME | date: "dd-MMM HH:mm" }}</td>
                 <td>{{ item.HEATNO }}</td>
                 <td>{{ item.COILID }}</td>
                 <td>{{ item.GRADE }}</td>
@@ -369,7 +386,7 @@
                 *ngFor="let item of raw_movement_with_removetime; let i = index"
               >
                 <td>{{ i + 1 }}</td>
-                <td>{{ item.RMVTIME | date : "dd-MMM HH:mm" }}</td>
+                <td>{{ item.RMVTIME | date: "dd-MMM HH:mm" }}</td>
                 <td>{{ item.HEATNO }}</td>
                 <td>{{ item.COILID }}</td>
                 <td>{{ item.GRADE }}</td>

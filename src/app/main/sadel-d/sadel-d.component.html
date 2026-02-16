@@ -7,7 +7,7 @@
       class="grid-item"
       #segRef
       *ngFor="let item of gridItems; let i = index"
-      (contextmenu)="onRightClick($event, item, segRef      )"
+      (contextmenu)="onRightClick($event, item, segRef)"
       (mouseenter)="hoveredItem = item"
       (mouseleave)="hoveredItem = null"
       (click)="onDoubleClick(item)"
@@ -17,11 +17,17 @@
         flash:
           item.SADDLENAME == pickupcoil?.SADDLENAME ||
           item?.COILID == searchCoilResult,
-        infoselect: infoofsaddle == item.SADDLENAME && item?.COILID
+        infoselect: infoofsaddle == item.SADDLENAME && item?.COILID,
+        dependent: item.dependent,
       }"
     >
       <p>{{ item.SADDLENAME }}</p>
-
+      <img
+        *ngIf="item.dependent"
+        class="im_dep"
+        [src]="'assets/images/link6.png'"
+        alt=""
+      />
       <img class="im" [src]="getImage(item)" alt="" />
       <div class="overlay" *ngIf="hoveredItem === item && item.COILID">
         <div class="tab">
@@ -98,7 +104,7 @@
             class="opicon"
             [class]="getIcon('Drop')"
             [ngClass]="{
-              desableli: !selectedSaddle?.FIT || !pickupcoil?.COILID
+              desableli: !selectedSaddle?.FIT || !pickupcoil?.COILID,
             }"
           ></i>
           Drop Coil
