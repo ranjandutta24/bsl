@@ -23,7 +23,7 @@ export class SadelService {
   constructor(
     // @Inject(SESSION_STORAGE) private storage: StorageService,
     public http: HttpClient,
-    private config: ConfigService
+    private config: ConfigService,
   ) {}
 
   getHigh() {
@@ -147,17 +147,17 @@ export class SadelService {
       .pipe(retry(1), catchError(this.errorHandler));
   }
 
-  coilvalid(coilid: any) {
-    const httpOptions = {
-      headers: new HttpHeaders({
-        'Content-Type': 'application/json',
-        Authorization: this.authorization,
-      }),
-    };
-    return this.http
-      .post(this.config.apiUrl + 'sadel/coilvalid', coilid, httpOptions)
-      .pipe(retry(1), catchError(this.errorHandler));
-  }
+  // coilvalid(coilid: any) {
+  //   const httpOptions = {
+  //     headers: new HttpHeaders({
+  //       'Content-Type': 'application/json',
+  //       Authorization: this.authorization,
+  //     }),
+  //   };
+  //   return this.http
+  //     .post(this.config.apiUrl + 'sadel/coilvalid', coilid, httpOptions)
+  //     .pipe(retry(1), catchError(this.errorHandler));
+  // }
 
   cratehistory(coilid: any) {
     const httpOptions = {
@@ -187,7 +187,7 @@ export class SadelService {
     console.log(message);
     return throwError(
       message ||
-        'Remote server unreachable. Please check your Internet connection.'
+        'Remote server unreachable. Please check your Internet connection.',
     );
   }
 

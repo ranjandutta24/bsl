@@ -31,7 +31,7 @@ export class SadelXComponent {
     private cdr: ChangeDetectorRef,
     private comm: SadelCommService,
     public central: CentralHandlerService,
-    private snackBar: MatSnackBar
+    private snackBar: MatSnackBar,
   ) {}
 
   no_result = 0;
@@ -54,6 +54,8 @@ export class SadelXComponent {
   selectedSaddle: any = '';
   pickupcoil: any;
   showAddCoilModal = false;
+  showUnfitModal = false;
+  unfitRemark: string = '';
   prefix: string = 'BSL00';
   newCoilId: string = this.prefix;
   searchCoil = 'BSL00';
@@ -123,7 +125,7 @@ export class SadelXComponent {
                   (response) => {
                     this.sadelI = response;
                     this.sadelI.sort(
-                      (a: any, b: any) => a.SADDLESEQ - b.SADDLESEQ
+                      (a: any, b: any) => a.SADDLESEQ - b.SADDLESEQ,
                     );
 
                     this.gridItems1st = this.sadelI.filter((item: any) => {
@@ -133,7 +135,7 @@ export class SadelXComponent {
                     this.gridItems1st = this.mergeArrays(
                       this.saddleH,
                       this.saddleI,
-                      this.gridItems1st
+                      this.gridItems1st,
                     );
 
                     this.gridItems2nd = this.sadelI.filter((item: any) => {
@@ -157,7 +159,7 @@ export class SadelXComponent {
                   (respError) => {
                     // this.loading = false;
                     // this.commonService.showSnakBarMessage(respError, "error", 2000);
-                  }
+                  },
                 );
               }
             });
@@ -257,7 +259,8 @@ export class SadelXComponent {
         this.coilInput?.nativeElement.focus();
       }, 0);
     } else if (item === 'Unfit') {
-      this.updateSaddle(item);
+      this.showUnfitModal = true;
+      // this.updateSaddle(item);
     } else if (item === 'Fit') {
       this.updateSaddle(item);
     } else if (item === 'Drop Coil') {
@@ -328,10 +331,10 @@ export class SadelXComponent {
           this.selectedSaddle.WEIGHT,
           this.selectedSaddle.DEST,
           this.selectedSaddle.HEATNO,
-          this.selectedSaddle.GRADE
+          this.selectedSaddle.GRADE,
         );
         const index = this.gridItems.findIndex(
-          (item: any) => item.SADDLENAME === this.selectedSaddle.SADDLENAME
+          (item: any) => item.SADDLENAME === this.selectedSaddle.SADDLENAME,
         );
 
         if (index !== -1) {
@@ -348,7 +351,7 @@ export class SadelXComponent {
   }
   private updateGridItem(saddleName: string, coilId: any) {
     const index = this.gridItems.findIndex(
-      (item: any) => item.SADDLENAME === saddleName
+      (item: any) => item.SADDLENAME === saddleName,
     );
     if (index !== -1) {
       this.gridItems[index] = { ...this.gridItems[index], COILID: coilId };
@@ -392,7 +395,7 @@ export class SadelXComponent {
       inhand.WEIGHT,
       inhand.DEST,
       inhand.HEATNO,
-      inhand.GRADE
+      inhand.GRADE,
     );
 
     // console.log(this.selectedSaddle.SADDLENAME, inhand.COILID);
@@ -406,20 +409,22 @@ export class SadelXComponent {
       inhand.WEIGHT,
       inhand.DEST,
       inhand.HEATNO,
-      inhand.GRADE
+      inhand.GRADE,
     );
   }
 
   updateSaddle(status: any) {
     let newStatus = status == 'Fit' ? 1 : 0;
+    let Remark = status == 'Fit' ? null : this.unfitRemark;
     this.sadelService
       .update({
         SADDLENAME: this.selectedSaddle.SADDLENAME,
         FIT: newStatus,
+        REMARK: Remark,
       })
       .subscribe(() => {
         const index = this.gridItems.findIndex(
-          (item: any) => item.SADDLENAME === this.selectedSaddle.SADDLENAME
+          (item: any) => item.SADDLENAME === this.selectedSaddle.SADDLENAME,
         );
         if (index !== -1) {
           this.gridItems[index] = {
@@ -430,6 +435,7 @@ export class SadelXComponent {
           this.gridItems = [...this.gridItems];
           this.comm.triggerStatusRefresh();
           this.comm.triggerRefresh();
+          this.closeAddCoilModal();
           this.cdr.detectChanges(); //
         }
       });
@@ -437,6 +443,7 @@ export class SadelXComponent {
 
   closeAddCoilModal() {
     this.showAddCoilModal = false;
+    this.showUnfitModal = false;
   }
 
   getImage(item: any): string {
@@ -488,12 +495,12 @@ export class SadelXComponent {
                 verticalPosition: 'bottom',
                 horizontalPosition: 'center',
                 panelClass: ['error-snackbar'],
-              }
+              },
             );
             return;
           }
           const index = this.gridItems.findIndex(
-            (item: any) => item.SADDLENAME === this.selectedSaddle.SADDLENAME
+            (item: any) => item.SADDLENAME === this.selectedSaddle.SADDLENAME,
           );
 
           if (index !== -1) {
@@ -520,7 +527,7 @@ export class SadelXComponent {
             response.WEIGHT,
             response.DEST,
             response.HEATNO,
-            response.GRADE
+            response.GRADE,
           );
           this.showAddCoilModal = false;
           this.newCoilId = this.prefix;
@@ -551,7 +558,7 @@ export class SadelXComponent {
     wgt: any,
     dest: any,
     hno: any,
-    grade: any
+    grade: any,
   ) {
     this.sadelService
       .cratehistory({
@@ -575,7 +582,7 @@ export class SadelXComponent {
     wgt: any,
     dest: any,
     hno: any,
-    grade: any
+    grade: any,
   ) {
     this.sadelService
       .updatehistory({

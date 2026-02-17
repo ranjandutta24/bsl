@@ -7,7 +7,7 @@
       class="grid-item"
       #segRef
       *ngFor="let item of gridItems; let i = index"
-      (contextmenu)="onRightClick($event, item,segRef)"
+      (contextmenu)="onRightClick($event, item, segRef)"
       (mouseenter)="hoveredItem = item"
       (mouseleave)="hoveredItem = null"
       (click)="onDoubleClick(item)"
@@ -19,8 +19,14 @@
           item?.COILID == searchCoilResult,
         infoselect: infoofsaddle == item.SADDLENAME && item?.COILID,
 
-        hascoil_thin:  item.COILID && getMinuteDiff(item.HSMPRODTIME)>4320 && item.SADDLESEQ <= 849,
-        hascoil_hot_thin:  item.COILID && getMinuteDiff(item.HSMPRODTIME)<4320 && item.SADDLESEQ <= 849,
+        hascoil_thin:
+          item.COILID &&
+          getMinuteDiff(item.HSMPRODTIME) > 4320 &&
+          item.SADDLESEQ <= 849,
+        hascoil_hot_thin:
+          item.COILID &&
+          getMinuteDiff(item.HSMPRODTIME) < 4320 &&
+          item.SADDLESEQ <= 849,
       }"
     >
       <p style="writing-mode: vertical-rl; text-orientation: mixed">
@@ -108,7 +114,7 @@
             class="opicon"
             [class]="getIcon('Drop')"
             [ngClass]="{
-              desableli: !selectedSaddle?.FIT || !pickupcoil?.COILID
+              desableli: !selectedSaddle?.FIT || !pickupcoil?.COILID,
             }"
           ></i>
           Drop Coil
@@ -146,6 +152,28 @@
 
       <div class="modal-actions">
         <button (click)="saveCoil()">Save</button>
+        <button (click)="closeAddCoilModal()">Cancel</button>
+      </div>
+    </div>
+  </div>
+  <div class="modal-overlay" *ngIf="showUnfitModal">
+    <div class="small-modal">
+      <h3>Are You Sure to unfit this {{ selectedSaddle.SADDLENAME }}</h3>
+
+      <label for="unfitsaddel">Remark</label>
+      <input
+        #unfitsaddel
+        maxlength="100"
+        id="unfitsaddel"
+        type="text"
+        [(ngModel)]="unfitRemark"
+        placeholder="Enter Remark"
+        (keydown.enter)="updateSaddle('Unfit')"
+        title="Enter Coil ID"
+      />
+
+      <div class="modal-actions">
+        <button (click)="updateSaddle('Unfit')">Save</button>
         <button (click)="closeAddCoilModal()">Cancel</button>
       </div>
     </div>

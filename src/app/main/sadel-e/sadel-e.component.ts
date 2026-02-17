@@ -39,6 +39,8 @@ export class SadelEComponent {
   selectedSaddle: any = '';
   pickupcoil: any;
   showAddCoilModal = false;
+  showUnfitModal = false;
+  unfitRemark: string = '';
   // newCoilId = 'BSL00';
   searchCoil = 'BSL00';
   searchCoilResult: any = '';
@@ -252,7 +254,8 @@ export class SadelEComponent {
         this.coilInput?.nativeElement.focus();
       }, 0);
     } else if (item === 'Unfit') {
-      this.updateSaddle(item);
+      this.showUnfitModal = true;
+      // this.updateSaddle(item);
     } else if (item === 'Fit') {
       this.updateSaddle(item);
     } else if (item === 'Drop Coil') {
@@ -417,6 +420,7 @@ export class SadelEComponent {
   }
   updateSaddle(status: any) {
     let newStatus = status == 'Fit' ? 1 : 0;
+    let Remark = status == 'Fit' ? null : this.unfitRemark;
     this.sadelService
       .update({
         SADDLENAME: this.selectedSaddle.SADDLENAME,
@@ -435,6 +439,7 @@ export class SadelEComponent {
           this.gridItems = [...this.gridItems];
           this.comm.triggerStatusRefresh();
           this.comm.triggerRefresh();
+          this.closeAddCoilModal();
           this.cdr.detectChanges(); //
         }
       });
@@ -442,6 +447,7 @@ export class SadelEComponent {
 
   closeAddCoilModal() {
     this.showAddCoilModal = false;
+    this.showUnfitModal = false;
   }
 
   getImage(item: any): string {
