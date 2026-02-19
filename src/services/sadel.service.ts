@@ -147,17 +147,17 @@ export class SadelService {
       .pipe(retry(1), catchError(this.errorHandler));
   }
 
-  // coilvalid(coilid: any) {
-  //   const httpOptions = {
-  //     headers: new HttpHeaders({
-  //       'Content-Type': 'application/json',
-  //       Authorization: this.authorization,
-  //     }),
-  //   };
-  //   return this.http
-  //     .post(this.config.apiUrl + 'sadel/coilvalid', coilid, httpOptions)
-  //     .pipe(retry(1), catchError(this.errorHandler));
-  // }
+  coilvalid(coilid: any) {
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        Authorization: this.authorization,
+      }),
+    };
+    return this.http
+      .post(this.config.apiUrl + 'sadel/coilvalid', coilid, httpOptions)
+      .pipe(retry(1), catchError(this.errorHandler));
+  }
 
   cratehistory(coilid: any) {
     const httpOptions = {

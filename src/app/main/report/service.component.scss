@@ -203,6 +203,12 @@ h1 {
   overflow: hidden;
   box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
   // margin-bottom: 30px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+
+  resize: both;
+  overflow: auto;
 }
 
 .nodata {
@@ -215,17 +221,22 @@ h1 {
 
 .table-wrapper {
   // max-height: 336px;
-  max-height: calc(100vh - 645px);
+  resize: both;
+  overflow: auto;
+  height: calc(50vh - 95px);
 
   overflow-y: scroll;
   border: 1px solid #e1e8f0;
 }
 .move_table_height {
-  max-height: 280px;
+  height: 280px;
   // max-height: calc(100vh - 611px);
 }
 .hot {
-  color: #ff0000;
+  border-radius: 7px;
+  padding: 1px 5px;
+  background-color: #ef5e47;
+  color: #fff;
   /* background-color: #ffebe3 !important; */
   text-shadow: 0px 0px 20px #f33232;
 }
@@ -238,20 +249,20 @@ table {
 
 #fsttable {
   min-width: 1100px;
-  height: 348px;
+  // height: 348px;
 }
 #sndtable {
   // min-width: 1100px;
-  height: 348px;
+  // height: 348px;
 }
 #trdtable {
   // min-width: 1100px;
-  height: 348px;
+  // height: 348px;
   min-width: 850px;
 }
 #fthtable {
   // min-width: 1100px;
-  height: 348px;
+  // height: 348px;
   min-width: 850px;
 }
 thead {
@@ -332,8 +343,10 @@ td {
   padding: 9px 20px;
   background-color: #f9fbfe;
   border-top: 1px solid #eef2f7;
-  color: #666;
+  color: #181818;
   font-size: 0.9rem;
+  font-weight: 600;
+  background: linear-gradient(180deg, #d7e6f6, #ffffff, #d7e6f6);
 }
 
 .color-theme {

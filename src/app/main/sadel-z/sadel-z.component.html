@@ -144,12 +144,12 @@
         (keydown)="blockPrefixEdit($event)"
         (input)="restorePrefix()"
         placeholder="Enter Coil ID"
-        (keydown.enter)="saveCoil()"
+        (keydown.enter)="validateCoil()"
         title="Enter Coil ID"
       />
 
       <div class="modal-actions">
-        <button (click)="saveCoil()">Save</button>
+        <button (click)="validateCoil()">Save</button>
         <button (click)="closeAddCoilModal()">Cancel</button>
       </div>
     </div>
@@ -172,6 +172,50 @@
 
       <div class="modal-actions">
         <button (click)="updateSaddle('Unfit')">Save</button>
+        <button (click)="closeAddCoilModal()">Cancel</button>
+      </div>
+    </div>
+  </div>
+  <div class="modal-overlay" *ngIf="showRemovetModal">
+    <div class="small-modal">
+      <h3>
+        Are You Sure to Remove this {{ selectedSaddle.COILID }} From Saddle
+        {{ selectedSaddle.SADDLENAME }}
+      </h3>
+
+      <div class="modal-actions">
+        <button (click)="removecoil()">Save</button>
+        <button (click)="closeAddCoilModal()">Cancel</button>
+      </div>
+    </div>
+  </div>
+  <div class="modal-overlay" *ngIf="showAddConfirmation">
+    <div class="small-modal">
+      <div class="mini-confirm">
+        <div class="title">Confirm Add</div>
+
+        <table>
+          <tr>
+            <td>Coil ID</td>
+            <td>{{ tempCoilBeforeAdd.coilid }}</td>
+          </tr>
+          <tr>
+            <td>Width</td>
+            <td>{{ tempCoilBeforeAdd.Width }}</td>
+          </tr>
+          <tr>
+            <td>Thick</td>
+            <td>{{ tempCoilBeforeAdd.Thick }}</td>
+          </tr>
+          <tr>
+            <td>Dest</td>
+            <td>{{ tempCoilBeforeAdd.Dest }}</td>
+          </tr>
+        </table>
+      </div>
+
+      <div class="modal-actions">
+        <button (click)="saveCoil()">Save</button>
         <button (click)="closeAddCoilModal()">Cancel</button>
       </div>
     </div>

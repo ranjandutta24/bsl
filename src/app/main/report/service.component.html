@@ -138,12 +138,14 @@
 
               <tr *ngFor="let item of final_report; let i = index">
                 <td>{{ i + 1 }}</td>
-                <td
-                  [ngClass]="{
-                    hot: getMinuteDiff(item.HSMPRODTIME) < 4320,
-                  }"
-                >
-                  {{ item.COILID }}
+                <td>
+                  <span
+                    [ngClass]="{
+                      hot: getMinuteDiff(item.HSMPRODTIME) < 4320,
+                    }"
+                  >
+                    {{ item.COILID }}</span
+                  >
                 </td>
                 <td>{{ item.SADDLENAME }}</td>
                 <td>{{ item.WIDTH }}</td>
@@ -171,7 +173,7 @@
 
           <div class="scroll-info">
             <!-- <i class="fas fa-mouse-pointer"></i> -->
-            <span>
+            <span style="font-weight: 600">
               {{ selected }} report, Scroll vertically to view all
               {{ final_report.length }} records</span
             >
@@ -333,21 +335,6 @@
         </div>
 
         <div class="footer">
-          <div class="color-theme">
-            <!-- <button class="pdf-btn pdf-btn-primary">
-              <i class="fas fa-file-pdf"></i>
-              Download PDF
-            </button> -->
-
-            <!-- <span>Color Theme:</span>
-            <div class="color-box blue" title="#4498eb"></div>
-            <div class="color-box orange" title="rgb(253, 126, 76)"></div> -->
-
-            <!-- <span>Color Theme:</span>
-            <div class="color-box blue" title="#4498eb"></div>
-            <div class="color-box orange" title="rgb(253, 126, 76)"></div> -->
-          </div>
-
           <div class="scroll-info">
             <!-- <i class="fas fa-mouse-pointer"></i> -->
             <span> Coil Added To Saddle History</span>
@@ -385,28 +372,20 @@
               <tr
                 *ngFor="let item of raw_movement_with_removetime; let i = index"
               >
-                <td>{{ i + 1 }}</td>
-                <td>{{ item.RMVTIME | date: "dd-MMM HH:mm" }}</td>
-                <td>{{ item.HEATNO }}</td>
-                <td>{{ item.COILID }}</td>
-                <td>{{ item.GRADE }}</td>
-                <td>{{ item.THICK }}</td>
-                <td>{{ item.WIDTH }}</td>
+                <td style="height: 10px">{{ i + 1 }}</td>
+                <td style="height: 10px">
+                  {{ item.RMVTIME | date: "dd-MMM HH:mm" }}
+                </td>
+                <td style="height: 10px">{{ item.HEATNO }}</td>
+                <td style="height: 10px">{{ item.COILID }}</td>
+                <td style="height: 10px">{{ item.GRADE }}</td>
+                <td style="height: 10px">{{ item.THICK }}</td>
+                <td style="height: 10px">{{ item.WIDTH }}</td>
               </tr>
             </tbody>
           </table>
         </div>
         <div class="footer">
-          <div class="color-theme">
-            <!-- <button class="pdf-btn pdf-btn-primary">
-              <i class="fas fa-file-pdf"></i>
-              Download PDF
-            </button> -->
-            <!-- <span>Color Theme:</span>
-            <div class="color-box blue" title="#4498eb"></div>
-            <div class="color-box orange" title="rgb(253, 126, 76)"></div> -->
-          </div>
-
           <div class="scroll-info">
             <!-- <i class="fas fa-mouse-pointer"></i> -->
             <span>Coil Remove from Saddle History</span>

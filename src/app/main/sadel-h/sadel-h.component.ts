@@ -41,6 +41,9 @@ export class SadelHComponent {
   pickupcoil: any;
   showAddCoilModal = false;
   showUnfitModal = false;
+  showRemovetModal = false;
+  showAddConfirmation = false;
+  tempCoilBeforeAdd: any;
   unfitRemark: string = '';
   prefix: string = 'BSL00';
   newCoilId: string = this.prefix;
@@ -311,7 +314,7 @@ export class SadelHComponent {
     } else if (item === 'Drop Coil') {
       this.dropcoil();
     } else if (item === 'Remove') {
-      this.removecoil();
+      this.showRemovetModal = true;
     } else if (item == 'Cancel') {
       this.pickupFlag = false;
       this.pickupcoil = null;
@@ -351,6 +354,7 @@ export class SadelHComponent {
           this.gridItems = [...this.gridItems];
           this.cdr.detectChanges(); //
         }
+        this.closeAddCoilModal();
       });
   }
   private updateGridItem(saddleName: string, coilId: any) {
@@ -447,6 +451,8 @@ export class SadelHComponent {
   closeAddCoilModal() {
     this.showAddCoilModal = false;
     this.showUnfitModal = false;
+    this.showRemovetModal = false;
+    this.showAddConfirmation = false;
   }
 
   getImage(item: any): string {
@@ -476,6 +482,33 @@ export class SadelHComponent {
     return diffMinutes;
   }
 
+  validateCoil() {
+    this.sadelService.coilvalid({ COILID: this.newCoilId }).subscribe({
+      next: (res: any) => {
+        if (res.status == 0) {
+          this.snackBar.open(res.msg, 'Close', {
+            duration: 3000,
+            verticalPosition: 'bottom',
+            horizontalPosition: 'center',
+            panelClass: ['error-snackbar'],
+          });
+          return;
+        } else if (res.status == 1) {
+          this.closeAddCoilModal();
+          this.tempCoilBeforeAdd = res.coil;
+          this.showAddConfirmation = true;
+        } else {
+          this.snackBar.open('server Error', 'Close', {
+            duration: 3000,
+            verticalPosition: 'bottom',
+            horizontalPosition: 'center',
+            panelClass: ['error-snackbar'],
+          });
+          return;
+        }
+      },
+    });
+  }
   saveCoil() {
     this.sadelService
       .update({
@@ -532,7 +565,7 @@ export class SadelHComponent {
             response.HEATNO,
             response.GRADE,
           );
-          this.showAddCoilModal = false;
+          this.closeAddCoilModal();
           this.newCoilId = this.prefix;
 
           this.comm.triggerStatusRefresh();
