@@ -235,7 +235,13 @@ h1 {
 .hot {
   border-radius: 7px;
   padding: 1px 5px;
-  background-color: #ef5e47;
+  background-color: #ffa698 !important;
+  background: linear-gradient(
+    45deg,
+    rgba(255, 145, 0, 0.603),
+    rgba(255, 196, 0, 0.719),
+    rgba(255, 153, 0, 0.541)
+  );
   color: #fff;
   /* background-color: #ffebe3 !important; */
   text-shadow: 0px 0px 20px #f33232;

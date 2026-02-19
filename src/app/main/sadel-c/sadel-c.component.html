@@ -10,6 +10,7 @@
       (contextmenu)="onRightClick($event, item, segRef)"
       (mouseenter)="hoveredItem = item"
       (mouseleave)="hoveredItem = null"
+      [style.animation-delay]="i * 5 + 'ms'"
       (click)="onDoubleClick(item)"
       [ngClass]="{
         desable: !item.FIT,

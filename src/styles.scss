@@ -55,6 +55,57 @@ body {
   height: 100%;
 }
 
+.grid-item {
+  opacity: 0;
+  transform: translateY(40px) scale(0.95);
+  transition:
+    transform 0.6s cubic-bezier(0.2, 0.8, 0.2, 1),
+    opacity 0.6s ease;
+  animation: gridFlowIn 0.55s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+@keyframes gridFlowIn {
+  0% {
+    opacity: 0;
+    transform: translateY(30px) scale(0.85);
+    filter: blur(4px);
+  }
+  60% {
+    opacity: 1;
+    transform: translateY(-6px) scale(1.03);
+    filter: blur(0px);
+  }
+  80% {
+    transform: translateY(3px) scale(0.98);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+/* When grid loads */
+.animate-grid .grid-item {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+}
+
+/* Stagger effect */
+.animate-grid .grid-item:nth-child(n) {
+  transition-delay: calc(0.03s * var(--i));
+}
+
+.grid-item {
+  opacity: 0;
+  transform: translateY(100px) rotate(5deg) scale(0.8);
+  transition: all 0.7s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+.animate-grid .grid-item {
+  opacity: 1;
+  transform: translateY(0) rotate(0deg) scale(1);
+}
+
 /* ✅ For laptop screen sizes */
 @media screen and (max-width: 1800px) {
   .grid-container {
@@ -111,19 +162,19 @@ body {
   background: #fddaaa !important;
   color: #333 !important;
   z-index: 1;
-  border: 2px solid blue;
-}
-
-.infoselect::before {
-  content: "";
-  position: absolute;
-  inset: -5px;
-  background: linear-gradient(45deg, rgb(255, 94, 0), orange, yellow);
-  z-index: -1;
-  border-radius: 8px;
-  border-radius: 17px;
   border: 3px solid #2b87bd;
 }
+
+// .infoselect::before {
+//   content: "";
+//   position: absolute;
+//   inset: -5px;
+//   background: linear-gradient(45deg, rgb(255, 94, 0), orange, yellow);
+//   z-index: -1;
+//   border-radius: 8px;
+//   border-radius: 17px;
+//   border: 3px solid #2b87bd;
+// }
 
 .grid-item.desable {
   background-color: #7a7a7a;
@@ -537,3 +588,25 @@ body {
 //   margin-bottom: 150px !important;
 //   z-index: 10000 !important;
 // }
+@keyframes gridZoomPop {
+  0% {
+    opacity: 0;
+    transform: scale(0.3) rotate(-8deg);
+    filter: blur(6px);
+  }
+  65% {
+    transform: scale(1.08) rotate(2deg);
+    filter: blur(0);
+  }
+  85% {
+    transform: scale(0.97) rotate(-1deg);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1) rotate(0deg);
+  }
+}
+
+.grid-item {
+  animation: gridZoomPop 0.55s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+}

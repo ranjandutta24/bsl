@@ -136,16 +136,15 @@
               <!-- const diff = this.getMinuteDiff(item.HSMPRODTIME); 
               return diff > 4320 ? 'assets/images/coil.png' : 'assets/images/hot.png'; -->
 
-              <tr *ngFor="let item of final_report; let i = index">
+              <tr
+                *ngFor="let item of final_report; let i = index"
+                [ngClass]="{
+                  hot: getMinuteDiff(item.HSMPRODTIME) < 4320,
+                }"
+              >
                 <td>{{ i + 1 }}</td>
                 <td>
-                  <span
-                    [ngClass]="{
-                      hot: getMinuteDiff(item.HSMPRODTIME) < 4320,
-                    }"
-                  >
-                    {{ item.COILID }}</span
-                  >
+                  <span> {{ item.COILID }}</span>
                 </td>
                 <td>{{ item.SADDLENAME }}</td>
                 <td>{{ item.WIDTH }}</td>

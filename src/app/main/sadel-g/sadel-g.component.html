@@ -11,6 +11,7 @@
       (mouseenter)="hoveredItem = item"
       (mouseleave)="hoveredItem = null"
       (click)="onDoubleClick(item)"
+      [style.animation-delay]="i * 6 + 'ms'"
       [ngClass]="{
         desable: !item.FIT,
         hascoil: item.COILID,

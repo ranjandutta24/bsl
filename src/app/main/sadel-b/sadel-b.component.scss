@@ -54,3 +54,26 @@
 //   border-radius: 6px;
 //   font-size: 14px;
 // }
+
+@keyframes gridZoomPop {
+  0% {
+    opacity: 0;
+    transform: scale(0.3) rotate(-8deg);
+    filter: blur(6px);
+  }
+  65% {
+    transform: scale(1.08) rotate(2deg);
+    filter: blur(0);
+  }
+  85% {
+    transform: scale(0.97) rotate(-1deg);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1) rotate(0deg);
+  }
+}
+
+.grid-item {
+  animation: gridZoomPop 0.55s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+}
