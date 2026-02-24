@@ -72,7 +72,13 @@ export class SadelBComponent {
       this.popupVisible = false;
     }
   }
+  gridLoaded = false;
 
+  ngAfterViewInit() {
+    setTimeout(() => {
+      this.gridLoaded = true;
+    }, 50);
+  }
   ngOnInit(): void {
     this.central.selectedSaddle$.subscribe((name) => {
       this.infoofsaddle = name;
@@ -124,8 +130,6 @@ export class SadelBComponent {
           this.selectedhigh = '2nd';
           this.gridItems = this.gridItems2nd;
         }
-
-        console.log(this.gridItems);
       },
       (respError) => {
         // this.loading = false;

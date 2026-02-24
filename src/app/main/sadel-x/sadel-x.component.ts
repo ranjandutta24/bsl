@@ -103,6 +103,13 @@ export class SadelXComponent {
 
     return result;
   }
+  gridLoaded = false;
+
+  ngAfterViewInit() {
+    setTimeout(() => {
+      this.gridLoaded = true;
+    }, 50);
+  }
   ngOnInit(): void {
     this.central.selectedSaddle$.subscribe((name) => {
       this.infoofsaddle = name;

@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "senraleigh_service": {
+    "bsl_hrcc": {
       "projectType": "application",
       "schematics": {
         "@schematics/angular:component": {
@@ -17,7 +17,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:application",
           "options": {
-            "outputPath": "dist/senraleigh_service",
+            "outputPath": "dist/bsl_hrcc",
             "index": "src/index.html",
             "browser": "src/main.ts",
             "polyfills": ["zone.js"],
@@ -69,10 +69,10 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "buildTarget": "senraleigh_service:build:production"
+              "buildTarget": "bsl_hrcc:build:production"
             },
             "development": {
-              "buildTarget": "senraleigh_service:build:development"
+              "buildTarget": "bsl_hrcc:build:development"
             }
           },
           "defaultConfiguration": "development"

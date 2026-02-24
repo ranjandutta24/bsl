@@ -47,6 +47,7 @@ export class SadelAComponent {
   tempCoilBeforeAdd: any;
   unfitRemark: string = '';
   // newCoilId = 'BSL00';
+  secondHighWithCoil: any[] = [];
   searchCoil = 'BSL00';
 
   prefix: string = 'BSL00';
@@ -92,6 +93,18 @@ export class SadelAComponent {
           return item.FLR == 1;
         });
 
+        this.secondHighWithCoil = this.gridItems2nd.filter(
+          (item: any) => item.COILID,
+        );
+
+        this.secondHighWithCoil = this.secondHighWithCoil.map(
+          (item: any) => item.SADDLENAME,
+        );
+
+        this.secondHighWithCoil = Array.from(
+          new Set(this.secondHighWithCoil.flatMap((item) => item.split('_'))),
+        );
+
         this.pickupcoil = this.sadelService.getPickup();
         if (this.pickupcoil.COILID) {
           this.pickupFlag = true;
@@ -102,6 +115,16 @@ export class SadelAComponent {
         if (h == 1) {
           this.selectedhigh = '1st';
           this.gridItems = this.gridItems1st;
+
+          this.gridItems = this.gridItems.map((item: any) => {
+            if (this.secondHighWithCoil.includes(item.SADDLENAME)) {
+              item.dependent = true;
+            } else {
+              item.dependent = false; // optional but good practice
+            }
+
+            return item;
+          });
         } else {
           this.selectedhigh = '2nd';
           this.gridItems = this.gridItems2nd;

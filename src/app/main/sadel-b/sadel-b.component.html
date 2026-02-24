@@ -1,10 +1,9 @@
 <!-- <h1>ewfrew</h1> -->
 
 <div class="fl">
-  <div class="grid-container">
+  <div class="grid-container" [class.animate-grid]="gridLoaded">
     <div
-      class="seg"
-      class="grid-item"
+      class="grid-item seg"
       #segRef
       *ngFor="let item of gridItems; let i = index"
       (contextmenu)="onRightClick($event, item, segRef)"
@@ -14,11 +13,11 @@
       [style.animation-delay]="i * 3 + 'ms'"
       [ngClass]="{
         desable: !item.FIT,
+        infoselect: infoofsaddle == item.SADDLENAME && item?.COILID,
         hascoil: item.COILID,
         flash:
           item.SADDLENAME == pickupcoil?.SADDLENAME ||
           item?.COILID == searchCoilResult,
-        infoselect: infoofsaddle == item.SADDLENAME && item?.COILID,
         dependent: item.dependent,
       }"
     >

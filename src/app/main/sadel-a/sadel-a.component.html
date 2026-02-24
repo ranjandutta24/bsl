@@ -13,14 +13,21 @@
       [style.animation-delay]="i * 5 + 'ms'"
       [ngClass]="{
         desable: !item.FIT,
+        infoselect: infoofsaddle == item.SADDLENAME && item?.COILID,
         hascoil: item.COILID,
         flash:
           item.SADDLENAME == pickupcoil?.SADDLENAME ||
           item?.COILID == searchCoilResult,
-        infoselect: infoofsaddle == item.SADDLENAME && item?.COILID,
+        dependent: item.dependent,
       }"
     >
       <p>{{ item.SADDLENAME }}</p>
+      <img
+        *ngIf="item.dependent"
+        class="im_dep"
+        [src]="'assets/images/link6.png'"
+        alt=""
+      />
 
       <img class="im" [src]="getImage(item)" alt="" />
 

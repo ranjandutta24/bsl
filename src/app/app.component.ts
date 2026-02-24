@@ -6,8 +6,6 @@ import { FooterComponent } from './common/footer/footer.component';
 import { BrowserModule } from '@angular/platform-browser';
 import { CommonModule } from '@angular/common';
 
-
-
 @Component({
   selector: 'app-root',
   imports: [
@@ -16,12 +14,12 @@ import { CommonModule } from '@angular/common';
     FooterComponent,
     CommonModule,
     //BrowserModule,
-    //FontAwesomeModule 
+    //FontAwesomeModule
   ],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss',
 })
 export class AppComponent {
   constructor(public router: Router) {}
-  title = 'senraleigh_service';
+  title = 'bsl_hrcc';
 }

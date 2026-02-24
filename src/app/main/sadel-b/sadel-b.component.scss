@@ -1,16 +1,3 @@
-.modal-overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: rgba(0, 0, 0, 0.4);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  z-index: 1000;
-}
-
 // .small-modal {
 //   background: white;
 //   padding: 20px;
@@ -18,33 +5,6 @@
 //   border-radius: 12px;
 //   box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
 // }
-
-.modal-actions {
-  margin-top: 15px;
-  display: flex;
-  justify-content: flex-end;
-  gap: 10px;
-}
-
-.small-modal input {
-  width: 100%;
-  padding: 6px;
-  border-radius: 6px;
-  border: 1px solid #ccc;
-  margin-top: 6px;
-}
-
-.high-selection {
-  display: flex;
-  flex-direction: column;
-  font-size: 16px;
-  margin-bottom: 10px;
-}
-
-.high-selection label {
-  margin-bottom: 4px;
-  cursor: pointer;
-}
 
 // .pickup-text {
 //   color: #fff;
@@ -55,25 +15,25 @@
 //   font-size: 14px;
 // }
 
-@keyframes gridZoomPop {
-  0% {
-    opacity: 0;
-    transform: scale(0.3) rotate(-8deg);
-    filter: blur(6px);
-  }
-  65% {
-    transform: scale(1.08) rotate(2deg);
-    filter: blur(0);
-  }
-  85% {
-    transform: scale(0.97) rotate(-1deg);
-  }
-  100% {
-    opacity: 1;
-    transform: scale(1) rotate(0deg);
-  }
-}
+// @keyframes gridZoomPop {
+//   0% {
+//     opacity: 0;
+//     transform: scale(0.3) rotate(-8deg);
+//     filter: blur(6px);
+//   }
+//   65% {
+//     transform: scale(1.08) rotate(2deg);
+//     filter: blur(0);
+//   }
+//   85% {
+//     transform: scale(0.97) rotate(-1deg);
+//   }
+//   100% {
+//     opacity: 1;
+//     transform: scale(1) rotate(0deg);
+//   }
+// }
 
-.grid-item {
-  animation: gridZoomPop 0.55s cubic-bezier(0.34, 1.56, 0.64, 1) both;
-}
+// .grid-item {
+//   animation: gridZoomPop 0.55s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+// }
